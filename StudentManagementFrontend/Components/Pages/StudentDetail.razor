@@ -1,0 +1,171 @@
+@page "/ogrenci/{Id:int}"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@inject StudentService StudentService
+@inject NavigationManager Navigation
+@inject ILogger<StudentDetail> Logger
+
+<PageTitle>Öğrenci Detayı</PageTitle>
+
+@if (isLoading)
+{
+    <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+    </div>
+}
+else if (student == null)
+{
+    <div class="alert alert-danger mt-4">
+        Öğrenci bulunamadı.
+    </div>
+}
+else
+{
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/ogrenciler">Öğrenciler</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@student.FirstName @student.LastName</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0">Öğrenci Bilgileri</h2>
+                        <div>
+                            <button class="btn btn-warning me-2" @onclick="() => Navigation.NavigateTo($"/ogrenci/duzenle/{student.Id}")">
+                                <i class="bi bi-pencil"></i> Düzenle
+                            </button>
+                            <button class="btn btn-outline-secondary" @onclick="NavigateToStudentList">
+                                <i class="bi bi-arrow-left"></i> Listeye Dön
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (errorMessage != null)
+                        {
+                            <div class="alert alert-danger">
+                                @errorMessage
+                                <button type="button" class="btn-close float-end" @onclick="() => errorMessage = null" aria-label="Kapat"></button>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <dl class="row">
+                                    <dt class="col-sm-4">Öğrenci No:</dt>
+                                    <dd class="col-sm-8">@student.StudentNumber</dd>
+
+                                    <dt class="col-sm-4">Ad Soyad:</dt>
+                                    <dd class="col-sm-8">@student.FirstName @student.LastName</dd>
+
+                                    <dt class="col-sm-4">Doğum Tarihi:</dt>
+                                    <dd class="col-sm-8">@student.DateOfBirth.ToString("dd.MM.yyyy")</dd>
+
+                                    <dt class="col-sm-4">Yaş:</dt>
+                                    <dd class="col-sm-8">@CalculateAge(student.DateOfBirth)</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-6">
+                                <dl class="row">
+                                    <dt class="col-sm-4">Sınıf:</dt>
+                                    <dd class="col-sm-8">@student.Class</dd>
+
+                                    <dt class="col-sm-4">Kayıt Tarihi:</dt>
+                                    <dd class="col-sm-8">@student.EnrollmentDate.ToString("dd.MM.yyyy")</dd>
+
+                                    <dt class="col-sm-4">E-posta:</dt>
+                                    <dd class="col-sm-8">
+                                        @if (!string.IsNullOrEmpty(student.Email))
+                                        {
+                                            <a href="mailto:@student.Email">@student.Email</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Belirtilmemiş</span>
+                                        }
+                                    </dd>
+
+                                    <dt class="col-sm-4">Telefon:</dt>
+                                    <dd class="col-sm-8">
+                                        @if (!string.IsNullOrEmpty(student.PhoneNumber))
+                                        {
+                                            <a href="tel:@student.PhoneNumber">@student.PhoneNumber</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Belirtilmemiş</span>
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(student.Address))
+                        {
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <h5 class="border-bottom pb-2">Adres</h5>
+                                    <p>@student.Address</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Student student;
+    private bool isLoading = true;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            student = await StudentService.GetStudentAsync(Id);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Öğrenci bilgileri yüklenirken bir hata oluştu: " + ex.Message;
+            Logger.LogError(ex, $"Error loading student with ID {Id}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void NavigateToStudentList()
+    {
+        Navigation.NavigateTo("/ogrenciler");
+    }
+
+    private int CalculateAge(DateTime dateOfBirth)
+    {
+        var today = DateTime.Today;
+        var age = today.Year - dateOfBirth.Year;
+        
+        // Handle the case where the birthday hasn't occurred yet this year
+        if (dateOfBirth.Date > today.AddYears(-age))
+        {
+            age--;
+        }
+        
+        return age;
+    }
+}

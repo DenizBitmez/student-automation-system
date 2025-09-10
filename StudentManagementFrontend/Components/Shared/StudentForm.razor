@@ -1,0 +1,111 @@
+@using System.ComponentModel.DataAnnotations
+@using StudentManagementFrontend.Models
+
+<EditForm Model="@Student" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="studentNumber" class="form-label">Öğrenci Numarası *</label>
+            <InputText id="studentNumber" @bind-Value="Student.StudentNumber" class="form-control" />
+            <ValidationMessage For="@(() => Student.StudentNumber)" class="text-danger" />
+        </div>
+        <div class="col-md-6">
+            <label for="class" class="form-label">Sınıf *</label>
+            <InputText id="class" @bind-Value="Student.Class" class="form-control" />
+            <ValidationMessage For="@(() => Student.Class)" class="text-danger" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="firstName" class="form-label">Ad *</label>
+            <InputText id="firstName" @bind-Value="Student.FirstName" class="form-control" />
+            <ValidationMessage For="@(() => Student.FirstName)" class="text-danger" />
+        </div>
+        <div class="col-md-6">
+            <label for="lastName" class="form-label">Soyad *</label>
+            <InputText id="lastName" @bind-Value="Student.LastName" class="form-control" />
+            <ValidationMessage For="@(() => Student.LastName)" class="text-danger" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="dateOfBirth" class="form-label">Doğum Tarihi *</label>
+            <InputDate id="dateOfBirth" @bind-Value="Student.DateOfBirth" class="form-control" />
+            <ValidationMessage For="@(() => Student.DateOfBirth)" class="text-danger" />
+        </div>
+        <div class="col-md-6">
+            <label for="enrollmentDate" class="form-label">Kayıt Tarihi *</label>
+            <InputDate id="enrollmentDate" @bind-Value="Student.EnrollmentDate" class="form-control" />
+            <ValidationMessage For="@(() => Student.EnrollmentDate)" class="text-danger" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="email" class="form-label">E-posta</label>
+            <InputText id="email" @bind-Value="Student.Email" class="form-control" />
+            <ValidationMessage For="@(() => Student.Email)" class="text-danger" />
+        </div>
+        <div class="col-md-6">
+            <label for="phoneNumber" class="form-label">Telefon Numarası</label>
+            <InputText id="phoneNumber" @bind-Value="Student.PhoneNumber" class="form-control" />
+            <ValidationMessage For="@(() => Student.PhoneNumber)" class="text-danger" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="address" class="form-label">Adres</label>
+        <InputTextArea id="address" @bind-Value="Student.Address" class="form-control" rows="3" />
+        <ValidationMessage For="@(() => Student.Address)" class="text-danger" />
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-secondary" @onclick="OnCancel">
+            <i class="bi bi-x-circle"></i> İptal
+        </button>
+        <button type="submit" class="btn btn-primary" disabled="@isSaving">
+            @if (isSaving)
+            {
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span> Kaydediliyor...</span>
+            }
+            else
+            {
+                <i class="bi bi-save"></i> @SubmitButtonText
+            }
+        </button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Student Student { get; set; } = new();
+
+    [Parameter]
+    public string SubmitButtonText { get; set; } = "Kaydet";
+
+    [Parameter]
+    public EventCallback<Student> OnSubmit { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    private bool isSaving = false;
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            isSaving = true;
+            await OnSubmit.InvokeAsync(Student);
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+}

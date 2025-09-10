@@ -1,0 +1,130 @@
+@page "/ders/ekle"
+@page "/admin/ders/ekle"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using Microsoft.AspNetCore.Authorization
+@inject ICourseService CourseService
+@inject NavigationManager Navigation
+@inject ILogger<AddCourse> Logger
+
+<PageTitle>Yeni Ders Ekle</PageTitle>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="/">Ana Sayfa</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/dersler">Dersler</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Yeni Ders</li>
+                        </ol>
+                    </nav>
+                </div>
+                
+                <div class="card-body">
+                    <h2 class="h4 mb-4">
+                        <i class="bi bi-plus-circle me-2"></i>Yeni Ders Ekle
+                    </h2>
+                    
+                    <CourseForm 
+                        Course="@Course" 
+                        OnSubmitCallback="HandleValidSubmit" 
+                        OnCancel="Cancel"
+                        OnSaveDraftCallback="SaveDraft"
+                        IsEditMode="false" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ShowSuccessAlert)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>Başarılı!</strong> Ders başarıyla eklendi.
+            <button type="button" class="btn-close" @onclick="() => ShowSuccessAlert = false" aria-label="Kapat"></button>
+        </div>
+    </div>
+}
+
+@if (ShowErrorAlert)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Hata!</strong> @ErrorMessage
+            <button type="button" class="btn-close" @onclick="() => ShowErrorAlert = false" aria-label="Kapat"></button>
+        </div>
+    </div>
+}
+
+@code {
+    private Course Course { get; set; } = new()
+    {
+        IsActive = true,
+        Credits = 5
+    };
+    
+    private bool ShowSuccessAlert { get; set; }
+    private bool ShowErrorAlert { get; set; }
+    private string ErrorMessage { get; set; } = string.Empty;
+    
+    private async Task HandleValidSubmit(Course course)
+    {
+        try
+        {
+            var createdCourse = await CourseService.CreateCourseAsync(course);
+            if (createdCourse != null && createdCourse.Id > 0)
+            {
+                ShowSuccessAlert = true;
+                
+                // Clear the form for a new entry
+                Course = new() { IsActive = true, Credits = 5 };
+                
+                // Optionally, navigate to the course detail page after a delay
+                // await Task.Delay(2000);
+                // Navigation.NavigateTo($"ders/{createdCourse.Id}");
+            }
+            else
+            {
+                throw new Exception("Ders oluşturulurken bir hata oluştu.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error creating course");
+            ErrorMessage = "Ders oluşturulurken bir hata oluştu. Lütfen bilgileri kontrol edip tekrar deneyiniz.";
+            ShowErrorAlert = true;
+        }
+    }
+    
+    private async Task SaveDraft(Course course)
+    {
+        try
+        {
+            // In a real app, you might save this to local storage or a draft section
+            // For now, we'll just show a success message
+            ShowSuccessAlert = true;
+            await Task.Delay(1000); // Simulate async operation
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error saving course draft");
+            ErrorMessage = "Taslak kaydedilirken bir hata oluştu.";
+            ShowErrorAlert = true;
+        }
+    }
+    
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/dersler");
+    }
+}

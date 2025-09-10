@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16
+    container_name: student_management_db
+    environment:
+      POSTGRES_DB: StudentManagementDb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Password123!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - student_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d StudentManagementDb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  api:
+    build:
+      context: ./StudentManagementApi
+      dockerfile: Dockerfile
+    container_name: student_management_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__Default=Host=postgres;Database=StudentManagementDb;Username=admin;Password=Password123!
+      - Jwt__Key=your-super-secret-key-at-least-32-characters-long
+      - Jwt__Issuer=StudentManagementApi
+      - Jwt__Audience=StudentManagementClient
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - student_network
+    restart: unless-stopped
+
+  # Frontend (Blazor WebAssembly)
+  frontend:
+    build:
+      context: ./StudentManagementFrontend
+      dockerfile: Dockerfile
+    container_name: student_management_frontend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - "5000:5000"
+    depends_on:
+      - api
+    networks:
+      - student_network
+    restart: unless-stopped
+
+  # Nginx Reverse Proxy (Optional)
+  nginx:
+    image: nginx:alpine
+    container_name: student_management_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - student_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  student_network:
+    driver: bridge

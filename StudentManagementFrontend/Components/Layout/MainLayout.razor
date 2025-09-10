@@ -1,0 +1,68 @@
+﻿@inherits LayoutComponentBase
+@using StudentManagementFrontend.Models.Auth
+@using Microsoft.AspNetCore.Authorization
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center">
+                    <AuthorizeView>
+                        <Authorized>
+                            <span class="me-3">
+                                <i class="bi bi-person-circle me-1"></i>
+                                @context.User.Identity?.Name
+                            </span>
+                        </Authorized>
+                        <NotAuthorized>
+                            <a href="/giris" class="btn btn-outline-primary btn-sm me-2">Giriş Yap</a>
+                            <a href="/kayit" class="btn btn-primary btn-sm">Kayıt Ol</a>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
+                
+                <div class="d-flex align-items-center gap-2">
+                    <AuthorizeView>
+                        <Authorized>
+                            <NotificationCenter />
+                            <button class="btn btn-outline-danger btn-sm" @onclick="Logout">
+                                <i class="bi bi-box-arrow-right"></i> Çıkış Yap
+                            </button>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+        
+        <!-- Theme Toggle Component -->
+        <ThemeToggle />
+        
+        <!-- Theme Customizer -->
+        <ThemeCustomizer />
+    </main>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+        Navigation.NavigateTo("/giris");
+    }
+}

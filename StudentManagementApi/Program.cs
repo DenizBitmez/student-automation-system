@@ -1,0 +1,35 @@
+using Microsoft.AspNetCore.Identity;
+using StudentManagementApi.Data;
+using StudentManagementApi.Extensions;
+using StudentManagementApi.Data;
+using StudentManagementApi.Domain;
+using StudentManagementApi.Domain;
+
+
+var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddControllers();
+builder.Services.AddAppServices(builder.Configuration);
+
+
+var app = builder.Build();
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
+app.UseCors("client");
+app.UseAuthentication();
+app.UseAuthorization();
+
+
+app.MapControllers();
+app.MapHub<StudentManagementApi.Hubs.NotificationHub>("/notificationHub");
+
+
+await Seed.InitializeAsync(app.Services);
+
+
+app.Run();

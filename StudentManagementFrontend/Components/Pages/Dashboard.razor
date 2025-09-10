@@ -1,0 +1,472 @@
+@page "/dashboard"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using StudentManagementFrontend.Services
+@inject AuthenticationStateProvider AuthStateProvider
+@inject StudentService StudentService
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@attribute [Authorize]
+
+<PageTitle>Dashboard - Öğrenci Otomasyon Sistemi</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                <div class="text-muted">
+                    Hoş geldiniz, @currentUser?.Identity?.Name
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Yükleniyor...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        @if (isAdmin)
+        {
+            <!-- Admin Dashboard -->
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Toplam Öğrenci
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@totalStudents</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Toplam Öğretmen
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@totalTeachers</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                        Toplam Ders
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@totalCourses</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-book fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Toplam Kayıt
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@totalEnrollments</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Hızlı İşlemler</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group list-group-flush">
+                                <a href="/add-student" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-plus-circle text-success me-2"></i>
+                                    Yeni Öğrenci Ekle
+                                </a>
+                                <a href="/add-teacher" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-plus-circle text-info me-2"></i>
+                                    Yeni Öğretmen Ekle
+                                </a>
+                                <a href="/add-course" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-plus-circle text-warning me-2"></i>
+                                    Yeni Ders Ekle
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Son Eklenen Öğrenciler</h6>
+                        </div>
+                        <div class="card-body">
+                            @if (recentStudents?.Any() == true)
+                            {
+                                <div class="list-group list-group-flush">
+                                    @foreach (var student in recentStudents.Take(5))
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>@student.FullName</strong><br>
+                                                <small class="text-muted">@student.Email</small>
+                                            </div>
+                                            <small class="text-muted">@student.EnrolledAt.ToString("dd/MM/yyyy")</small>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted">Henüz öğrenci eklenmemiş.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (isTeacher)
+        {
+            <!-- Teacher Dashboard -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Derslerim</h6>
+                        </div>
+                        <div class="card-body">
+                            @if (teacherCourses?.Any() == true)
+                            {
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Ders Kodu</th>
+                                                <th>Ders Adı</th>
+                                                <th>Öğrenci Sayısı</th>
+                                                <th>Durum</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var course in teacherCourses)
+                                            {
+                                                <tr>
+                                                    <td>@course.Code</td>
+                                                    <td>@course.Name</td>
+                                                    <td>@course.StudentCount</td>
+                                                    <td>
+                                                        <span class="badge bg-@(course.Status == "Active" ? "success" : "secondary")">
+                                                            @course.Status
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/course-detail/@course.Id" class="btn btn-sm btn-outline-primary">
+                                                            Detay
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted">Size atanmış ders bulunmamaktadır.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Hızlı İstatistikler</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="small text-muted">Toplam Derslerim</div>
+                                <div class="h4 font-weight-bold">@(teacherCourses?.Count() ?? 0)</div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="small text-muted">Toplam Öğrencilerim</div>
+                                <div class="h4 font-weight-bold">@(teacherCourses?.Sum(c => c.StudentCount) ?? 0)</div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="small text-muted">Aktif Dersler</div>
+                                <div class="h4 font-weight-bold">@(teacherCourses?.Count(c => c.Status == "Active") ?? 0)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (isStudent)
+        {
+            <!-- Student Dashboard -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Aldığım Dersler ve Notlarım</h6>
+                        </div>
+                        <div class="card-body">
+                            @if (studentGrades?.Any() == true)
+                            {
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Ders Kodu</th>
+                                                <th>Ders Adı</th>
+                                                <th>Not</th>
+                                                <th>Yorum</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var grade in studentGrades)
+                                            {
+                                                <tr>
+                                                    <td>@grade.Code</td>
+                                                    <td>@grade.Name</td>
+                                                    <td>
+                                                        @if (grade.Grade.HasValue)
+                                                        {
+                                                            <span class="badge bg-@(grade.Grade >= 70 ? "success" : grade.Grade >= 50 ? "warning" : "danger")">
+                                                                @grade.Grade.Value
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-muted">Henüz girilmedi</span>
+                                                        }
+                                                    </td>
+                                                    <td>@(grade.Comment ?? "-")</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted">Henüz kayıtlı olduğunuz ders bulunmamaktadır.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Akademik Durum</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="small text-muted">Aldığım Ders Sayısı</div>
+                                <div class="h4 font-weight-bold">@(studentGrades?.Count() ?? 0)</div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="small text-muted">Not Ortalaması</div>
+                                <div class="h4 font-weight-bold">
+                                    @if (studentGrades?.Any(g => g.Grade.HasValue) == true)
+                                    {
+                                        var average = studentGrades.Where(g => g.Grade.HasValue).Average(g => g.Grade.Value);
+                                        <span class="text-@(average >= 70 ? "success" : average >= 50 ? "warning" : "danger")">
+                                            @average.ToString("F1")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="small text-muted">Başarılı Ders</div>
+                                <div class="h4 font-weight-bold text-success">
+                                    @(studentGrades?.Count(g => g.Grade >= 50) ?? 0)
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="small text-muted">Başarısız Ders</div>
+                                <div class="h4 font-weight-bold text-danger">
+                                    @(studentGrades?.Count(g => g.Grade < 50) ?? 0)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private ClaimsPrincipal? currentUser;
+    private bool isLoading = true;
+    private bool isAdmin = false;
+    private bool isTeacher = false;
+    private bool isStudent = false;
+
+    // Admin Dashboard Data
+    private int totalStudents = 0;
+    private int totalTeachers = 0;
+    private int totalCourses = 0;
+    private int totalEnrollments = 0;
+    private IEnumerable<dynamic>? recentStudents;
+
+    // Teacher Dashboard Data
+    private IEnumerable<dynamic>? teacherCourses;
+
+    // Student Dashboard Data
+    private IEnumerable<dynamic>? studentGrades;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        currentUser = authState.User;
+
+        if (currentUser.Identity?.IsAuthenticated == true)
+        {
+            isAdmin = currentUser.IsInRole("Admin");
+            isTeacher = currentUser.IsInRole("Teacher");
+            isStudent = currentUser.IsInRole("Student");
+
+            await LoadDashboardData();
+        }
+
+        isLoading = false;
+    }
+
+    private async Task LoadDashboardData()
+    {
+        try
+        {
+            if (isAdmin)
+            {
+                await LoadAdminData();
+            }
+            else if (isTeacher)
+            {
+                await LoadTeacherData();
+            }
+            else if (isStudent)
+            {
+                await LoadStudentData();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Dashboard data loading error: {ex.Message}");
+        }
+    }
+
+    private async Task LoadAdminData()
+    {
+        // Load admin statistics
+        var studentsResponse = await Http.GetAsync("/api/student");
+        if (studentsResponse.IsSuccessStatusCode)
+        {
+            var students = await studentsResponse.Content.ReadFromJsonAsync<IEnumerable<dynamic>>();
+            totalStudents = students?.Count() ?? 0;
+            recentStudents = students?.OrderByDescending(s => s.GetProperty("enrolledAt")).Take(5);
+        }
+
+        var teachersResponse = await Http.GetAsync("/api/teacher");
+        if (teachersResponse.IsSuccessStatusCode)
+        {
+            var teachers = await teachersResponse.Content.ReadFromJsonAsync<IEnumerable<dynamic>>();
+            totalTeachers = teachers?.Count() ?? 0;
+        }
+
+        var coursesResponse = await Http.GetAsync("/api/course");
+        if (coursesResponse.IsSuccessStatusCode)
+        {
+            var courses = await coursesResponse.Content.ReadFromJsonAsync<IEnumerable<dynamic>>();
+            totalCourses = courses?.Count() ?? 0;
+        }
+
+        var enrollmentsResponse = await Http.GetAsync("/api/enrollment");
+        if (enrollmentsResponse.IsSuccessStatusCode)
+        {
+            var enrollments = await enrollmentsResponse.Content.ReadFromJsonAsync<IEnumerable<dynamic>>();
+            totalEnrollments = enrollments?.Count() ?? 0;
+        }
+    }
+
+    private async Task LoadTeacherData()
+    {
+        // Get current teacher's courses
+        var coursesResponse = await Http.GetAsync("/api/course");
+        if (coursesResponse.IsSuccessStatusCode)
+        {
+            var allCourses = await coursesResponse.Content.ReadFromJsonAsync<IEnumerable<dynamic>>();
+            teacherCourses = allCourses?.Where(c => 
+                c.GetProperty("teacherName").GetString()?.Contains(currentUser?.Identity?.Name ?? "") == true);
+        }
+    }
+
+    private async Task LoadStudentData()
+    {
+        // Get current student's grades
+        // First, get student ID from the current user
+        var studentsResponse = await Http.GetAsync("/api/student");
+        if (studentsResponse.IsSuccessStatusCode)
+        {
+            var students = await studentsResponse.Content.ReadFromJsonAsync<IEnumerable<dynamic>>();
+            var currentStudent = students?.FirstOrDefault(s => 
+                s.GetProperty("email").GetString() == currentUser?.Identity?.Name);
+
+            if (currentStudent != null)
+            {
+                var studentId = currentStudent.GetProperty("id").GetInt32();
+                var gradesResponse = await Http.GetAsync($"/api/grade/by-student/{studentId}");
+                if (gradesResponse.IsSuccessStatusCode)
+                {
+                    studentGrades = await gradesResponse.Content.ReadFromJsonAsync<IEnumerable<dynamic>>();
+                }
+            }
+        }
+    }
+}

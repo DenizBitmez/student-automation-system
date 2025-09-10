@@ -1,0 +1,188 @@
+@page "/ogretmen/duzenle/{TeacherId:int}"
+@page "/admin/ogretmen/duzenle/{TeacherId:int}"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using Microsoft.AspNetCore.Authorization
+@inject ITeacherService TeacherService
+@inject NavigationManager Navigation
+@inject ILogger<EditTeacher> Logger
+
+<PageTitle>Öğretmen Düzenle</PageTitle>
+
+@if (IsLoading)
+{
+    <div class="d-flex justify-content-center p-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+    </div>
+}
+else if (Teacher == null)
+{
+    <div class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        Öğretmen bulunamadı veya yüklenirken bir hata oluştu.
+    </div>
+    
+    <div class="mt-3">
+        <button class="btn btn-outline-secondary" @onclick="() => Navigation.NavigateTo(ReturnUrl)">
+            <i class="bi bi-arrow-left me-2"></i>Geri Dön
+        </button>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="/ogretmenler">Öğretmenler</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="/ogretmen/@TeacherId">@(Teacher?.FullName ?? "Öğretmen")</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Düzenle</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    
+                    <div class="card-body">
+                        <h2 class="h4 mb-4">
+                            <i class="bi bi-pencil-square me-2"></i>Öğretmen Düzenle
+                        </h2>
+                        
+                        <TeacherForm 
+                            Teacher="@Teacher" 
+                            OnSubmit="HandleValidSubmit" 
+                            OnCancel="Cancel"
+                            OnSaveDraftCallback="SaveDraft"
+                            IsEditMode="true" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ShowSuccessAlert)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>Başarılı!</strong> Öğretmen bilgileri başarıyla güncellendi.
+            <button type="button" class="btn-close" @onclick="() => ShowSuccessAlert = false" aria-label="Kapat"></button>
+        </div>
+    </div>
+}
+
+@if (ShowErrorAlert)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Hata!</strong> @ErrorMessage
+            <button type="button" class="btn-close" @onclick="() => ShowErrorAlert = false" aria-label="Kapat"></button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int TeacherId { get; set; }
+    
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? ReturnUrl { get; set; }
+    
+    private Teacher? Teacher { get; set; }
+    private bool IsLoading { get; set; } = true;
+    private bool ShowSuccessAlert { get; set; }
+    private bool ShowErrorAlert { get; set; }
+    private string ErrorMessage { get; set; } = string.Empty;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTeacherAsync();
+    }
+    
+    private async Task LoadTeacherAsync()
+    {
+        try
+        {
+            IsLoading = true;
+            Teacher = await TeacherService.GetTeacherByIdAsync(TeacherId);
+            
+            if (Teacher == null)
+            {
+                ErrorMessage = "Belirtilen ID ile öğretmen bulunamadı.";
+                ShowErrorAlert = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, $"Error loading teacher with ID {TeacherId}");
+            ErrorMessage = "Öğretmen bilgileri yüklenirken bir hata oluştu.";
+            ShowErrorAlert = true;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+    
+    private async Task HandleValidSubmit(Teacher teacher)
+    {
+        try
+        {
+            if (Teacher == null) return;
+            
+            var success = await TeacherService.UpdateTeacherAsync(TeacherId, teacher);
+            if (success)
+            {
+                // Update the local teacher object with the edited values
+                Teacher = teacher;
+                ShowSuccessAlert = true;
+                
+                // Optionally, navigate back to the detail page after a delay
+                // await Task.Delay(2000);
+                // Navigation.NavigateTo($"ogretmen/{TeacherId}");
+            }
+            else
+            {
+                throw new Exception("Öğretmen güncellenirken bir hata oluştu.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, $"Error updating teacher with ID {TeacherId}");
+            ErrorMessage = "Öğretmen güncellenirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.";
+            ShowErrorAlert = true;
+        }
+    }
+    
+    private async Task SaveDraft(Teacher teacher)
+    {
+        try
+        {
+            // In a real app, you might save this to local storage or a draft section
+            // For now, we'll just show a success message
+            ShowSuccessAlert = true;
+            await Task.Delay(1000); // Simulate async operation
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error saving teacher draft");
+            ErrorMessage = "Taslak kaydedilirken bir hata oluştu.";
+            ShowErrorAlert = true;
+        }
+    }
+    
+    private void Cancel()
+    {
+        Navigation.NavigateTo(!string.IsNullOrEmpty(ReturnUrl) ? ReturnUrl : $"ogretmen/{TeacherId}");
+    }
+}

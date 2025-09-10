@@ -1,0 +1,607 @@
+@using Microsoft.AspNetCore.SignalR.Client
+@using Blazored.LocalStorage
+@using System.Text.Json
+@implements IAsyncDisposable
+@inject ILocalStorageService LocalStorage
+@inject IJSRuntime JSRuntime
+
+<!-- Notification Bell -->
+<div class="notification-bell">
+    <button class="btn btn-link position-relative p-2" @onclick="ToggleNotifications" title="Bildirimler">
+        <i class="bi bi-bell fs-5"></i>
+        @if (unreadCount > 0)
+        {
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                @(unreadCount > 99 ? "99+" : unreadCount.ToString())
+            </span>
+        }
+    </button>
+
+    <!-- Notifications Dropdown -->
+    <div class="notifications-dropdown @(showNotifications ? "show" : "")" @onclick:stopPropagation="true">
+        <div class="dropdown-header d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">Bildirimler</h6>
+            <div class="btn-group">
+                @if (notifications.Any(n => !n.IsRead))
+                {
+                    <button class="btn btn-link btn-sm p-1" @onclick="MarkAllAsRead" title="Tümünü Okundu İşaretle">
+                        <i class="bi bi-check2-all"></i>
+                    </button>
+                }
+                <button class="btn btn-link btn-sm p-1" @onclick="ClearAllNotifications" title="Tümünü Temizle">
+                    <i class="bi bi-trash3"></i>
+                </button>
+                <button class="btn btn-link btn-sm p-1" @onclick="ToggleNotifications" title="Kapat">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="notifications-list">
+            @if (notifications.Any())
+            {
+                @foreach (var notification in notifications.OrderByDescending(n => n.Timestamp).Take(10))
+                {
+                    <div class="notification-item @(notification.IsRead ? "read" : "unread") @($"notification-{notification.Type}")"
+                         @onclick="() => MarkAsRead(notification)">
+                        <div class="notification-icon">
+                            <i class="@notification.Icon"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">@notification.Title</div>
+                            <div class="notification-message">@notification.Message</div>
+                            <div class="notification-time">@FormatTime(notification.Timestamp)</div>
+                        </div>
+                        @if (!notification.IsRead)
+                        {
+                            <div class="notification-indicator"></div>
+                        }
+                    </div>
+                }
+
+                @if (notifications.Count > 10)
+                {
+                    <div class="notification-footer">
+                        <button class="btn btn-link btn-sm" @onclick="ShowAllNotifications">
+                            Tümünü Görüntüle (@notifications.Count)
+                        </button>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="no-notifications">
+                    <i class="bi bi-bell-slash text-muted"></i>
+                    <p class="text-muted mb-0">Henüz bildirim yok</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+    @foreach (var toast in activeToasts)
+    {
+        <div class="toast show notification-toast @($"toast-{toast.Type}")" role="alert">
+            <div class="toast-header">
+                <i class="@toast.Icon me-2 toast-icon"></i>
+                <strong class="me-auto">@toast.Title</strong>
+                <small>@FormatTime(toast.Timestamp)</small>
+                <button type="button" class="btn-close" @onclick="() => RemoveToast(toast)"></button>
+            </div>
+            <div class="toast-body">
+                @toast.Message
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Connection Status -->
+@if (connectionState != "Connected")
+{
+    <div class="connection-status">
+        <div class="alert alert-warning alert-sm mb-0">
+            <i class="bi bi-wifi-off me-2"></i>
+            Bağlantı durumu: @connectionState
+        </div>
+    </div>
+}
+
+@code {
+    private HubConnection? hubConnection;
+    private List<NotificationMessage> notifications = new();
+    private List<NotificationMessage> activeToasts = new();
+    private bool showNotifications = false;
+    private int unreadCount = 0;
+    private string connectionState = "Disconnected";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNotifications();
+        await InitializeSignalR();
+    }
+
+    private async Task InitializeSignalR()
+    {
+        try
+        {
+            var baseUrl = "https://localhost:7001"; // API base URL
+            var token = await LocalStorage.GetItemAsync<string>("token");
+
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl($"{baseUrl}/notificationHub", options =>
+                {
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        options.AccessTokenProvider = () => Task.FromResult(token);
+                    }
+                })
+                .WithAutomaticReconnect()
+                .Build();
+
+            hubConnection.On<NotificationMessage>("ReceiveNotification", async (notification) =>
+            {
+                await InvokeAsync(() =>
+                {
+                    notifications.Insert(0, notification);
+                    unreadCount++;
+                    
+                    // Show toast
+                    ShowToast(notification);
+                    
+                    StateHasChanged();
+                });
+                
+                await SaveNotifications();
+                await PlayNotificationSound();
+            });
+
+            hubConnection.Reconnecting += (error) =>
+            {
+                InvokeAsync(() =>
+                {
+                    connectionState = "Reconnecting";
+                    StateHasChanged();
+                });
+                return Task.CompletedTask;
+            };
+
+            hubConnection.Reconnected += (connectionId) =>
+            {
+                InvokeAsync(() =>
+                {
+                    connectionState = "Connected";
+                    StateHasChanged();
+                });
+                return Task.CompletedTask;
+            };
+
+            hubConnection.Closed += (error) =>
+            {
+                InvokeAsync(() =>
+                {
+                    connectionState = "Disconnected";
+                    StateHasChanged();
+                });
+                return Task.CompletedTask;
+            };
+
+            await hubConnection.StartAsync();
+            connectionState = "Connected";
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            connectionState = "Error";
+            Console.WriteLine($"SignalR connection error: {ex.Message}");
+        }
+    }
+
+    private async Task LoadNotifications()
+    {
+        try
+        {
+            var stored = await LocalStorage.GetItemAsync<List<NotificationMessage>>("notifications");
+            if (stored != null)
+            {
+                notifications = stored;
+                unreadCount = notifications.Count(n => !n.IsRead);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading notifications: {ex.Message}");
+        }
+    }
+
+    private async Task SaveNotifications()
+    {
+        try
+        {
+            // Keep only last 50 notifications
+            var toKeep = notifications.Take(50).ToList();
+            await LocalStorage.SetItemAsync("notifications", toKeep);
+            notifications = toKeep;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving notifications: {ex.Message}");
+        }
+    }
+
+    private void ToggleNotifications()
+    {
+        showNotifications = !showNotifications;
+    }
+
+    private async Task MarkAsRead(NotificationMessage notification)
+    {
+        if (!notification.IsRead)
+        {
+            notification.IsRead = true;
+            unreadCount--;
+            await SaveNotifications();
+            StateHasChanged();
+        }
+    }
+
+    private async Task MarkAllAsRead()
+    {
+        foreach (var notification in notifications.Where(n => !n.IsRead))
+        {
+            notification.IsRead = true;
+        }
+        unreadCount = 0;
+        await SaveNotifications();
+        StateHasChanged();
+    }
+
+    private async Task ClearAllNotifications()
+    {
+        notifications.Clear();
+        unreadCount = 0;
+        await SaveNotifications();
+        StateHasChanged();
+    }
+
+    private void ShowToast(NotificationMessage notification)
+    {
+        activeToasts.Add(notification);
+        
+        // Auto-remove toast after 5 seconds
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(5000);
+            await InvokeAsync(() =>
+            {
+                RemoveToast(notification);
+                StateHasChanged();
+            });
+        });
+    }
+
+    private void RemoveToast(NotificationMessage notification)
+    {
+        activeToasts.Remove(notification);
+    }
+
+    private async Task PlayNotificationSound()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("playNotificationSound");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error playing notification sound: {ex.Message}");
+        }
+    }
+
+    private void ShowAllNotifications()
+    {
+        // Navigate to notifications page or expand view
+        showNotifications = false;
+        // Navigation logic here
+    }
+
+    private string FormatTime(DateTime timestamp)
+    {
+        var diff = DateTime.UtcNow - timestamp;
+        if (diff.TotalMinutes < 1) return "Az önce";
+        if (diff.TotalMinutes < 60) return $"{(int)diff.TotalMinutes} dk önce";
+        if (diff.TotalHours < 24) return $"{(int)diff.TotalHours} sa önce";
+        if (diff.TotalDays < 7) return $"{(int)diff.TotalDays} gün önce";
+        return timestamp.ToString("dd/MM/yyyy HH:mm");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+    // Click outside to close notifications
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("addClickOutsideListener", "notification-center");
+        }
+    }
+
+    public class NotificationMessage
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Title { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+        public string Type { get; set; } = "info";
+        public string Icon { get; set; } = "bi-bell";
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        public bool IsRead { get; set; } = false;
+        public object? Data { get; set; }
+    }
+}
+
+<style>
+    .notification-bell {
+        position: relative;
+        display: inline-block;
+    }
+
+    .notifications-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 350px;
+        max-width: 90vw;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        z-index: 1050;
+        display: none;
+        max-height: 500px;
+        overflow: hidden;
+    }
+
+    .notifications-dropdown.show {
+        display: block;
+    }
+
+    .dropdown-header {
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+        background-color: #f8f9fa;
+    }
+
+    .notifications-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .notification-item {
+        display: flex;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #f1f3f4;
+        cursor: pointer;
+        position: relative;
+        transition: background-color 0.2s ease;
+    }
+
+    .notification-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .notification-item.unread {
+        background-color: #f0f8ff;
+        border-left: 3px solid #0d6efd;
+    }
+
+    .notification-icon {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .notification-success .notification-icon {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .notification-info .notification-icon {
+        background-color: #cff4fc;
+        color: #055160;
+    }
+
+    .notification-warning .notification-icon {
+        background-color: #fff3cd;
+        color: #664d03;
+    }
+
+    .notification-error .notification-icon {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .notification-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .notification-title {
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 0.25rem;
+        line-height: 1.2;
+    }
+
+    .notification-message {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .notification-time {
+        font-size: 0.75rem;
+        color: #adb5bd;
+    }
+
+    .notification-indicator {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 8px;
+        height: 8px;
+        background-color: #0d6efd;
+        border-radius: 50%;
+    }
+
+    .no-notifications {
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+
+    .no-notifications i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .notification-footer {
+        padding: 0.75rem 1rem;
+        text-align: center;
+        border-top: 1px solid #dee2e6;
+        background-color: #f8f9fa;
+    }
+
+    .toast-container {
+        pointer-events: none;
+    }
+
+    .notification-toast {
+        pointer-events: auto;
+        min-width: 300px;
+        margin-bottom: 0.5rem;
+    }
+
+    .toast-success {
+        border-left: 4px solid #198754;
+    }
+
+    .toast-info {
+        border-left: 4px solid #0dcaf0;
+    }
+
+    .toast-warning {
+        border-left: 4px solid #ffc107;
+    }
+
+    .toast-error {
+        border-left: 4px solid #dc3545;
+    }
+
+    .toast-icon {
+        font-size: 1.1rem;
+    }
+
+    .connection-status {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1060;
+    }
+
+    .alert-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    [data-bs-theme="dark"] .notifications-dropdown {
+        background: #2d3439;
+        border-color: #404040;
+    }
+
+    [data-bs-theme="dark"] .dropdown-header {
+        background-color: #1a1a1a;
+        border-color: #404040;
+    }
+
+    [data-bs-theme="dark"] .notification-item {
+        border-color: #404040;
+    }
+
+    [data-bs-theme="dark"] .notification-item:hover {
+        background-color: #404040;
+    }
+
+    [data-bs-theme="dark"] .notification-item.unread {
+        background-color: #1a2332;
+    }
+
+    [data-bs-theme="dark"] .notification-title {
+        color: #fff;
+    }
+
+    [data-bs-theme="dark"] .notification-footer {
+        background-color: #1a1a1a;
+        border-color: #404040;
+    }
+
+    @media (max-width: 768px) {
+        .notifications-dropdown {
+            width: 320px;
+            right: -20px;
+        }
+        
+        .notification-toast {
+            min-width: 280px;
+        }
+    }
+</style>
+
+<script>
+    window.playNotificationSound = () => {
+        try {
+            // Create a simple beep sound
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.3);
+        } catch (error) {
+            console.log('Audio context not available:', error);
+        }
+    };
+
+    window.addClickOutsideListener = (elementId) => {
+        document.addEventListener('click', function(event) {
+            const notificationCenter = document.querySelector('.notification-bell');
+            if (notificationCenter && !notificationCenter.contains(event.target)) {
+                DotNet.invokeMethodAsync('StudentManagementFrontend', 'CloseNotifications');
+            }
+        });
+    };
+</script>

@@ -1,0 +1,373 @@
+@page "/ogretmenler"
+@page "/admin/ogretmenler"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using System.ComponentModel
+@inject ITeacherService TeacherService
+@inject NavigationManager Navigation
+@inject ILogger<TeacherList> Logger
+
+<PageTitle>Öğretmen Listesi</PageTitle>
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Öğretmenler</h1>
+        <AuthorizeView Roles="Admin">
+            <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/ogretmen/ekle")">
+                <i class="bi bi-plus-circle me-2"></i>Yeni Öğretmen Ekle
+            </button>
+        </AuthorizeView>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="İsim, soyisim veya branş ara..." 
+                               @bind="SearchTerm" @bind:event="oninput" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" @bind="SelectedBranch">
+                        <option value="">Tüm Branşlar</option>
+                        @foreach (var branch in Branches)
+                        {
+                            <option value="@branch">@branch</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" @bind="StatusFilter">
+                        <option value="all">Tümü</option>
+                        <option value="active">Aktif</option>
+                        <option value="inactive">Pasif</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        @if (IsLoading)
+        {
+            <div class="d-flex justify-content-center p-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Yükleniyor...</span>
+                </div>
+            </div>
+        }
+        else if (FilteredTeachers == null || !FilteredTeachers.Any())
+        {
+            <div class="text-center p-5 text-muted">
+                <i class="bi bi-people display-5 d-block mb-3"></i>
+                <h4>Öğretmen bulunamadı</h4>
+                <p>Hiç öğretmen kaydı bulunamadı veya arama kriterlerinize uygun sonuç yok.</p>
+                <AuthorizeView Roles="Admin">
+                    <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/ogretmen/ekle")">
+                        <i class="bi bi-plus-circle me-2"></i>Yeni Öğretmen Ekle
+                    </button>
+                </AuthorizeView>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th>
+                                <a href="#" @onclick="() => SortBy(nameof(Teacher.FirstName))">
+                                    Öğretmen
+                                    @if (SortColumn == nameof(Teacher.FirstName))
+                                    {
+                                        <i class="bi @(SortDirection == ListSortDirection.Ascending ? "bi-sort-up" : "bi-sort-down")"></i>
+                                    }
+                                </a>
+                            </th>
+                            <th>Branş</th>
+                            <th>Uzmanlık</th>
+                            <th>İşe Başlama</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var teacher in PagedTeachers)
+                        {
+                            <tr>
+                                <td>@teacher.Id</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-sm me-3">
+                                            @if (!string.IsNullOrEmpty(teacher.ProfileImageUrl))
+                                            {
+                                                <img src="@teacher.ProfileImageUrl" class="rounded-circle" alt="@teacher.FullName" />
+                                            }
+                                            else
+                                            {
+                                                <div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+                                                    @teacher.FirstName[0]@teacher.LastName[0]
+                                                </div>
+                                            }
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold">@teacher.FullName</div>
+                                            <div class="text-muted small">@teacher.Email</div>
+                                            @if (!string.IsNullOrEmpty(teacher.PhoneNumber))
+                                            {
+                                                <div class="text-muted small">@teacher.PhoneNumber</div>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@teacher.Branch</td>
+                                <td>@(teacher.Expertise ?? "-")</td>
+                                <td>@(teacher.HireDate?.ToShortDateString() ?? "-")</td>
+                                <td>
+                                    <span class="badge @(teacher.IsActive ? "bg-success" : "bg-secondary")">
+                                        @(teacher.IsActive ? "Aktif" : "Pasif")
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewTeacher(teacher.Id)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <AuthorizeView Roles="Admin">
+                                            <button class="btn btn-sm btn-outline-secondary" @onclick="() => EditTeacher(teacher.Id)">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(teacher)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </AuthorizeView>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (PageCount > 1)
+            {
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-muted small">
+                            Toplam @FilteredTeachers.Count() kayıttan @((CurrentPage - 1) * PageSize + 1) - @Math.Min(CurrentPage * PageSize, FilteredTeachers.Count()) arası gösteriliyor
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+                                    <button class="page-link" @onclick="() => ChangePage(CurrentPage - 1)" @onclick:preventDefault>
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
+                                </li>
+                                @for (int i = 1; i <= PageCount; i++)
+                                {
+                                    <li class="page-item @(i == CurrentPage ? "active" : "")">
+                                        <button class="page-link" @onclick="() => ChangePage(i)" @onclick:preventDefault>@i</button>
+                                    </li>
+                                }
+                                <li class="page-item @(CurrentPage == PageCount ? "disabled" : "")">
+                                    <button class="page-link" @onclick="() => ChangePage(CurrentPage + 1)" @onclick:preventDefault>
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="d-flex align-items-center">
+                            <span class="me-2 small text-muted">Sayfa başına:</span>
+                            <select class="form-select form-select-sm" style="width: auto;" @bind="PageSize">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<Teacher>? Teachers { get; set; }
+    private List<Teacher>? FilteredTeachers { get; set; }
+    private IEnumerable<Teacher> PagedTeachers => FilteredTeachers?.Skip((CurrentPage - 1) * PageSize).Take(PageSize) ?? new List<Teacher>();
+    private bool IsLoading { get; set; } = true;
+    private string SearchTerm { get; set; } = string.Empty;
+    private string SelectedBranch { get; set; } = string.Empty;
+    private string StatusFilter { get; set; } = "all";
+    private int CurrentPage { get; set; } = 1;
+    private int PageSize { get; set; } = 10;
+    private int PageCount => FilteredTeachers == null ? 1 : (int)Math.Ceiling(FilteredTeachers.Count / (double)PageSize);
+    private string SortColumn = nameof(Teacher.FirstName);
+    private ListSortDirection SortDirection = ListSortDirection.Ascending;
+    private HashSet<string> Branches { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Teachers = (await TeacherService.GetAllTeachersAsync()).ToList();
+            FilterTeachers();
+            ExtractBranches();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading teachers");
+            // Show error message to user
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private void ExtractBranches()
+    {
+        if (Teachers == null) return;
+        
+        Branches = Teachers
+            .Where(t => !string.IsNullOrEmpty(t.Branch))
+            .Select(t => t.Branch!)
+            .Distinct()
+            .OrderBy(b => b)
+            .ToHashSet();
+    }
+
+    private void FilterTeachers()
+    {
+        if (Teachers == null) return;
+
+        var query = Teachers.AsQueryable();
+
+        // Apply search term filter
+        if (!string.IsNullOrWhiteSpace(SearchTerm))
+        {
+            var searchTerm = SearchTerm.Trim().ToLower();
+            query = query.Where(t => 
+                t.FirstName.ToLower().Contains(searchTerm) ||
+                t.LastName.ToLower().Contains(searchTerm) ||
+                t.Branch.ToLower().Contains(searchTerm) ||
+                (t.Expertise != null && t.Expertise.ToLower().Contains(searchTerm)) ||
+                t.Email.ToLower().Contains(searchTerm));
+        }
+
+        // Apply branch filter
+        if (!string.IsNullOrEmpty(SelectedBranch))
+        {
+            query = query.Where(t => t.Branch == SelectedBranch);
+        }
+
+        // Apply status filter
+        query = StatusFilter switch
+        {
+            "active" => query.Where(t => t.IsActive),
+            "inactive" => query.Where(t => !t.IsActive),
+            _ => query
+        };
+
+        // Apply sorting
+        query = SortColumn switch
+        {
+            nameof(Teacher.FirstName) => SortDirection == ListSortDirection.Ascending 
+                ? query.OrderBy(t => t.FirstName).ThenBy(t => t.LastName)
+                : query.OrderByDescending(t => t.FirstName).ThenByDescending(t => t.LastName),
+            nameof(Teacher.Branch) => SortDirection == ListSortDirection.Ascending 
+                ? query.OrderBy(t => t.Branch)
+                : query.OrderByDescending(t => t.Branch),
+            nameof(Teacher.HireDate) => SortDirection == ListSortDirection.Ascending 
+                ? query.OrderBy(t => t.HireDate)
+                : query.OrderByDescending(t => t.HireDate),
+            _ => query
+        };
+
+        FilteredTeachers = query.ToList();
+        CurrentPage = 1; // Reset to first page when filters change
+    }
+
+    private void SortBy(string columnName)
+    {
+        if (SortColumn == columnName)
+        {
+            SortDirection = SortDirection == ListSortDirection.Ascending 
+                ? ListSortDirection.Descending 
+                : ListSortDirection.Ascending;
+        }
+        else
+        {
+            SortColumn = columnName;
+            SortDirection = ListSortDirection.Ascending;
+        }
+
+        FilterTeachers();
+    }
+
+    private void ChangePage(int pageNumber)
+    {
+        if (pageNumber < 1 || pageNumber > PageCount) return;
+        CurrentPage = pageNumber;
+    }
+
+    private void ViewTeacher(int id)
+    {
+        Navigation.NavigateTo($"ogretmen/{id}");
+    }
+
+    private void EditTeacher(int id)
+    {
+        Navigation.NavigateTo($"ogretmen/duzenle/{id}");
+    }
+
+    private async Task DeleteTeacher(Teacher teacher)
+    {
+        try
+        {
+            var success = await TeacherService.DeleteTeacherAsync(teacher.Id);
+            if (success && Teachers != null)
+            {
+                Teachers.RemoveAll(t => t.Id == teacher.Id);
+                FilterTeachers();
+                // Show success message
+            }
+            else
+            {
+                // Show error message
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error deleting teacher with ID {TeacherId}", teacher.Id);
+            // Show error message
+        }
+    }
+
+    private async Task ConfirmDelete(Teacher teacher)
+    {
+        // You can implement a confirmation dialog here
+        // For now, we'll directly call DeleteTeacher
+        await DeleteTeacher(teacher);
+    }
+
+    // These methods will be called when the bound properties change
+    private void OnSearchTermChanged() => FilterTeachers();
+    private void OnSelectedBranchChanged() => FilterTeachers();
+    private void OnStatusFilterChanged() => FilterTeachers();
+    private void OnPageSizeChanged()
+    {
+        CurrentPage = 1;
+        FilterTeachers();
+    }
+
+    // This method is called when any parameter changes
+    protected override void OnParametersSet()
+    {
+        FilterTeachers();
+    }
+}

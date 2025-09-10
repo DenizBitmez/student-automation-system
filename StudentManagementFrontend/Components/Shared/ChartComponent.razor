@@ -1,0 +1,304 @@
+@using ChartJs.Blazor
+@using ChartJs.Blazor.Common
+@using ChartJs.Blazor.Common.Enums
+@using ChartJs.Blazor.LineChart
+
+<div class="chart-container">
+    <Chart Config="_config" @ref="_chart"></Chart>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public Dictionary<string, double> Data { get; set; } = new();
+    [Parameter] public ChartType ChartType { get; set; } = ChartType.Line;
+    [Parameter] public string[] BackgroundColors { get; set; } = Array.Empty<string>();
+    [Parameter] public int Height { get; set; } = 400;
+
+    private Chart? _chart;
+    private ChartConfig? _config;
+
+    protected override void OnInitialized()
+    {
+        _config = CreateChartConfig();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (_config != null)
+        {
+            UpdateChartData();
+            StateHasChanged();
+        }
+    }
+
+    private ChartConfig CreateChartConfig()
+    {
+        return ChartType switch
+        {
+            ChartType.Line => CreateLineChartConfig(),
+            ChartType.Bar => CreateBarChartConfig(),
+            ChartType.Pie => CreatePieChartConfig(),
+            ChartType.Doughnut => CreateDoughnutChartConfig(),
+            _ => CreateLineChartConfig()
+        };
+    }
+
+    private LineConfig CreateLineChartConfig()
+    {
+        var config = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false,
+                Title = new OptionsTitle
+                {
+                    Display = !string.IsNullOrEmpty(Title),
+                    Text = Title
+                },
+                Scales = new Scales
+                {
+                    XAxes = new List<CartesianAxis>
+                    {
+                        new CategoryAxis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = "Kategoriler"
+                            }
+                        }
+                    },
+                    YAxes = new List<CartesianAxis>
+                    {
+                        new LinearCartesianAxis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = "Değerler"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        UpdateLineChartData(config);
+        return config;
+    }
+
+    private BarConfig CreateBarChartConfig()
+    {
+        var config = new BarConfig
+        {
+            Options = new BarOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false,
+                Title = new OptionsTitle
+                {
+                    Display = !string.IsNullOrEmpty(Title),
+                    Text = Title
+                },
+                Scales = new BarScales
+                {
+                    XAxes = new List<CartesianAxis>
+                    {
+                        new BarCategoryAxis
+                        {
+                            BarPercentage = 0.5,
+                            BarThickness = BarThickness.Flex
+                        }
+                    },
+                    YAxes = new List<CartesianAxis>
+                    {
+                        new BarLinearCartesianAxis()
+                    }
+                }
+            }
+        };
+
+        UpdateBarChartData(config);
+        return config;
+    }
+
+    private PieConfig CreatePieChartConfig()
+    {
+        var config = new PieConfig
+        {
+            Options = new PieOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false,
+                Title = new OptionsTitle
+                {
+                    Display = !string.IsNullOrEmpty(Title),
+                    Text = Title
+                }
+            }
+        };
+
+        UpdatePieChartData(config);
+        return config;
+    }
+
+    private DoughnutConfig CreateDoughnutChartConfig()
+    {
+        var config = new DoughnutConfig
+        {
+            Options = new DoughnutOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false,
+                Title = new OptionsTitle
+                {
+                    Display = !string.IsNullOrEmpty(Title),
+                    Text = Title
+                }
+            }
+        };
+
+        UpdateDoughnutChartData(config);
+        return config;
+    }
+
+    private void UpdateChartData()
+    {
+        switch (ChartType)
+        {
+            case ChartType.Line:
+                UpdateLineChartData((LineConfig)_config!);
+                break;
+            case ChartType.Bar:
+                UpdateBarChartData((BarConfig)_config!);
+                break;
+            case ChartType.Pie:
+                UpdatePieChartData((PieConfig)_config!);
+                break;
+            case ChartType.Doughnut:
+                UpdateDoughnutChartData((DoughnutConfig)_config!);
+                break;
+        }
+    }
+
+    private void UpdateLineChartData(LineConfig config)
+    {
+        config.Data.Labels.Clear();
+        config.Data.Datasets.Clear();
+
+        var dataset = new LineDataset<double>
+        {
+            Label = "Değerler",
+            BackgroundColor = "rgba(54, 162, 235, 0.2)",
+            BorderColor = "rgba(54, 162, 235, 1)",
+            Fill = FillingMode.Origin
+        };
+
+        foreach (var item in Data)
+        {
+            config.Data.Labels.Add(item.Key);
+            dataset.Data.Add(item.Value);
+        }
+
+        config.Data.Datasets.Add(dataset);
+    }
+
+    private void UpdateBarChartData(BarConfig config)
+    {
+        config.Data.Labels.Clear();
+        config.Data.Datasets.Clear();
+
+        var colors = BackgroundColors.Any() ? BackgroundColors : GenerateColors(Data.Count);
+        
+        var dataset = new BarDataset<double>
+        {
+            Label = "Değerler",
+            BackgroundColor = colors,
+            BorderWidth = 1
+        };
+
+        foreach (var item in Data)
+        {
+            config.Data.Labels.Add(item.Key);
+            dataset.Data.Add(item.Value);
+        }
+
+        config.Data.Datasets.Add(dataset);
+    }
+
+    private void UpdatePieChartData(PieConfig config)
+    {
+        config.Data.Labels.Clear();
+        config.Data.Datasets.Clear();
+
+        var colors = BackgroundColors.Any() ? BackgroundColors : GenerateColors(Data.Count);
+        
+        var dataset = new PieDataset<double>
+        {
+            BackgroundColor = colors
+        };
+
+        foreach (var item in Data)
+        {
+            config.Data.Labels.Add(item.Key);
+            dataset.Data.Add(item.Value);
+        }
+
+        config.Data.Datasets.Add(dataset);
+    }
+
+    private void UpdateDoughnutChartData(DoughnutConfig config)
+    {
+        config.Data.Labels.Clear();
+        config.Data.Datasets.Clear();
+
+        var colors = BackgroundColors.Any() ? BackgroundColors : GenerateColors(Data.Count);
+        
+        var dataset = new DoughnutDataset<double>
+        {
+            BackgroundColor = colors
+        };
+
+        foreach (var item in Data)
+        {
+            config.Data.Labels.Add(item.Key);
+            dataset.Data.Add(item.Value);
+        }
+
+        config.Data.Datasets.Add(dataset);
+    }
+
+    private string[] GenerateColors(int count)
+    {
+        var colors = new string[]
+        {
+            "rgba(255, 99, 132, 0.8)",
+            "rgba(54, 162, 235, 0.8)",
+            "rgba(255, 205, 86, 0.8)",
+            "rgba(75, 192, 192, 0.8)",
+            "rgba(153, 102, 255, 0.8)",
+            "rgba(255, 159, 64, 0.8)",
+            "rgba(199, 199, 199, 0.8)",
+            "rgba(83, 102, 255, 0.8)",
+            "rgba(255, 99, 255, 0.8)",
+            "rgba(99, 255, 132, 0.8)"
+        };
+
+        return colors.Take(count).ToArray();
+    }
+
+    public async Task UpdateChart()
+    {
+        if (_chart != null)
+        {
+            await _chart.Update();
+        }
+    }
+}
+
+<style>
+    .chart-container {
+        position: relative;
+        height: @($"{Height}px");
+        width: 100%;
+    }
+</style>

@@ -1,0 +1,274 @@
+@typeparam TItem
+@using System.Linq.Expressions
+
+<div class="search-filter-container mb-4">
+    <div class="row g-3">
+        <!-- Search Input -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="@SearchPlaceholder" 
+                       @bind="searchTerm" @oninput="OnSearchChanged" />
+                @if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    <button class="btn btn-outline-secondary" type="button" @onclick="ClearSearch">
+                        <i class="bi bi-x"></i>
+                    </button>
+                }
+            </div>
+        </div>
+
+        <!-- Filter Dropdown -->
+        @if (FilterOptions?.Any() == true)
+        {
+            <div class="col-md-3">
+                <select class="form-select" @bind="selectedFilter" @onchange="OnFilterChanged">
+                    <option value="">Tüm @FilterLabel</option>
+                    @foreach (var option in FilterOptions)
+                    {
+                        <option value="@option.Value">@option.Text</option>
+                    }
+                </select>
+            </div>
+        }
+
+        <!-- Sort Dropdown -->
+        @if (SortOptions?.Any() == true)
+        {
+            <div class="col-md-3">
+                <div class="input-group">
+                    <select class="form-select" @bind="selectedSort" @onchange="OnSortChanged">
+                        <option value="">Sıralama</option>
+                        @foreach (var option in SortOptions)
+                        {
+                            <option value="@option.Value">@option.Text</option>
+                        }
+                    </select>
+                    <button class="btn btn-outline-secondary" type="button" @onclick="ToggleSortDirection">
+                        <i class="bi bi-@(sortAscending ? "sort-up" : "sort-down")"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Active Filters -->
+    @if (HasActiveFilters)
+    {
+        <div class="mt-3">
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                <span class="text-muted small">Aktif filtreler:</span>
+                
+                @if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    <span class="badge bg-primary">
+                        Arama: "@searchTerm"
+                        <button type="button" class="btn-close btn-close-white ms-1" 
+                                @onclick="ClearSearch" aria-label="Close"></button>
+                    </span>
+                }
+
+                @if (!string.IsNullOrEmpty(selectedFilter))
+                {
+                    <span class="badge bg-info">
+                        @FilterLabel: "@GetFilterText(selectedFilter)"
+                        <button type="button" class="btn-close btn-close-white ms-1" 
+                                @onclick="ClearFilter" aria-label="Close"></button>
+                    </span>
+                }
+
+                @if (!string.IsNullOrEmpty(selectedSort))
+                {
+                    <span class="badge bg-success">
+                        Sıralama: "@GetSortText(selectedSort)" (@(sortAscending ? "A-Z" : "Z-A"))
+                        <button type="button" class="btn-close btn-close-white ms-1" 
+                                @onclick="ClearSort" aria-label="Close"></button>
+                    </span>
+                }
+
+                <button type="button" class="btn btn-link btn-sm text-decoration-none" @onclick="ClearAll">
+                    <i class="bi bi-x-circle me-1"></i>
+                    Tümünü Temizle
+                </button>
+            </div>
+        </div>
+    }
+
+    <!-- Results Count -->
+    @if (TotalCount.HasValue)
+    {
+        <div class="mt-2">
+            <small class="text-muted">
+                @FilteredCount / @TotalCount.Value sonuç gösteriliyor
+            </small>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
+    [Parameter] public EventCallback<IEnumerable<TItem>> ItemsChanged { get; set; }
+    [Parameter] public Func<TItem, string> SearchFunction { get; set; } = null!;
+    [Parameter] public string SearchPlaceholder { get; set; } = "Ara...";
+    
+    // Filter parameters
+    [Parameter] public List<FilterOption>? FilterOptions { get; set; }
+    [Parameter] public Func<TItem, string, bool>? FilterFunction { get; set; }
+    [Parameter] public string FilterLabel { get; set; } = "Kategori";
+    
+    // Sort parameters
+    [Parameter] public List<SortOption>? SortOptions { get; set; }
+    [Parameter] public Dictionary<string, Func<TItem, object>>? SortFunctions { get; set; }
+    
+    // State
+    [Parameter] public int? TotalCount { get; set; }
+
+    private string searchTerm = string.Empty;
+    private string selectedFilter = string.Empty;
+    private string selectedSort = string.Empty;
+    private bool sortAscending = true;
+
+    private int FilteredCount => filteredItems?.Count() ?? 0;
+    private IEnumerable<TItem>? filteredItems;
+
+    private bool HasActiveFilters => !string.IsNullOrEmpty(searchTerm) || 
+                                   !string.IsNullOrEmpty(selectedFilter) || 
+                                   !string.IsNullOrEmpty(selectedSort);
+
+    protected override void OnParametersSet()
+    {
+        ApplyFilters();
+    }
+
+    private async Task OnSearchChanged(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString() ?? string.Empty;
+        await ApplyFiltersAndNotify();
+    }
+
+    private async Task OnFilterChanged(ChangeEventArgs e)
+    {
+        selectedFilter = e.Value?.ToString() ?? string.Empty;
+        await ApplyFiltersAndNotify();
+    }
+
+    private async Task OnSortChanged(ChangeEventArgs e)
+    {
+        selectedSort = e.Value?.ToString() ?? string.Empty;
+        await ApplyFiltersAndNotify();
+    }
+
+    private async Task ToggleSortDirection()
+    {
+        sortAscending = !sortAscending;
+        await ApplyFiltersAndNotify();
+    }
+
+    private async Task ClearSearch()
+    {
+        searchTerm = string.Empty;
+        await ApplyFiltersAndNotify();
+    }
+
+    private async Task ClearFilter()
+    {
+        selectedFilter = string.Empty;
+        await ApplyFiltersAndNotify();
+    }
+
+    private async Task ClearSort()
+    {
+        selectedSort = string.Empty;
+        await ApplyFiltersAndNotify();
+    }
+
+    private async Task ClearAll()
+    {
+        searchTerm = string.Empty;
+        selectedFilter = string.Empty;
+        selectedSort = string.Empty;
+        sortAscending = true;
+        await ApplyFiltersAndNotify();
+    }
+
+    private async Task ApplyFiltersAndNotify()
+    {
+        ApplyFilters();
+        await ItemsChanged.InvokeAsync(filteredItems);
+        StateHasChanged();
+    }
+
+    private void ApplyFilters()
+    {
+        var items = Items.AsEnumerable();
+
+        // Apply search filter
+        if (!string.IsNullOrEmpty(searchTerm) && SearchFunction != null)
+        {
+            items = items.Where(item => SearchFunction(item).Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // Apply category filter
+        if (!string.IsNullOrEmpty(selectedFilter) && FilterFunction != null)
+        {
+            items = items.Where(item => FilterFunction(item, selectedFilter));
+        }
+
+        // Apply sorting
+        if (!string.IsNullOrEmpty(selectedSort) && SortFunctions?.ContainsKey(selectedSort) == true)
+        {
+            var sortFunc = SortFunctions[selectedSort];
+            items = sortAscending ? 
+                items.OrderBy(sortFunc) : 
+                items.OrderByDescending(sortFunc);
+        }
+
+        filteredItems = items.ToList();
+    }
+
+    private string GetFilterText(string value)
+    {
+        return FilterOptions?.FirstOrDefault(o => o.Value == value)?.Text ?? value;
+    }
+
+    private string GetSortText(string value)
+    {
+        return SortOptions?.FirstOrDefault(o => o.Value == value)?.Text ?? value;
+    }
+
+    public class FilterOption
+    {
+        public string Value { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+    }
+
+    public class SortOption
+    {
+        public string Value { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+    }
+}
+
+<style>
+    .search-filter-container {
+        background: var(--bs-light);
+        padding: 1rem;
+        border-radius: 0.375rem;
+        border: 1px solid var(--bs-border-color);
+    }
+
+    [data-bs-theme="dark"] .search-filter-container {
+        background: var(--bs-dark);
+        border-color: var(--bs-border-color);
+    }
+
+    .badge .btn-close {
+        font-size: 0.6em;
+    }
+
+    .input-group .btn-outline-secondary {
+        border-left: 0;
+    }
+</style>

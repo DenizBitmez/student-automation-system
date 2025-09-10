@@ -1,0 +1,519 @@
+@page "/students"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Components.Shared
+@using Microsoft.AspNetCore.Authorization
+@using System.Text.Json
+@inject StudentService StudentService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@attribute [Authorize(Roles = "Admin,Teacher")]
+
+<PageTitle>Öğrenci Listesi</PageTitle>
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Öğrenci Listesi</h1>
+            <p class="text-muted mb-0">Sisteme kayıtlı öğrencileri görüntüleyin ve yönetin</p>
+        </div>
+        <div class="d-flex gap-2">
+            <div class="btn-group">
+                <button class="btn btn-outline-success" @onclick="ExportToCsv" disabled="@(!filteredStudents.Any())">
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    CSV İndir
+                </button>
+                <button class="btn btn-outline-danger" @onclick="ExportToPdf" disabled="@(!filteredStudents.Any())">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>
+                    PDF İndir
+                </button>
+            </div>
+            <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/add-student")">
+                <i class="bi bi-plus-circle me-2"></i>
+                Yeni Öğrenci Ekle
+            </button>
+        </div>
+    </div>
+
+    <!-- Search and Filter Component -->
+    <SearchFilter TItem="StudentModel" 
+                  Items="allStudents" 
+                  ItemsChanged="OnFilteredItemsChanged"
+                  SearchFunction="@(student => $"{student.FullName} {student.Email} {student.Id}")"
+                  SearchPlaceholder="Öğrenci adı, e-posta veya ID ara..."
+                  FilterOptions="statusFilterOptions"
+                  FilterFunction="@((student, filter) => string.IsNullOrEmpty(filter) || GetStudentStatus(student) == filter)"
+                  FilterLabel="Durum"
+                  SortOptions="sortOptions"
+                  SortFunctions="sortFunctions"
+                  TotalCount="allStudents.Count()" />
+
+    @if (isLoading)
+    {
+        <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Yükleniyor...</span>
+            </div>
+        </div>
+    }
+    else if (!filteredStudents.Any())
+    {
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-search text-muted" style="font-size: 3rem;"></i>
+                <h5 class="mt-3">Öğrenci Bulunamadı</h5>
+                <p class="text-muted">
+                    @if (allStudents.Any())
+                    {
+                        <span>Arama kriterlerinize uygun öğrenci bulunamadı.</span>
+                    }
+                    else
+                    {
+                        <span>Henüz kayıtlı öğrenci bulunmamaktadır.</span>
+                    }
+                </p>
+                @if (!allStudents.Any())
+                {
+                    <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/add-student")">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        İlk Öğrenciyi Ekle
+                    </button>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="bi bi-people fa-2x"></i>
+                            </div>
+                            <div>
+                                <div class="small">Toplam Öğrenci</div>
+                                <div class="h4 mb-0">@allStudents.Count()</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="bi bi-check-circle fa-2x"></i>
+                            </div>
+                            <div>
+                                <div class="small">Aktif Öğrenci</div>
+                                <div class="h4 mb-0">@allStudents.Count(s => GetStudentStatus(s) == "Aktif")</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card bg-warning text-dark">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="bi bi-clock-history fa-2x"></i>
+                            </div>
+                            <div>
+                                <div class="small">Yeni Kayıtlar</div>
+                                <div class="h4 mb-0">@allStudents.Count(s => s.EnrolledAt >= DateTime.Now.AddDays(-30))</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="bi bi-filter fa-2x"></i>
+                            </div>
+                            <div>
+                                <div class="small">Filtrelenen</div>
+                                <div class="h4 mb-0">@filteredStudents.Count()</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Table -->
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Öğrenci Listesi</h6>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="RefreshData">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                    type="button" id="viewOptionsDropdown" 
+                                    data-bs-toggle="dropdown">
+                                <i class="bi bi-grid-3x3-gap"></i>
+                                Görünüm
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button class="dropdown-item" @onclick="() => viewMode = \"table\"">
+                                        <i class="bi bi-table me-2"></i>Tablo Görünümü
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" @onclick="() => viewMode = \"card\"">
+                                        <i class="bi bi-grid-3x2-gap me-2"></i>Kart Görünümü
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                @if (viewMode == "table")
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 80px;">ID</th>
+                                    <th>Öğrenci</th>
+                                    <th>E-posta</th>
+                                    <th>Kayıt Tarihi</th>
+                                    <th>Durum</th>
+                                    <th style="width: 120px;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var student in filteredStudents)
+                                {
+                                    <tr>
+                                        <td>
+                                            <span class="badge bg-light text-dark">#@student.Id</span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar bg-primary text-white rounded-circle me-2 d-flex align-items-center justify-content-center" 
+                                                     style="width: 32px; height: 32px; font-size: 14px;">
+                                                    @student.FullName.Substring(0, 1).ToUpper()
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold">@student.FullName</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="mailto:@student.Email" class="text-decoration-none">
+                                                @student.Email
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">@student.EnrolledAt.ToString("dd MMM yyyy")</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-@GetStatusColor(student)">
+                                                @GetStudentStatus(student)
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <button class="btn btn-outline-info" 
+                                                        @onclick="() => Navigation.NavigateTo($"/student-detail/{student.Id}")"
+                                                        title="Detay">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button class="btn btn-outline-warning" 
+                                                        @onclick="() => Navigation.NavigateTo($"/edit-student/{student.Id}")"
+                                                        title="Düzenle">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger" 
+                                                        @onclick="() => DeleteStudent(student)"
+                                                        title="Sil">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <!-- Card View -->
+                    <div class="row g-3 p-3">
+                        @foreach (var student in filteredStudents)
+                        {
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card h-100 student-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-start mb-3">
+                                            <div class="avatar bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" 
+                                                 style="width: 48px; height: 48px; font-size: 20px;">
+                                                @student.FullName.Substring(0, 1).ToUpper()
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="card-title mb-1">@student.FullName</h6>
+                                                <p class="card-text text-muted small mb-0">ID: #@student.Id</p>
+                                            </div>
+                                            <span class="badge bg-@GetStatusColor(student)">
+                                                @GetStudentStatus(student)
+                                            </span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small text-muted mb-1">E-posta</div>
+                                            <div class="small">@student.Email</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small text-muted mb-1">Kayıt Tarihi</div>
+                                            <div class="small">@student.EnrolledAt.ToString("dd MMMM yyyy")</div>
+                                        </div>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-info flex-fill" 
+                                                    @onclick="() => Navigation.NavigateTo($"/student-detail/{student.Id}")">
+                                                <i class="bi bi-eye me-1"></i>Detay
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-warning" 
+                                                    @onclick="() => Navigation.NavigateTo($"/edit-student/{student.Id}")">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" 
+                                                    @onclick="() => DeleteStudent(student)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<StudentModel> allStudents = new();
+    private List<StudentModel> filteredStudents = new();
+    private bool isLoading = true;
+    private string viewMode = "table";
+
+    // Filter and Sort Options
+    private List<SearchFilter<object, object>.FilterOption> statusFilterOptions = new()
+    {
+        new() { Value = "Aktif", Text = "Aktif Öğrenciler" },
+        new() { Value = "Yeni", Text = "Yeni Kayıtlar (30 gün)" },
+        new() { Value = "Eski", Text = "Eski Kayıtlar" }
+    };
+
+    private List<SearchFilter<object, object>.SortOption> sortOptions = new()
+    {
+        new() { Value = "name", Text = "İsme Göre" },
+        new() { Value = "email", Text = "E-postaya Göre" },
+        new() { Value = "enrolledAt", Text = "Kayıt Tarihine Göre" },
+        new() { Value = "id", Text = "ID'ye Göre" }
+    };
+
+    private Dictionary<string, Func<StudentModel, object>> sortFunctions = new()
+    {
+        ["name"] = student => student.FullName,
+        ["email"] = student => student.Email,
+        ["enrolledAt"] = student => student.EnrolledAt,
+        ["id"] = student => student.Id
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStudents();
+    }
+
+    private async Task LoadStudents()
+    {
+        isLoading = true;
+        try
+        {
+            allStudents = await StudentService.GetAllStudentsAsync();
+            filteredStudents = allStudents;
+        }
+        catch (Exception ex)
+        {
+            // Handle error
+            Console.WriteLine($"Error loading students: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private Task OnFilteredItemsChanged(IEnumerable<StudentModel> filtered)
+    {
+        filteredStudents = filtered.ToList();
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private string GetStudentStatus(StudentModel student)
+    {
+        var daysSinceEnrollment = (DateTime.Now - student.EnrolledAt).Days;
+        return daysSinceEnrollment <= 30 ? "Yeni" : "Aktif";
+    }
+
+    private string GetStatusColor(StudentModel student)
+    {
+        return GetStudentStatus(student) switch
+        {
+            "Yeni" => "success",
+            "Aktif" => "primary",
+            _ => "secondary"
+        };
+    }
+
+    private async Task DeleteStudent(StudentModel student)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", 
+            $"'{student.FullName}' adlı öğrenciyi silmek istediğinizden emin misiniz?");
+        
+        if (confirmed)
+        {
+            try
+            {
+                await StudentService.DeleteStudentAsync(student.Id);
+                await LoadStudents();
+            }
+            catch (Exception ex)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"Öğrenci silinirken hata oluştu: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task ExportToCsv()
+    {
+        try
+        {
+            var csvData = GenerateCsvData(filteredStudents);
+            var fileName = $"ogrenci_listesi_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+            
+            await JSRuntime.InvokeVoidAsync("downloadFile", fileName, csvData, "text/csv");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"CSV dosyası oluşturulurken hata oluştu: {ex.Message}");
+        }
+    }
+
+    private async Task ExportToPdf()
+    {
+        try
+        {
+            var response = await Http.GetAsync("/api/reports/students/pdf");
+            if (response.IsSuccessStatusCode)
+            {
+                var pdfBytes = await response.Content.ReadAsByteArrayAsync();
+                var fileName = $"ogrenci_listesi_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                
+                await JSRuntime.InvokeVoidAsync("downloadFileFromBytes", fileName, pdfBytes, "application/pdf");
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "PDF dosyası oluşturulurken hata oluştu.");
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"PDF dosyası oluşturulurken hata oluştu: {ex.Message}");
+        }
+    }
+
+    private string GenerateCsvData(List<StudentModel> students)
+    {
+        var csv = new System.Text.StringBuilder();
+        csv.AppendLine("ID,Ad Soyad,E-posta,Kayıt Tarihi,Durum");
+        
+        foreach (var student in students)
+        {
+            csv.AppendLine($"{student.Id},\"{student.FullName}\",{student.Email},{student.EnrolledAt:yyyy-MM-dd},{GetStudentStatus(student)}");
+        }
+        
+        return csv.ToString();
+    }
+
+    private async Task RefreshData()
+    {
+        await LoadStudents();
+    }
+
+    // Placeholder StudentModel class - adjust based on your actual model
+    public class StudentModel
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public DateTime EnrolledAt { get; set; }
+    }
+}
+
+<style>
+    .student-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .student-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .avatar {
+        font-weight: 600;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+        .btn-group-sm .btn {
+            padding: 0.25rem 0.4rem;
+            font-size: 0.75rem;
+        }
+    }
+</style>
+
+<script>
+    window.downloadFile = (filename, content, contentType) => {
+        const blob = new Blob([content], { type: contentType });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    };
+
+    window.downloadFileFromBytes = (filename, byteArray, contentType) => {
+        const blob = new Blob([new Uint8Array(byteArray)], { type: contentType });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    };
+</script>

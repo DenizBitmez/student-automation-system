@@ -1,0 +1,150 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Öğrenci Otomasyon Sistemi</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <AuthorizeView>
+            <Authorized>
+                <!-- Dashboard for all authenticated users -->
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/dashboard">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </NavLink>
+                </div>
+
+                <!-- Admin Navigation -->
+                <AuthorizeView Roles="Admin">
+                    <div class="nav-item px-3">
+                        <div class="nav-link">
+                            <i class="bi bi-shield-check me-2"></i>
+                            <span>Yönetici Paneli</span>
+                        </div>
+                        <ul class="nav flex-column ms-4">
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/students">
+                                    <i class="bi bi-people me-2"></i> Öğrenci Yönetimi
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/teachers">
+                                    <i class="bi bi-person-badge me-2"></i> Öğretmen Yönetimi
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/courses">
+                                    <i class="bi bi-journal-bookmark me-2"></i> Ders Yönetimi
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </div>
+                </AuthorizeView>
+
+                <!-- Teacher Navigation -->
+                <AuthorizeView Roles="Teacher">
+                    <div class="nav-item px-3">
+                        <div class="nav-link">
+                            <i class="bi bi-mortarboard me-2"></i>
+                            <span>Öğretmen Paneli</span>
+                        </div>
+                        <ul class="nav flex-column ms-4">
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/ogretmen/derslerim">
+                                    <i class="bi bi-journal-text me-2"></i> Derslerim
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/ogretmen/ogrenciler">
+                                    <i class="bi bi-people me-2"></i> Öğrencilerim
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/ogretmen/not-girisi">
+                                    <i class="bi bi-journal-check me-2"></i> Not Girişi
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/ogretmen/devamsizlik">
+                                    <i class="bi bi-calendar-check me-2"></i> Devamsızlık
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </div>
+                </AuthorizeView>
+
+                <!-- Student Navigation -->
+                <AuthorizeView Roles="Student">
+                    <div class="nav-item px-3">
+                        <div class="nav-link">
+                            <i class="bi bi-person-video3 me-2"></i>
+                            <span>Öğrenci Paneli</span>
+                        </div>
+                        <ul class="nav flex-column ms-4">
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/ogrenci/derslerim">
+                                    <i class="bi bi-journal-text me-2"></i> Derslerim
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/ogrenci/notlarim">
+                                    <i class="bi bi-journal-check me-2"></i> Notlarım
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/ogrenci/devamsizlik">
+                                    <i class="bi bi-calendar-check me-2"></i> Devamsızlıklarım
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/ogrenci/profil">
+                                    <i class="bi bi-person-circle me-2"></i> Profilim
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </div>
+                </AuthorizeView>
+
+                <!-- Common Navigation for All Authenticated Users -->
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/grades-attendance">
+                        <i class="bi bi-journal-check me-2"></i> Notlar ve Devamsızlık
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/profil/ayarlar">
+                        <i class="bi bi-gear me-2"></i> Ayarlar
+                    </NavLink>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <!-- Navigation for Unauthenticated Users -->
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/giris">
+                        <i class="bi bi-box-arrow-in-right me-2"></i> Giriş Yap
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/kayit">
+                        <i class="bi bi-person-plus me-2"></i> Kayıt Ol
+                    </NavLink>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

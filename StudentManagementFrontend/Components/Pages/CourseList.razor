@@ -1,0 +1,364 @@
+@page "/dersler"
+@page "/admin/dersler"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using System.ComponentModel
+@inject ICourseService CourseService
+@inject NavigationManager Navigation
+@inject ILogger<CourseList> Logger
+
+<PageTitle>Ders Listesi</PageTitle>
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Dersler</h1>
+        <AuthorizeView Roles="Admin,Teacher">
+            <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/ders/ekle")">
+                <i class="bi bi-plus-circle me-2"></i>Yeni Ders Ekle
+            </button>
+        </AuthorizeView>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Ders kodu veya adı ile ara..." 
+                               @bind="SearchTerm" @bind:event="oninput" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" @bind="SelectedSemester">
+                        <option value="">Tüm Dönemler</option>
+                        @foreach (var semester in Semesters)
+                        {
+                            <option value="@semester">@semester</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" @bind="StatusFilter">
+                        <option value="all">Tümü</option>
+                        <option value="active">Aktif</option>
+                        <option value="inactive">Pasif</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        @if (IsLoading)
+        {
+            <div class="d-flex justify-content-center p-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Yükleniyor...</span>
+                </div>
+            </div>
+        }
+        else if (FilteredCourses == null || !FilteredCourses.Any())
+        {
+            <div class="text-center p-5 text-muted">
+                <i class="bi bi-book display-5 d-block mb-3"></i>
+                <h4>Ders bulunamadı</h4>
+                <p>Hiç ders kaydı bulunamadı veya arama kriterlerinize uygun sonuç yok.</p>
+                <AuthorizeView Roles="Admin,Teacher">
+                    <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/ders/ekle")">
+                        <i class="bi bi-plus-circle me-2"></i>Yeni Ders Ekle
+                    </button>
+                </AuthorizeView>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 80px;">#</th>
+                            <th>
+                                <a href="#" @onclick="() => SortBy(nameof(Course.Code))">
+                                    Ders Kodu
+                                    @if (SortColumn == nameof(Course.Code))
+                                    {
+                                        <i class="bi @(SortDirection == ListSortDirection.Ascending ? "bi-sort-up" : "bi-sort-down")"></i>
+                                    }
+                                </a>
+                            </th>
+                            <th>
+                                <a href="#" @onclick="() => SortBy(nameof(Course.Name))">
+                                    Ders Adı
+                                    @if (SortColumn == nameof(Course.Name))
+                                    {
+                                        <i class="bi @(SortDirection == ListSortDirection.Ascending ? "bi-sort-up" : "bi-sort-down")"></i>
+                                    }
+                                </a>
+                            </th>
+                            <th>Dönem</th>
+                            <th>Öğretmen</th>
+                            <th>Öğrenci Sayısı</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var course in PagedCourses)
+                        {
+                            <tr>
+                                <td>@course.Id</td>
+                                <td>@course.Code</td>
+                                <td>@course.Name</td>
+                                <td>@course.Semester</td>
+                                <td>
+                                    @if (course.Teacher != null)
+                                    {
+                                        <a href="/ogretmen/@course.Teacher.Id" class="text-decoration-none">
+                                            @course.Teacher.FullName
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Atanmadı</span>
+                                    }
+                                </td>
+                                <td>@(course.StudentCourses?.Count ?? 0)</td>
+                                <td>
+                                    <span class="badge @(course.IsActive ? "bg-success" : "bg-secondary")">
+                                        @(course.IsActive ? "Aktif" : "Pasif")
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewCourse(course.Id)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <AuthorizeView Roles="Admin,Teacher">
+                                            <button class="btn btn-sm btn-outline-secondary" @onclick="() => EditCourse(course.Id)">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(course)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </AuthorizeView>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (PageCount > 1)
+            {
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-muted small">
+                            Toplam @FilteredCourses.Count() kayıttan @((CurrentPage - 1) * PageSize + 1) - @Math.Min(CurrentPage * PageSize, FilteredCourses.Count()) arası gösteriliyor
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+                                    <button class="page-link" @onclick="() => ChangePage(CurrentPage - 1)" @onclick:preventDefault>
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
+                                </li>
+                                @for (int i = 1; i <= PageCount; i++)
+                                {
+                                    <li class="page-item @(i == CurrentPage ? "active" : "")">
+                                        <button class="page-link" @onclick="() => ChangePage(i)" @onclick:preventDefault>@i</button>
+                                    </li>
+                                }
+                                <li class="page-item @(CurrentPage == PageCount ? "disabled" : "")">
+                                    <button class="page-link" @onclick="() => ChangePage(CurrentPage + 1)" @onclick:preventDefault>
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="d-flex align-items-center">
+                            <span class="me-2 small text-muted">Sayfa başına:</span>
+                            <select class="form-select form-select-sm" style="width: auto;" @bind="PageSize">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<Course>? Courses { get; set; }
+    private List<Course>? FilteredCourses { get; set; }
+    private IEnumerable<Course> PagedCourses => FilteredCourses?.Skip((CurrentPage - 1) * PageSize).Take(PageSize) ?? new List<Course>();
+    private bool IsLoading { get; set; } = true;
+    private string SearchTerm { get; set; } = string.Empty;
+    private string SelectedSemester { get; set; } = string.Empty;
+    private string StatusFilter { get; set; } = "all";
+    private int CurrentPage { get; set; } = 1;
+    private int PageSize { get; set; } = 10;
+    private int PageCount => FilteredCourses == null ? 1 : (int)Math.Ceiling(FilteredCourses.Count / (double)PageSize);
+    private string SortColumn = nameof(Course.Code);
+    private ListSortDirection SortDirection = ListSortDirection.Ascending;
+    
+    // Sample semesters - you might want to fetch these from your API
+    private readonly string[] Semesters = new[]
+    {
+        "2023-2024 Güz",
+        "2023-2024 Bahar",
+        "2022-2023 Güz",
+        "2022-2023 Bahar",
+        "2021-2022 Güz",
+        "2021-2022 Bahar"
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var courses = await CourseService.GetAllCoursesAsync();
+            Courses = courses.ToList();
+            FilterCourses();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading courses");
+            // Show error message to user
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private void FilterCourses()
+    {
+        if (Courses == null) return;
+
+        var query = Courses.AsQueryable();
+
+        // Apply search term filter
+        if (!string.IsNullOrWhiteSpace(SearchTerm))
+        {
+            var searchTerm = SearchTerm.Trim().ToLower();
+            query = query.Where(c => 
+                c.Code.ToLower().Contains(searchTerm) ||
+                c.Name.ToLower().Contains(searchTerm) ||
+                (c.Description != null && c.Description.ToLower().Contains(searchTerm)));
+        }
+
+        // Apply semester filter
+        if (!string.IsNullOrEmpty(SelectedSemester))
+        {
+            query = query.Where(c => c.Semester == SelectedSemester);
+        }
+
+        // Apply status filter
+        query = StatusFilter switch
+        {
+            "active" => query.Where(c => c.IsActive),
+            "inactive" => query.Where(c => !c.IsActive),
+            _ => query
+        };
+
+        // Apply sorting
+        query = SortColumn switch
+        {
+            nameof(Course.Code) => SortDirection == ListSortDirection.Ascending 
+                ? query.OrderBy(c => c.Code)
+                : query.OrderByDescending(c => c.Code),
+            nameof(Course.Name) => SortDirection == ListSortDirection.Ascending 
+                ? query.OrderBy(c => c.Name)
+                : query.OrderByDescending(c => c.Name),
+            _ => query
+        };
+
+        FilteredCourses = query.ToList();
+        CurrentPage = 1; // Reset to first page when filters change
+    }
+
+    private void SortBy(string columnName)
+    {
+        if (SortColumn == columnName)
+        {
+            SortDirection = SortDirection == ListSortDirection.Ascending 
+                ? ListSortDirection.Descending 
+                : ListSortDirection.Ascending;
+        }
+        else
+        {
+            SortColumn = columnName;
+            SortDirection = ListSortDirection.Ascending;
+        }
+
+        FilterCourses();
+    }
+
+    private void ChangePage(int pageNumber)
+    {
+        if (pageNumber < 1 || pageNumber > PageCount) return;
+        CurrentPage = pageNumber;
+    }
+
+    private void ViewCourse(int id)
+    {
+        Navigation.NavigateTo($"ders/{id}");
+    }
+
+    private void EditCourse(int id)
+    {
+        Navigation.NavigateTo($"ders/duzenle/{id}");
+    }
+
+    private async Task DeleteCourse(Course course)
+    {
+        try
+        {
+            var success = await CourseService.DeleteCourseAsync(course.Id);
+            if (success && Courses != null)
+            {
+                Courses.RemoveAll(c => c.Id == course.Id);
+                FilterCourses();
+                // Show success message
+            }
+            else
+            {
+                // Show error message
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, $"Error deleting course with ID {course.Id}");
+            // Show error message
+        }
+    }
+
+    private async Task ConfirmDelete(Course course)
+    {
+        // You can implement a confirmation dialog here
+        // For now, we'll directly call DeleteCourse
+        await DeleteCourse(course);
+    }
+
+    // These methods will be called when the bound properties change
+    private void OnSearchTermChanged() => FilterCourses();
+    private void OnSelectedSemesterChanged() => FilterCourses();
+    private void OnStatusFilterChanged() => FilterCourses();
+    private void OnPageSizeChanged()
+    {
+        CurrentPage = 1;
+        FilterCourses();
+    }
+
+    // This method is called when any parameter changes
+    protected override void OnParametersSet()
+    {
+        FilterCourses();
+    }
+}

@@ -1,0 +1,11 @@
+﻿using StudentManagementApi.Domain;
+
+namespace StudentManagementApi.Dtos
+{
+	public class CourseDtos
+	{
+		public record CourseCreateDto(string Code, string Name, int TeacherId);
+		public record CourseUpdateStatusDto(CourseStatus Status);
+		public record CourseVm(int Id, string Code, string Name, int TeacherId, string TeacherName, CourseStatus Status, int StudentCount);
+	}
+}

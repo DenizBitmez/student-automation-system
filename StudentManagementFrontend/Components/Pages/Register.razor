@@ -1,0 +1,155 @@
+@page "/register"
+@page "/kayit"
+@using StudentManagementFrontend.Models.Auth
+@using Microsoft.AspNetCore.Components.Web
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject ILocalStorageService LocalStorage
+
+<PageTitle>Kayıt Ol</PageTitle>
+
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow" style="width: 100%; max-width: 500px;">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h4 class="mb-0">Yeni Hesap Oluştur</h4>
+        </div>
+        
+        <div class="card-body p-4">
+            @if (!string.IsNullOrEmpty(SuccessMessage))
+            {
+                <div class="alert alert-success">
+                    @SuccessMessage
+                    <button type="button" class="btn-close float-end" @onclick="() => { SuccessMessage = string.Empty; Navigation.NavigateTo("/login"); }"></button>
+                </div>
+            }
+            else if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    @ErrorMessage
+                    <button type="button" class="btn-close float-end" @onclick="() => ErrorMessage = string.Empty"></button>
+                </div>
+            }
+
+            <EditForm Model="@RegisterModel" OnValidSubmit="HandleRegister" class="needs-validation" novalidate>
+                <DataAnnotationsValidator />
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label">Ad *</label>
+                        <InputText id="firstName" @bind-Value="RegisterModel.FirstName" class="form-control" />
+                        <ValidationMessage For="@(() => RegisterModel.FirstName)" class="text-danger" />
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label">Soyad *</label>
+                        <InputText id="lastName" @bind-Value="RegisterModel.LastName" class="form-control" />
+                        <ValidationMessage For="@(() => RegisterModel.LastName)" class="text-danger" />
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="username" class="form-label">Kullanıcı Adı *</label>
+                    <InputText id="username" @bind-Value="RegisterModel.Username" class="form-control" />
+                    <div class="form-text">Kullanıcı adınız en az 3 karakter uzunluğunda olmalıdır.</div>
+                    <ValidationMessage For="@(() => RegisterModel.Username)" class="text-danger" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-posta *</label>
+                    <InputText id="email" type="email" @bind-Value="RegisterModel.Email" class="form-control" />
+                    <ValidationMessage For="@(() => RegisterModel.Email)" class="text-danger" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">Şifre *</label>
+                    <InputText id="password" type="password" @bind-Value="RegisterModel.Password" class="form-control" />
+                    <div class="form-text">Şifreniz en az 6 karakter uzunluğunda olmalıdır.</div>
+                    <ValidationMessage For="@(() => RegisterModel.Password)" class="text-danger" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Şifre Tekrar *</label>
+                    <InputText id="confirmPassword" type="password" @bind-Value="RegisterModel.ConfirmPassword" class="form-control" />
+                    <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)" class="text-danger" />
+                </div>
+                
+                <div class="mb-4">
+                    <label for="role" class="form-label">Hesap Türü *</label>
+                    <select id="role" @bind="RegisterModel.Role" class="form-select">
+                        <option value="">Hesap türünü seçiniz</option>
+                        <option value="Student">Öğrenci</option>
+                        <option value="Teacher">Öğretmen</option>
+                    </select>
+                    <ValidationMessage For="@(() => RegisterModel.Role)" class="text-danger" />
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary" disabled="@IsLoading">
+                        @if (IsLoading)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            <span>Kayıt Olunuyor...</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-person-plus me-2"></i>
+                            <span>Kayıt Ol</span>
+                        }
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+        
+        <div class="card-footer text-center py-3">
+            Zaten hesabınız var mı? 
+            <a href="/giris" class="text-primary text-decoration-none fw-bold">Giriş Yapın</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterModel RegisterModel { get; set; } = new();
+    private bool IsLoading { get; set; }
+    private string ErrorMessage { get; set; } = string.Empty;
+    private string SuccessMessage { get; set; } = string.Empty;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        // Check if user is already logged in
+        var token = await LocalStorage.GetItemAsync<string>("authToken");
+        if (!string.IsNullOrEmpty(token))
+        {
+            Navigation.NavigateTo("/");
+        }
+    }
+    
+    private async Task HandleRegister()
+    {
+        try
+        {
+            IsLoading = true;
+            ErrorMessage = string.Empty;
+            
+            var result = await AuthService.RegisterAsync(RegisterModel);
+            
+            if (result)
+            {
+                SuccessMessage = "Kayıt işlemi başarılı! Giriş yapabilirsiniz.";
+                RegisterModel = new RegisterModel();
+            }
+            else
+            {
+                ErrorMessage = "Kayıt işlemi sırasında bir hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyiniz.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Registration error: {ex.Message}");
+            ErrorMessage = "Kayıt işlemi sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.";
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+}

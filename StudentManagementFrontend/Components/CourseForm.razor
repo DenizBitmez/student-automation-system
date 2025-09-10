@@ -1,0 +1,210 @@
+@using StudentManagementFrontend.Models
+@using System.ComponentModel.DataAnnotations
+@inject ITeacherService TeacherService
+@inject ILogger<CourseForm> Logger
+
+<EditForm Model="@Course" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary class="alert alert-danger" />
+
+    <div class="row g-3">
+        <!-- Course Code -->
+        <div class="col-md-6">
+            <label for="code" class="form-label">Ders Kodu *</label>
+            <InputText id="code" @bind-Value="Course.Code" class="form-control" placeholder="Örn: MAT101" />
+            <ValidationMessage For="@(() => Course.Code)" class="text-danger small" />
+        </div>
+
+        <!-- Course Name -->
+        <div class="col-md-6">
+            <label for="name" class="form-label">Ders Adı *</label>
+            <InputText id="name" @bind-Value="Course.Name" class="form-control" placeholder="Örn: Matematik I" />
+            <ValidationMessage For="@(() => Course.Name)" class="text-danger small" />
+        </div>
+
+        <!-- Semester -->
+        <div class="col-md-6">
+            <label for="semester" class="form-label">Dönem *</label>
+            <InputSelect id="semester" @bind-Value="Course.Semester" class="form-select">
+                <option value="">Dönem Seçiniz</option>
+                @foreach (var semester in Semesters)
+                {
+                    <option value="@semester">@semester</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Course.Semester)" class="text-danger small" />
+        </div>
+
+        <!-- Credits -->
+        <div class="col-md-6">
+            <label for="credits" class="form-label">AKTS Kredisi *</label>
+            <InputNumber id="credits" @bind-Value="Course.Credits" class="form-control" min="1" max="10" />
+            <ValidationMessage For="@(() => Course.Credits)" class="text-danger small" />
+            <div class="form-text">Dersin AKTS kredisini giriniz (1-10 arası)</div>
+        </div>
+
+        <!-- Teacher -->
+        <div class="col-md-6">
+            <label for="teacher" class="form-label">Öğretmen</label>
+            @if (Teachers == null || !Teachers.Any())
+            {
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Sistemde kayıtlı öğretmen bulunamadı.
+                </div>
+            }
+            else
+            {
+                <InputSelect id="teacher" @bind-Value="SelectedTeacherId" class="form-select">
+                    <option value="0">Öğretmen Seçiniz (Opsiyonel)</option>
+                    @foreach (var teacher in Teachers)
+                    {
+                        <option value="@teacher.Id">@teacher.FullName (@teacher.Email)</option>
+                    }
+                </InputSelect>
+            }
+        </div>
+
+        <!-- IsActive -->
+        <div class="col-md-6">
+            <div class="form-check form-switch mt-4 pt-2">
+                <InputCheckbox id="isActive" @bind-Value="Course.IsActive" class="form-check-input" />
+                <label class="form-check-label" for="isActive">
+                    @(Course.IsActive ? "Aktif Ders" : "Pasif Ders")
+                </label>
+            </div>
+            <div class="form-text">Pasif olarak işaretlenen dersler öğrenciler tarafından görüntülenemez.</div>
+        </div>
+
+        <!-- Description -->
+        <div class="col-12">
+            <label for="description" class="form-label">Ders Açıklaması</label>
+            <InputTextArea id="description" @bind-Value="Course.Description" class="form-control" rows="4" 
+                          placeholder="Ders içeriği hakkında kısa bir açıklama..." />
+            <ValidationMessage For="@(() => Course.Description)" class="text-danger small" />
+        </div>
+
+        <!-- Form Buttons -->
+        <div class="col-12 mt-4">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <button type="button" class="btn btn-outline-secondary me-2" @onclick="OnCancel">
+                        <i class="bi bi-x-circle me-1"></i> İptal
+                    </button>
+                    @if (IsEditMode)
+                    {
+                        <button type="button" class="btn btn-outline-warning me-2" @onclick="SaveDraft">
+                            <i class="bi bi-save me-1"></i> Taslak Kaydet
+                        </button>
+                    }
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary" disabled="@IsSubmitting">
+                        @if (IsSubmitting)
+                        {
+                            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                            <span>Kaydediliyor...</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-save me-1"></i>
+                            <span>@(IsEditMode ? "Güncelle" : "Kaydet")</span>
+                        }
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Course Course { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Course> OnSubmitCallback { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancelCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<Course> OnSaveDraftCallback { get; set; }
+
+    [Parameter]
+    public bool IsEditMode { get; set; }
+
+    private List<Teacher> Teachers { get; set; } = new();
+    private bool IsSubmitting { get; set; }
+    private int? SelectedTeacherId
+    {
+        get => Course.TeacherId > 0 ? Course.TeacherId : null;
+        set => Course.TeacherId = value ?? 0;
+    }
+
+    // Sample semesters - you might want to fetch these from your API
+    private readonly string[] Semesters = new[]
+    {
+        "2023-2024 Güz",
+        "2023-2024 Bahar",
+        "2022-2023 Güz",
+        "2022-2023 Bahar",
+        "2021-2022 Güz",
+        "2021-2022 Bahar"
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var teachers = await TeacherService.GetAllTeachersAsync();
+            Teachers = teachers.ToList();
+            
+            // If this is a new course and no teacher is selected, select the first teacher by default
+            if (!IsEditMode && Teachers.Any() && Course.TeacherId == 0)
+            {
+                Course.TeacherId = Teachers.First().Id;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading teachers for course form");
+            // Show error message to user
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            IsSubmitting = true;
+            await OnSubmitCallback.InvokeAsync(Course);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error submitting course form");
+            // Show error message to user
+        }
+        finally
+        {
+            IsSubmitting = false;
+        }
+    }
+
+    private void OnCancel()
+    {
+        OnCancelCallback.InvokeAsync();
+    }
+
+    private async Task SaveDraft()
+    {
+        try
+        {
+            await OnSaveDraftCallback.InvokeAsync(Course);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error saving course draft");
+            // Show error message to user
+        }
+    }
+}

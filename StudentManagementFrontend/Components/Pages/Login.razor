@@ -1,0 +1,118 @@
+@page "/login"
+@page "/giris"
+@using StudentManagementFrontend.Models.Auth
+@using Microsoft.AspNetCore.Components.Web
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject ILocalStorageService LocalStorage
+
+<PageTitle>Giriş Yap</PageTitle>
+
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow" style="width: 100%; max-width: 400px;">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h4 class="mb-0">Öğrenci Otomasyon Sistemi</h4>
+            <div class="small">Lütfen giriş yapın</div>
+        </div>
+        
+        <div class="card-body p-4">
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    @ErrorMessage
+                    <button type="button" class="btn-close float-end" @onclick="() => ErrorMessage = string.Empty"></button>
+                </div>
+            }
+
+            <EditForm Model="@LoginModel" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
+                
+                <div class="mb-3">
+                    <label for="username" class="form-label">Kullanıcı Adı</label>
+                    <InputText id="username" @bind-Value="LoginModel.Username" class="form-control" />
+                    <ValidationMessage For="@(() => LoginModel.Username)" class="text-danger" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">Şifre</label>
+                    <InputText id="password" type="password" @bind-Value="LoginModel.Password" class="form-control" />
+                    <ValidationMessage For="@(() => LoginModel.Password)" class="text-danger" />
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <InputCheckbox id="rememberMe" @bind-Value="LoginModel.RememberMe" class="form-check-input" />
+                    <label class="form-check-label" for="rememberMe">Beni hatırla</label>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary" disabled="@IsLoading">
+                        @if (IsLoading)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            <span>Giriş Yapılıyor...</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            <span>Giriş Yap</span>
+                        }
+                    </button>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <a href="/sifremi-unuttum" class="text-decoration-none">Şifremi Unuttum?</a>
+                </div>
+            </EditForm>
+        </div>
+        
+        <div class="card-footer text-center py-3">
+            Hesabınız yok mu? 
+            <a href="/kayit" class="text-primary text-decoration-none fw-bold">Kayıt Olun</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel LoginModel { get; set; } = new();
+    private bool IsLoading { get; set; }
+    private string ErrorMessage { get; set; } = string.Empty;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        // Check if user is already logged in
+        var token = await LocalStorage.GetItemAsync<string>("authToken");
+        if (!string.IsNullOrEmpty(token))
+        {
+            Navigation.NavigateTo("/");
+        }
+    }
+    
+    private async Task HandleLogin()
+    {
+        try
+        {
+            IsLoading = true;
+            ErrorMessage = string.Empty;
+            
+            var result = await AuthService.LoginAsync(LoginModel);
+            
+            if (result)
+            {
+                Navigation.NavigateTo("/");
+            }
+            else
+            {
+                ErrorMessage = "Geçersiz kullanıcı adı veya şifre.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Login error: {ex.Message}");
+            ErrorMessage = "Giriş sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.";
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+}

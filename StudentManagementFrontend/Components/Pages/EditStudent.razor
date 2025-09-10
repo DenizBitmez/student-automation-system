@@ -1,0 +1,99 @@
+@page "/ogrenci/duzenle/{Id:int}"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Components.Shared
+@inject StudentService StudentService
+@inject NavigationManager Navigation
+@inject ILogger<EditStudent> Logger
+
+<PageTitle>Öğrenci Düzenle</PageTitle>
+
+@if (isLoading)
+{
+    <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+    </div>
+}
+else if (student == null)
+{
+    <div class="alert alert-danger mt-4">
+        Öğrenci bulunamadı.
+    </div>
+}
+else
+{
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="h5 mb-0">Öğrenci Düzenle: @student.FirstName @student.LastName</h2>
+                    </div>
+                    <div class="card-body">
+                        @if (errorMessage != null)
+                        {
+                            <div class="alert alert-danger">
+                                @errorMessage
+                                <button type="button" class="btn-close float-end" @onclick="() => errorMessage = null" aria-label="Kapat"></button>
+                            </div>
+                        }
+
+                        <StudentForm 
+                            Student="student" 
+                            SubmitButtonText="Güncelle"
+                            OnSubmit="HandleValidSubmit"
+                            OnCancel="NavigateToStudentList"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Student student;
+    private bool isLoading = true;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            student = await StudentService.GetStudentAsync(Id);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Öğrenci bilgileri yüklenirken bir hata oluştu: " + ex.Message;
+            Logger.LogError(ex, $"Error loading student with ID {Id}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleValidSubmit(Student updatedStudent)
+    {
+        try
+        {
+            await StudentService.UpdateStudentAsync(updatedStudent);
+            Navigation.NavigateTo($"/ogrenci/{updatedStudent.Id}");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Öğrenci güncellenirken bir hata oluştu: " + ex.Message;
+            Logger.LogError(ex, $"Error updating student with ID {Id}");
+        }
+    }
+
+    private void NavigateToStudentList()
+    {
+        Navigation.NavigateTo("/ogrenciler");
+    }
+}

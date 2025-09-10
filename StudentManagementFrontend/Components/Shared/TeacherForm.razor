@@ -1,0 +1,196 @@
+@using StudentManagementFrontend.Models
+@using System.ComponentModel.DataAnnotations
+@inject ILogger<TeacherForm> Logger
+
+<EditForm Model="@Teacher" OnValidSubmit="HandleValidSubmit" class="needs-validation" novalidate>
+    <DataAnnotationsValidator />
+    <ValidationSummary class="alert alert-danger" />
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="firstName" class="form-label">Adı *</label>
+            <InputText id="firstName" class="form-control" @bind-Value="Teacher.FirstName" />
+            <ValidationMessage For="@(() => Teacher.FirstName)" class="text-danger" />
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <label for="lastName" class="form-label">Soyadı *</label>
+            <InputText id="lastName" class="form-control" @bind-Value="Teacher.LastName" />
+            <ValidationMessage For="@(() => Teacher.LastName)" class="text-danger" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="email" class="form-label">E-posta *</label>
+            <InputText id="email" type="email" class="form-control" @bind-Value="Teacher.Email" />
+            <ValidationMessage For="@(() => Teacher.Email)" class="text-danger" />
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <label for="phoneNumber" class="form-label">Telefon Numarası</label>
+            <InputText id="phoneNumber" type="tel" class="form-control" @bind-Value="Teacher.PhoneNumber" />
+            <ValidationMessage For="@(() => Teacher.PhoneNumber)" class="text-danger" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="branch" class="form-label">Branş *</label>
+            <InputText id="branch" class="form-control" @bind-Value="Teacher.Branch" list="branchList" />
+            <datalist id="branchList">
+                @foreach (var branch in Branches)
+                {
+                    <option value="@branch">@branch</option>
+                }
+            </datalist>
+            <ValidationMessage For="@(() => Teacher.Branch)" class="text-danger" />
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <label for="expertise" class="form-label">Uzmanlık Alanı</label>
+            <InputText id="expertise" class="form-control" @bind-Value="Teacher.Expertise" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="hireDate" class="form-label">İşe Başlama Tarihi</label>
+            <InputDate id="hireDate" class="form-control" @bind-Value="Teacher.HireDate" />
+        </div>
+        
+        <div class="col-md-6 mb-3 d-flex align-items-end">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="isActive" @bind="Teacher.IsActive">
+                <label class="form-check-label" for="isActive">
+                    @(Teacher.IsActive ? "Aktif" : "Pasif")
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="profileImageUrl" class="form-label">Profil Resmi URL</label>
+        <InputText id="profileImageUrl" class="form-control" @bind-Value="Teacher.ProfileImageUrl" />
+        @if (!string.IsNullOrEmpty(Teacher.ProfileImageUrl))
+        {
+            <div class="mt-2">
+                <img src="@Teacher.ProfileImageUrl" alt="Profil resmi önizleme" class="img-thumbnail" style="max-height: 100px;" />
+            </div>
+        }
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-outline-secondary" @onclick="OnCancel">
+            <i class="bi bi-x-circle me-2"></i>İptal
+        </button>
+        
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-info" @onclick="OnSaveDraft" disabled="@IsSaving">
+                @if (IsSaving && IsSavingDraft)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    <span>Kaydediliyor...</span>
+                }
+                else
+                {
+                    <i class="bi bi-save me-2"></i>
+                    <span>Taslak Olarak Kaydet</span>
+                }
+            </button>
+            
+            <button type="submit" class="btn btn-primary" disabled="@IsSaving">
+                @if (IsSaving && !IsSavingDraft)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    <span>Kaydediliyor...</span>
+                }
+                else
+                {
+                    <i class="bi bi-check-circle me-2"></i>
+                    <span>@(IsEditMode ? "Güncelle" : "Kaydet")</span>
+                }
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Teacher Teacher { get; set; } = new();
+    
+    [Parameter]
+    public bool IsEditMode { get; set; }
+    
+    [Parameter]
+    public EventCallback<Teacher> OnSubmit { get; set; }
+    
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+    
+    [Parameter]
+    public EventCallback<Teacher> OnSaveDraftCallback { get; set; }
+    
+    private bool IsSaving { get; set; }
+    private bool IsSavingDraft { get; set; }
+    
+    // Common branches for the datalist
+    private readonly string[] Branches = new[]
+    {
+        "Matematik", "Fizik", "Kimya", "Biyoloji", "Türk Dili ve Edebiyatı",
+        "Tarih", "Coğrafya", "Felsefe", "Din Kültürü ve Ahlak Bilgisi",
+        "İngilizce", "Almanca", "Fransızca", "Beden Eğitimi", "Müzik",
+        "Görsel Sanatlar", "Bilişim Teknolojileri", "Rehberlik"
+    };
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            IsSaving = true;
+            IsSavingDraft = false;
+            await OnSubmit.InvokeAsync(Teacher);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error saving teacher");
+            // Error handling will be done by the parent component
+            throw;
+        }
+        finally
+        {
+            IsSaving = false;
+        }
+    }
+    
+    private async Task OnSaveDraft()
+    {
+        try
+        {
+            IsSaving = true;
+            IsSavingDraft = true;
+            
+            // If we have a specific draft save handler, use it
+            if (OnSaveDraftCallback.HasDelegate)
+            {
+                await OnSaveDraftCallback.InvokeAsync(Teacher);
+            }
+            else
+            {
+                // Otherwise, just call the regular submit handler
+                await HandleValidSubmit();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error saving teacher draft");
+            // Error handling will be done by the parent component
+            throw;
+        }
+        finally
+        {
+            IsSaving = false;
+            IsSavingDraft = false;
+        }
+    }
+}
