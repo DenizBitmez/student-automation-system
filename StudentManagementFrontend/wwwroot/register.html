@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kayıt Ol - Öğrenci Otomasyon Sistemi</title>
+    <base href="/" />
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <link href="app.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <i class="bi bi-mortarboard me-2"></i>
+                    Öğrenci Otomasyon Sistemi
+                </a>
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="/">Ana Sayfa</a>
+                    <a class="nav-link" href="/login">Giriş Yap</a>
+                    <a class="nav-link active" href="/register">Kayıt Ol</a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-success text-white text-center">
+                            <h4 class="mb-0">
+                                <i class="bi bi-person-plus me-2"></i>
+                                Kayıt Ol
+                            </h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <form id="registerForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="firstName" class="form-label">Ad</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-person"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="lastName" class="form-label">Soyad</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-person"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">E-posta Adresi</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-envelope"></i>
+                                        </span>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Rol</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-person-badge"></i>
+                                        </span>
+                                        <select class="form-select" id="role" name="role" required>
+                                            <option value="">Rol seçiniz</option>
+                                            <option value="Student">Öğrenci</option>
+                                            <option value="Teacher">Öğretmen</option>
+                                            <option value="Admin">Yönetici</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Şifre</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-lock"></i>
+                                        </span>
+                                        <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                                    </div>
+                                    <div class="form-text">En az 6 karakter olmalıdır.</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label">Şifre Tekrar</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-lock-fill"></i>
+                                        </span>
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Kullanım şartlarını</a> kabul ediyorum.
+                                    </label>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-person-plus me-2"></i>
+                                        Kayıt Ol
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <hr class="my-4">
+                            
+                            <div class="text-center">
+                                <p class="mb-2">Zaten hesabınız var mı?</p>
+                                <a href="/login" class="btn btn-outline-primary">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                                    Giriş Yap
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Kullanım Şartları Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kullanım Şartları</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Genel Hükümler</h6>
+                    <p>Bu sistem, öğrenci yönetimi için tasarlanmıştır. Sistemi kullanarak bu şartları kabul etmiş sayılırsınız.</p>
+                    
+                    <h6>2. Kullanıcı Sorumlulukları</h6>
+                    <p>Kullanıcılar, doğru ve güncel bilgileri sağlamakla yükümlüdür.</p>
+                    
+                    <h6>3. Gizlilik</h6>
+                    <p>Kişisel bilgileriniz güvenli bir şekilde saklanır ve üçüncü taraflarla paylaşılmaz.</p>
+                    
+                    <h6>4. Sistem Kullanımı</h6>
+                    <p>Sistem sadece eğitim amaçlı kullanılmalıdır.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Şifre doğrulama
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            
+            if (password !== confirmPassword) {
+                this.setCustomValidity('Şifreler eşleşmiyor');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+        
+        // Form gönderimi
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const userData = {
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+                role: formData.get('role')
+            };
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
+                    window.location.href = '/login.html';
+                } else {
+                    const error = await response.json();
+                    alert('Kayıt başarısız: ' + (error.message || 'Bilinmeyen hata'));
+                }
+            } catch (error) {
+                alert('Bağlantı hatası: ' + error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>

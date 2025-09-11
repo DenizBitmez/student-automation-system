@@ -6,6 +6,7 @@ public interface ITeacherService
 {
     Task<IEnumerable<Teacher>> GetAllTeachersAsync();
     Task<Teacher?> GetTeacherByIdAsync(int id);
+    Task<Teacher?> GetTeacherByEmailAsync(string email);
     Task<Teacher> CreateTeacherAsync(Teacher teacher);
     Task<bool> UpdateTeacherAsync(int id, Teacher teacher);
     Task<bool> DeleteTeacherAsync(int id);

@@ -1,14 +1,18 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using StudentManagementFrontend;
 using StudentManagementFrontend.Services;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using StudentManagementFrontend.Components;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
 
 // Set the base address for the HTTP client
-var baseAddress = builder.Configuration["BaseUrl"] ?? builder.HostEnvironment.BaseAddress;
+var baseAddress = builder.Configuration["BaseUrl"] ?? "http://localhost:5000/";
 
 // Register the HTTP client with the base address
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
@@ -19,6 +23,8 @@ builder.Services.AddBlazoredLocalStorage();
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<StudentService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 
 // Configure authentication
 builder.Services.AddAuthorizationCore();
@@ -29,12 +35,25 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>
     )
 );
 
-// Set the root component and initialize the application
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+var app = builder.Build();
 
-// Add Bootstrap Icons
-builder.Services.AddBootstrapComponents();
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
 
-// Build and run the application
-await builder.Build().RunAsync();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapRazorPages();
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
+
+app.Run();

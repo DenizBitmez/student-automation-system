@@ -19,7 +19,7 @@
                 </div>
 
                 <!-- Admin Navigation -->
-                <AuthorizeView Roles="Admin">
+                <AuthorizeView Roles="Admin" Context="adminContext">
                     <div class="nav-item px-3">
                         <div class="nav-link">
                             <i class="bi bi-shield-check me-2"></i>
@@ -46,7 +46,7 @@
                 </AuthorizeView>
 
                 <!-- Teacher Navigation -->
-                <AuthorizeView Roles="Teacher">
+                <AuthorizeView Roles="Teacher" Context="teacherContext">
                     <div class="nav-item px-3">
                         <div class="nav-link">
                             <i class="bi bi-mortarboard me-2"></i>
@@ -63,22 +63,12 @@
                                     <i class="bi bi-people me-2"></i> Öğrencilerim
                                 </NavLink>
                             </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/ogretmen/not-girisi">
-                                    <i class="bi bi-journal-check me-2"></i> Not Girişi
-                                </NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/ogretmen/devamsizlik">
-                                    <i class="bi bi-calendar-check me-2"></i> Devamsızlık
-                                </NavLink>
-                            </li>
                         </ul>
                     </div>
                 </AuthorizeView>
 
                 <!-- Student Navigation -->
-                <AuthorizeView Roles="Student">
+                <AuthorizeView Roles="Student" Context="studentContext">
                     <div class="nav-item px-3">
                         <div class="nav-link">
                             <i class="bi bi-person-video3 me-2"></i>
@@ -95,31 +85,9 @@
                                     <i class="bi bi-journal-check me-2"></i> Notlarım
                                 </NavLink>
                             </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/ogrenci/devamsizlik">
-                                    <i class="bi bi-calendar-check me-2"></i> Devamsızlıklarım
-                                </NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/ogrenci/profil">
-                                    <i class="bi bi-person-circle me-2"></i> Profilim
-                                </NavLink>
-                            </li>
                         </ul>
                     </div>
                 </AuthorizeView>
-
-                <!-- Common Navigation for All Authenticated Users -->
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/grades-attendance">
-                        <i class="bi bi-journal-check me-2"></i> Notlar ve Devamsızlık
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/profil/ayarlar">
-                        <i class="bi bi-gear me-2"></i> Ayarlar
-                    </NavLink>
-                </div>
             </Authorized>
             <NotAuthorized>
                 <!-- Navigation for Unauthenticated Users -->

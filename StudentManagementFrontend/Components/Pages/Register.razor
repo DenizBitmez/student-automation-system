@@ -19,7 +19,7 @@
             {
                 <div class="alert alert-success">
                     @SuccessMessage
-                    <button type="button" class="btn-close float-end" @onclick="() => { SuccessMessage = string.Empty; Navigation.NavigateTo("/login"); }"></button>
+                    <button type="button" class="btn-close float-end" @onclick="@(() => { SuccessMessage = string.Empty; Navigation.NavigateTo("/login"); })"></button>
                 </div>
             }
             else if (!string.IsNullOrEmpty(ErrorMessage))

@@ -12,4 +12,8 @@ public class Student
     public string? Address { get; set; }
     public string? Class { get; set; }
     public DateTime EnrollmentDate { get; set; } = DateTime.Now;
+    
+    // Computed properties
+    public string FullName => $"{FirstName} {LastName}";
+    public DateTime EnrolledAt => EnrollmentDate;
 }

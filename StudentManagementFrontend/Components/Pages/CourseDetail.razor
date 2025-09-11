@@ -25,788 +25,103 @@ else if (Course == null)
     </div>
     
     <div class="mt-3">
-        <button class="btn btn-outline-secondary" @onclick="() => Navigation.NavigateTo(ReturnUrl)">
+        <button class="btn btn-outline-secondary" @onclick="@(() => Navigation.NavigateTo(ReturnUrl))">
             <i class="bi bi-arrow-left me-2"></i>Geri Dön
         </button>
     </div>
 }
 else
 {
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h2 class="h5 mb-0">@Course.Code - @Course.Name</h2>
-                        <div class="btn-group">
-                            <AuthorizeView Roles="Admin,Teacher">
-                                <button class="btn btn-outline-primary btn-sm" @onclick="() => Navigation.NavigateTo($"ders/duzenle/{CourseId}?returnUrl=/ders/{CourseId}")">
-                                    <i class="bi bi-pencil me-1"></i> Düzenle
-                                </button>
-                            </AuthorizeView>
-                            <button class="btn btn-outline-secondary btn-sm" @onclick="() => Navigation.NavigateTo(ReturnUrl)">
-                                <i class="bi bi-arrow-left me-1"></i> Geri
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dersler">Dersler</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@Course.Name</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0">Ders Bilgileri</h2>
+                        <div>
+                            <button class="btn btn-warning me-2" @onclick="@(() => Navigation.NavigateTo($"/ders/duzenle/{Course.Id}"))">
+                                <i class="bi bi-pencil"></i> Düzenle
+                            </button>
+                            <button class="btn btn-outline-secondary" @onclick="@(() => Navigation.NavigateTo(ReturnUrl))">
+                                <i class="bi bi-arrow-left"></i> Geri Dön
                             </button>
                         </div>
                     </div>
-                    
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <dl class="row">
-                                    <dt class="col-sm-4">Ders Kodu:</dt>
-                                    <dd class="col-sm-8">@Course.Code</dd>
-                                    
-                                    <dt class="col-sm-4">Ders Adı:</dt>
-                                    <dd class="col-sm-8">@Course.Name</dd>
-                                    
-                                    <dt class="col-sm-4">Dönem:</dt>
-                                    <dd class="col-sm-8">@Course.Semester</dd>
-                                    
-                                    <dt class="col-sm-4">AKTS Kredisi:</dt>
-                                    <dd class="col-sm-8">@Course.Credits</dd>
-                                    
-                                    <dt class="col-sm-4">Durum:</dt>
-                                    <dd class="col-sm-8">
-                                        <span class="badge @(Course.IsActive ? "bg-success" : "bg-secondary")">
-                                            @(Course.IsActive ? "Aktif" : "Pasif")
-                                        </span>
-                                    </dd>
-                                </dl>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Ders Kodu:</label>
+                                    <p class="form-control-plaintext">@Course.Code</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Ders Adı:</label>
+                                    <p class="form-control-plaintext">@Course.Name</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Açıklama:</label>
+                                    <p class="form-control-plaintext">@Course.Description</p>
+                                </div>
                             </div>
-                            
                             <div class="col-md-6">
-                                <dl class="row">
-                                    <dt class="col-sm-4">Öğretmen:</dt>
-                                    <dd class="col-sm-8">
-                                        @if (Course.Teacher != null)
-                                        {
-                                            <a href="/ogretmen/@Course.Teacher.Id" class="text-decoration-none">
-                                                @Course.Teacher.FullName
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">Atanmadı</span>
-                                        }
-                                    </dd>
-                                    
-                                    <dt class="col-sm-4">Öğrenci Sayısı:</dt>
-                                    <dd class="col-sm-8">@(EnrolledStudents?.Count ?? 0)</dd>
-                                    
-                                    <dt class="col-sm-4">Ortalama Not:</dt>
-                                    <dd class="col-sm-8">
-                                        @if (AverageGrade.HasValue)
-                                        {
-                                            <span class="badge bg-info">@AverageGrade.Value.ToString("0.00")</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">Hesaplanamadı</span>
-                                        }
-                                    </dd>
-                                </dl>
-                            </div>
-                            
-                            @if (!string.IsNullOrWhiteSpace(Course.Description))
-                            {
-                                <div class="col-12 mt-3">
-                                    <h5 class="border-bottom pb-2">Ders Açıklaması</h5>
-                                    <div class="p-3 bg-light rounded">
-                                        @Course.Description
-                                    </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Kredi:</label>
+                                    <p class="form-control-plaintext">@Course.Credits</p>
                                 </div>
-                            }
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Dönem:</label>
+                                    <p class="form-control-plaintext">@Course.Semester</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Durum:</label>
+                                    <span class="badge bg-success">Aktif</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Enrolled Students Section -->
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h3 class="h5 mb-0">Kayıtlı Öğrenciler</h3>
-                        <AuthorizeView Roles="Admin,Teacher">
-                            <button class="btn btn-sm btn-primary" @onclick="ShowEnrollStudentModal">
-                                <i class="bi bi-plus-circle me-1"></i> Öğrenci Ekle
-                            </button>
-                        </AuthorizeView>
-                    </div>
-                    
-                    <div class="card-body">
-                        @if (IsLoadingStudents)
-                        {
-                            <div class="d-flex justify-content-center p-3">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Yükleniyor...</span>
-                                </div>
-                            </div>
-                        }
-                        else if (EnrolledStudents == null || !EnrolledStudents.Any())
-                        {
-                            <div class="text-center p-4 text-muted">
-                                <i class="bi bi-people display-6 d-block mb-3"></i>
-                                <h5>Kayıtlı öğrenci bulunamadı</h5>
-                                <p class="mb-0">Bu derse kayıtlı hiç öğrenci bulunmamaktadır.</p>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Öğrenci No</th>
-                                            <th>Ad Soyad</th>
-                                            <th>E-posta</th>
-                                            <th>Not</th>
-                                            <th class="text-end">İşlemler</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var student in EnrolledStudents)
-                                        {
-                                            <tr>
-                                                <td>@student.StudentNumber</td>
-                                                <td>
-                                                    <a href="/ogrenci/@student.Id" class="text-decoration-none">
-                                                        @student.FullName
-                                                    </a>
-                                                </td>
-                                                <td>@student.Email</td>
-                                                <td>
-                                                    @if (student.Grade.HasValue)
-                                                    {
-                                                        <span class="badge @GetGradeBadgeClass(student.Grade.Value)">
-                                                            @student.Grade.Value.ToString("0.00")
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="badge bg-secondary">Girilmedi</span>
-                                                    }
-                                                </td>
-                                                <td class="text-end">
-                                                    <div class="btn-group" role="group">
-                                                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewStudentGrades(student.Id)">
-                                                            <i class="bi bi-journal-text"></i>
-                                                        </button>
-                                                        <AuthorizeView Roles="Admin,Teacher">
-                                                            <button class="btn btn-sm btn-outline-secondary" @onclick="() => EditStudentGrade(student)">
-                                                                <i class="bi bi-pencil"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmRemoveStudent(student)">
-                                                                <i class="bi bi-person-dash"></i>
-                                                            </button>
-                                                        </AuthorizeView>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        }
-                    </div>
-                </div>
             </div>
-            
-            <div class="col-lg-4">
-                <!-- Course Statistics Card -->
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-white">
-                        <h3 class="h5 mb-0">İstatistikler</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <div class="position-relative d-inline-block mb-2">
-                                <div class="progress-circle" style="width: 120px; height: 120px;">
-                                    <svg class="progress-circle-svg" viewBox="0 0 36 36">
-                                        <path class="progress-circle-bg"
-                                              d="M18 2.0845
-                                                 a 15.9155 15.9155 0 0 1 0 31.831
-                                                 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                              fill="none"
-                                              stroke="#e9ecef"
-                                              stroke-width="3" />
-                                        <path class="progress-circle-fill"
-                                              d="M18 2.0845
-                                                 a 15.9155 15.9155 0 0 1 0 31.831
-                                                 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                              fill="none"
-                                              stroke="#0d6efd"
-                                              stroke-width="3"
-                                              stroke-dasharray="@(EnrollmentPercentage), 100" />
-                                    </svg>
-                                    <div class="progress-circle-text">
-                                        <span class="h4 d-block mb-0">@EnrolledStudentsCount</span>
-                                        <small class="text-muted">Öğrenci</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <h5 class="mb-0">Toplam Kapasite: @(Course.Capacity > 0 ? Course.Capacity.ToString() : "Sınırsız")</h5>
-                            @if (Course.Capacity > 0)
-                            {
-                                <div class="progress mt-2" style="height: 10px;">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: @(EnrollmentPercentage)%" 
-                                         aria-valuenow="@EnrollmentPercentage" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <small class="text-muted">% @EnrollmentPercentage dolu</small>
-                            }
-                        </div>
-                        
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="bi bi-check-circle-fill text-success me-2"></i>Devam Eden</span>
-                                <span class="badge bg-primary rounded-pill">@EnrolledStudentsCount</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="bi bi-check2-all text-primary me-2"></i>Başarılı</span>
-                                <span class="badge bg-success rounded-pill">@PassedStudentsCount</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="bi bi-x-circle-fill text-danger me-2"></i>Başarısız</span>
-                                <span class="badge bg-danger rounded-pill">@FailedStudentsCount</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="bi bi-dash-circle-fill text-secondary me-2"></i>Not Girilmemiş</span>
-                                <span class="badge bg-secondary rounded-pill">@StudentsWithoutGrade</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Recent Activities Card -->
-                <div class="card shadow-sm">
-                    <div class="card-header bg-white">
-                        <h3 class="h5 mb-0">Son Etkinlikler</h3>
-                    </div>
-                    <div class="card-body">
-                        @if (RecentActivities == null || !RecentActivities.Any())
-                        {
-                            <div class="text-center text-muted py-3">
-                                <i class="bi bi-activity display-6 d-block mb-2"></i>
-                                <p class="mb-0">Henüz etkinlik bulunmamaktadır</p>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="timeline">
-                                @foreach (var activity in RecentActivities)
-                                {
-                                    <div class="timeline-item">
-                                        <div class="timeline-marker"></div>
-                                        <div class="timeline-content">
-                                            <p class="mb-0">@activity.Description</p>
-                                            <small class="text-muted">@activity.Timestamp.ToString("dd.MM.yyyy HH:mm")</small>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Enroll Student Modal -->
-    @if (ShowEnrollModal)
-    {
-        <div class="modal fade show" style="display: block;" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Öğrenci Ekle</h5>
-                        <button type="button" class="btn-close" @onclick="CloseEnrollModal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Öğrenci Seçin</label>
-                            <input type="text" class="form-control" @bind="StudentSearchTerm" @bind:event="oninput" 
-                                   placeholder="Öğrenci adı veya numarası ile ara..." />
-                        </div>
-                        
-                        @if (IsSearchingStudents)
-                        {
-                            <div class="text-center p-3">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Aranıyor...</span>
-                                </div>
-                            </div>
-                        }
-                        else if (AvailableStudents != null && AvailableStudents.Any())
-                        {
-                            <div class="list-group" style="max-height: 300px; overflow-y: auto;">
-                                @foreach (var student in AvailableStudents)
-                                {
-                                    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h6 class="mb-0">@student.FullName</h6>
-                                            <small class="text-muted">@student.StudentNumber</small>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-primary" @onclick="() => EnrollStudent(student.Id)">
-                                            <i class="bi bi-plus-lg"></i> Ekle
-                                        </button>
-                                    </div>
-                                }
-                            </div>
-                        }
-                        else if (!string.IsNullOrEmpty(StudentSearchTerm))
-                        {
-                            <div class="alert alert-info mb-0">
-                                <i class="bi bi-info-circle me-2"></i>
-                                Arama kriterlerinize uygun öğrenci bulunamadı.
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="alert alert-secondary mb-0">
-                                <i class="bi bi-search me-2"></i>
-                                Öğrenci aramak için yukarıya bir arama terimi girin.
-                            </div>
-                        }
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @onclick="CloseEnrollModal">Kapat</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-backdrop fade show"></div>
-    }
-    
-    <!-- Grade Edit Modal -->
-    @if (SelectedStudentForGrade != null)
-    {
-        <div class="modal fade show" style="display: block;" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Not Güncelle</h5>
-                        <button type="button" class="btn-close" @onclick="CloseGradeModal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">@SelectedStudentForGrade.FullName</label>
-                            <input type="number" class="form-control" @bind="GradeValue" min="0" max="100" step="0.01" />
-                            <div class="form-text">0-100 arasında bir değer giriniz.</div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @onclick="CloseGradeModal">İptal</button>
-                        <button type="button" class="btn btn-primary" @onclick="SaveGrade" disabled="@IsSavingGrade">
-                            @if (IsSavingGrade)
-                            {
-                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                <span>Kaydediliyor...</span>
-                            }
-                            else
-                            {
-                                <span>Kaydet</span>
-                            }
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-backdrop fade show"></div>
-    }
-}
-
-@if (ShowSuccessAlert)
-{
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i>
-            <strong>Başarılı!</strong> @SuccessMessage
-            <button type="button" class="btn-close" @onclick="() => ShowSuccessAlert = false" aria-label="Kapat"></button>
-        </div>
-    </div>
-}
-
-@if (ShowErrorAlert)
-{
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            <strong>Hata!</strong> @ErrorMessage
-            <button type="button" class="btn-close" @onclick="() => ShowErrorAlert = false" aria-label="Kapat"></button>
         </div>
     </div>
 }
 
 @code {
-    [Parameter]
-    public int CourseId { get; set; }
+    [Parameter] public int CourseId { get; set; }
+    [Parameter] public string ReturnUrl { get; set; } = "/dersler";
     
-    [Parameter]
-    [SupplyParameterFromQuery]
-    public string? ReturnUrl { get; set; } = "/dersler";
-    
-    private Course? Course { get; set; }
-    private List<EnrolledStudent> EnrolledStudents { get; set; } = new();
-    private List<Student>? AvailableStudents { get; set; }
-    private List<ActivityLog> RecentActivities { get; set; } = new();
-    private bool IsLoading { get; set; } = true;
-    private bool IsLoadingStudents { get; set; }
-    private bool ShowSuccessAlert { get; set; }
-    private bool ShowErrorAlert { get; set; }
-    private string SuccessMessage { get; set; } = string.Empty;
-    private string ErrorMessage { get; set; } = string.Empty;
-    
-    // Enrollment modal state
-    private bool ShowEnrollModal { get; set; }
-    private string StudentSearchTerm { get; set; } = string.Empty;
-    private bool IsSearchingStudents { get; set; }
-    
-    // Grade edit modal state
-    private EnrolledStudent? SelectedStudentForGrade { get; set; }
-    private double? GradeValue { get; set; }
-    private bool IsSavingGrade { get; set; }
-    
-    // Computed properties
-    private int EnrolledStudentsCount => EnrolledStudents?.Count ?? 0;
-    private int PassedStudentsCount => EnrolledStudents?.Count(s => s.Grade.HasValue && s.Grade.Value >= 50) ?? 0;
-    private int FailedStudentsCount => EnrolledStudents?.Count(s => s.Grade.HasValue && s.Grade.Value < 50) ?? 0;
-    private int StudentsWithoutGrade => EnrolledStudents?.Count(s => !s.Grade.HasValue) ?? 0;
-    private double? AverageGrade => EnrolledStudents?.Where(s => s.Grade.HasValue).Average(s => s.Grade);
-    private double EnrollmentPercentage => Course == null || Course.Capacity <= 0 ? 0 : Math.Round((EnrolledStudentsCount / (double)Course.Capacity) * 100, 1);
-    
+    private Course? Course;
+    private bool IsLoading = true;
+
     protected override async Task OnInitializedAsync()
     {
-        await LoadCourseAsync();
-        await LoadEnrolledStudentsAsync();
-        await LoadRecentActivitiesAsync();
+        await LoadCourse();
     }
-    
-    private async Task LoadCourseAsync()
+
+    private async Task LoadCourse()
     {
         try
         {
             IsLoading = true;
             Course = await CourseService.GetCourseByIdAsync(CourseId);
-            
-            if (Course == null)
-            {
-                ErrorMessage = "Belirtilen ID ile ders bulunamadı.";
-                ShowErrorAlert = true;
-            }
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error loading course with ID {CourseId}");
-            ErrorMessage = "Ders bilgileri yüklenirken bir hata oluştu.";
-            ShowErrorAlert = true;
+            Logger.LogError(ex, "Error loading course with ID {CourseId}", CourseId);
         }
         finally
         {
             IsLoading = false;
         }
-    }
-    
-    private async Task LoadEnrolledStudentsAsync()
-    {
-        try
-        {
-            IsLoadingStudents = true;
-            var students = await CourseService.GetEnrolledStudentsAsync(CourseId);
-            EnrolledStudents = students.Select(s => new EnrolledStudent
-            {
-                Id = s.Id,
-                StudentNumber = s.StudentNumber,
-                FullName = s.FullName,
-                Email = s.Email,
-                Grade = s.Grade
-            }).ToList();
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, $"Error loading enrolled students for course {CourseId}");
-            ErrorMessage = "Öğrenci listesi yüklenirken bir hata oluştu.";
-            ShowErrorAlert = true;
-        }
-        finally
-        {
-            IsLoadingStudents = false;
-        }
-    }
-    
-    private async Task LoadRecentActivitiesAsync()
-    {
-        // In a real app, you would fetch this from an API
-        // For now, we'll simulate some sample data
-        await Task.Delay(300);
-        
-        RecentActivities = new List<ActivityLog>
-        {
-            new()
-            {
-                Id = 1,
-                Timestamp = DateTime.Now.AddHours(-1),
-                Description = "Ahmet Yılmaz derse kaydedildi",
-                Type = ActivityType.Enrollment
-            },
-            new()
-            {
-                Id = 2,
-                Timestamp = DateTime.Now.AddHours(-3),
-                Description = "Ders bilgileri güncellendi",
-                Type = ActivityType.CourseUpdate
-            },
-            new()
-            {
-                Id = 3,
-                Timestamp = DateTime.Now.AddDays(-1),
-                Description = "Ayşe Demir derse kaydedildi",
-                Type = ActivityType.Enrollment
-            },
-            new()
-            {
-                Id = 4,
-                Timestamp = DateTime.Now.AddDays(-2),
-                Description = "Ders oluşturuldu",
-                Type = ActivityType.CourseCreate
-            }
-        };
-    }
-    
-    private void ShowEnrollStudentModal()
-    {
-        ShowEnrollModal = true;
-        StudentSearchTerm = string.Empty;
-        AvailableStudents = null;
-    }
-    
-    private void CloseEnrollModal()
-    {
-        ShowEnrollModal = false;
-        StudentSearchTerm = string.Empty;
-        AvailableStudents = null;
-        IsSearchingStudents = false;
-    }
-    
-    private async Task SearchStudents()
-    {
-        if (string.IsNullOrWhiteSpace(StudentSearchTerm))
-        {
-            AvailableStudents = null;
-            return;
-        }
-        
-        try
-        {
-            IsSearchingStudents = true;
-            // In a real app, you would call an API to search for students
-            // For now, we'll simulate a search with a delay
-            await Task.Delay(500);
-            
-            // Simulate search results
-            AvailableStudents = new List<Student>
-            {
-                new() { Id = 1, StudentNumber = "2023001", FirstName = "Mehmet", LastName = "Kaya", Email = "mehmet@example.com" },
-                new() { Id = 2, StudentNumber = "2023002", FirstName = "Zeynep", LastName = "Yıldız", Email = "zeynep@example.com" },
-                new() { Id = 3, StudentNumber = "2023003", FirstName = "Mehmet", LastName = "Demir", Email = "mehmetd@example.com" }
-            }.Where(s => 
-                s.FullName.Contains(StudentSearchTerm, StringComparison.OrdinalIgnoreCase) ||
-                s.StudentNumber.Contains(StudentSearchTerm, StringComparison.OrdinalIgnoreCase) ||
-                s.Email.Contains(StudentSearchTerm, StringComparison.OrdinalIgnoreCase)
-            ).ToList();
-            
-            // Filter out already enrolled students
-            if (EnrolledStudents != null && EnrolledStudents.Any())
-            {
-                var enrolledIds = EnrolledStudents.Select(s => s.Id).ToHashSet();
-                AvailableStudents = AvailableStudents.Where(s => !enrolledIds.Contains(s.Id)).ToList();
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Error searching for students");
-            ErrorMessage = "Öğrenci aranırken bir hata oluştu.";
-            ShowErrorAlert = true;
-        }
-        finally
-        {
-            IsSearchingStudents = false;
-        }
-    }
-    
-    private async Task EnrollStudent(int studentId)
-    {
-        try
-        {
-            var success = await CourseService.EnrollStudentAsync(CourseId, studentId);
-            if (success)
-            {
-                // Refresh the enrolled students list
-                await LoadEnrolledStudentsAsync();
-                
-                // Add to recent activities
-                var student = AvailableStudents?.FirstOrDefault(s => s.Id == studentId);
-                if (student != null)
-                {
-                    RecentActivities.Insert(0, new ActivityLog
-                    {
-                        Id = RecentActivities.Max(a => a.Id) + 1,
-                        Timestamp = DateTime.Now,
-                        Description = $"{student.FullName} derse kaydedildi",
-                        Type = ActivityType.Enrollment
-                    });
-                }
-                
-                SuccessMessage = "Öğrenci başarıyla derse kaydedildi.";
-                ShowSuccessAlert = true;
-                CloseEnrollModal();
-            }
-            else
-            {
-                throw new Exception("Öğrenci derse kaydedilemedi.");
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, $"Error enrolling student {studentId} to course {CourseId}");
-            ErrorMessage = "Öğrenci derse kaydedilirken bir hata oluştu.";
-            ShowErrorAlert = true;
-        }
-    }
-    
-    private async Task RemoveStudent(int studentId)
-    {
-        try
-        {
-            var success = await CourseService.RemoveStudentFromCourseAsync(CourseId, studentId);
-            if (success)
-            {
-                // Refresh the enrolled students list
-                var student = EnrolledStudents.FirstOrDefault(s => s.Id == studentId);
-                if (student != null)
-                {
-                    // Add to recent activities
-                    RecentActivities.Insert(0, new ActivityLog
-                    {
-                        Id = RecentActivities.Max(a => a.Id) + 1,
-                        Timestamp = DateTime.Now,
-                        Description = $"{student.FullName} dersten çıkarıldı",
-                        Type = ActivityType.Unenrollment
-                    });
-                }
-                
-                await LoadEnrolledStudentsAsync();
-                SuccessMessage = "Öğrenci dersten başarıyla çıkarıldı.";
-                ShowSuccessAlert = true;
-            }
-            else
-            {
-                throw new Exception("Öğrenci dersten çıkarılamadı.");
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, $"Error removing student {studentId} from course {CourseId}");
-            ErrorMessage = "Öğrenci dersten çıkarılırken bir hata oluştu.";
-            ShowErrorAlert = true;
-        }
-    }
-    
-    private void ConfirmRemoveStudent(EnrolledStudent student)
-    {
-        // In a real app, you would show a confirmation dialog
-        // For now, we'll directly call RemoveStudent
-        RemoveStudent(student.Id);
-    }
-    
-    private void EditStudentGrade(EnrolledStudent student)
-    {
-        SelectedStudentForGrade = student;
-        GradeValue = student.Grade;
-    }
-    
-    private void CloseGradeModal()
-    {
-        SelectedStudentForGrade = null;
-        GradeValue = null;
-    }
-    
-    private async Task SaveGrade()
-    {
-        if (SelectedStudentForGrade == null) return;
-        
-        try
-        {
-            IsSavingGrade = true;
-            
-            // In a real app, you would call an API to save the grade
-            // For now, we'll simulate the save operation
-            await Task.Delay(500);
-            
-            // Update the local student's grade
-            var student = EnrolledStudents.FirstOrDefault(s => s.Id == SelectedStudentForGrade.Id);
-            if (student != null)
-            {
-                student.Grade = GradeValue;
-                
-                // Add to recent activities
-                RecentActivities.Insert(0, new ActivityLog
-                {
-                    Id = RecentActivities.Max(a => a.Id) + 1,
-                    Timestamp = DateTime.Now,
-                    Description = $"{student.FullName} için not güncellendi: {GradeValue}",
-                    Type = ActivityType.GradeUpdate
-                });
-                
-                SuccessMessage = "Not başarıyla güncellendi.";
-                ShowSuccessAlert = true;
-                CloseGradeModal();
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, $"Error saving grade for student {SelectedStudentForGrade.Id} in course {CourseId}");
-            ErrorMessage = "Not kaydedilirken bir hata oluştu.";
-            ShowErrorAlert = true;
-        }
-        finally
-        {
-            IsSavingGrade = false;
-        }
-    }
-    
-    private void ViewStudentGrades(int studentId)
-    {
-        Navigation.NavigateTo($"ogrenci/{studentId}/notlar");
-    }
-    
-    private string GetGradeBadgeClass(double grade)
-    {
-        return grade >= 90 ? "bg-success" :
-               grade >= 80 ? "bg-primary" :
-               grade >= 70 ? "bg-info" :
-               grade >= 60 ? "bg-warning" :
-               grade >= 50 ? "bg-orange" : "bg-danger";
-    }
-    
-    // Helper classes
-    private class EnrolledStudent : Student
-    {
-        public double? Grade { get; set; }
-    }
-    
-    private class ActivityLog
-    {
-        public int Id { get; set; }
-        public DateTime Timestamp { get; set; }
-        public string Description { get; set; } = string.Empty;
-        public ActivityType Type { get; set; }
-    }
-    
-    private enum ActivityType
-    {
-        CourseCreate,
-        CourseUpdate,
-        Enrollment,
-        Unenrollment,
-        GradeUpdate,
-        AttendanceUpdate
     }
 }

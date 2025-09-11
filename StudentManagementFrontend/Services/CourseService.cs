@@ -43,6 +43,20 @@ public class CourseService : ICourseService
         }
     }
 
+    public async Task<bool> AddCourseAsync(Course course)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync(BasePath, course);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding course: {ex.Message}");
+            return false;
+        }
+    }
+
     public async Task<Course> CreateCourseAsync(Course course)
     {
         try
@@ -136,6 +150,20 @@ public class CourseService : ICourseService
         catch (Exception ex)
         {
             Console.WriteLine($"Error removing student {studentId} from course {courseId}: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateStudentGradeAsync(int courseId, int studentId, double grade)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"{BasePath}/{courseId}/students/{studentId}/grade", new { grade });
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating grade for student {studentId} in course {courseId}: {ex.Message}");
             return false;
         }
     }

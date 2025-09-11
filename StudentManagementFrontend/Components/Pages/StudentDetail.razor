@@ -41,7 +41,7 @@ else
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h2 class="h5 mb-0">Öğrenci Bilgileri</h2>
                         <div>
-                            <button class="btn btn-warning me-2" @onclick="() => Navigation.NavigateTo($"/ogrenci/duzenle/{student.Id}")">
+                            <button class="btn btn-warning me-2" @onclick="@(() => Navigation.NavigateTo($"/ogrenci/duzenle/{student.Id}"))">
                                 <i class="bi bi-pencil"></i> Düzenle
                             </button>
                             <button class="btn btn-outline-secondary" @onclick="NavigateToStudentList">
@@ -50,74 +50,36 @@ else
                         </div>
                     </div>
                     <div class="card-body">
-                        @if (errorMessage != null)
-                        {
-                            <div class="alert alert-danger">
-                                @errorMessage
-                                <button type="button" class="btn-close float-end" @onclick="() => errorMessage = null" aria-label="Kapat"></button>
-                            </div>
-                        }
-
                         <div class="row">
                             <div class="col-md-6">
-                                <dl class="row">
-                                    <dt class="col-sm-4">Öğrenci No:</dt>
-                                    <dd class="col-sm-8">@student.StudentNumber</dd>
-
-                                    <dt class="col-sm-4">Ad Soyad:</dt>
-                                    <dd class="col-sm-8">@student.FirstName @student.LastName</dd>
-
-                                    <dt class="col-sm-4">Doğum Tarihi:</dt>
-                                    <dd class="col-sm-8">@student.DateOfBirth.ToString("dd.MM.yyyy")</dd>
-
-                                    <dt class="col-sm-4">Yaş:</dt>
-                                    <dd class="col-sm-8">@CalculateAge(student.DateOfBirth)</dd>
-                                </dl>
-                            </div>
-                            <div class="col-md-6">
-                                <dl class="row">
-                                    <dt class="col-sm-4">Sınıf:</dt>
-                                    <dd class="col-sm-8">@student.Class</dd>
-
-                                    <dt class="col-sm-4">Kayıt Tarihi:</dt>
-                                    <dd class="col-sm-8">@student.EnrollmentDate.ToString("dd.MM.yyyy")</dd>
-
-                                    <dt class="col-sm-4">E-posta:</dt>
-                                    <dd class="col-sm-8">
-                                        @if (!string.IsNullOrEmpty(student.Email))
-                                        {
-                                            <a href="mailto:@student.Email">@student.Email</a>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">Belirtilmemiş</span>
-                                        }
-                                    </dd>
-
-                                    <dt class="col-sm-4">Telefon:</dt>
-                                    <dd class="col-sm-8">
-                                        @if (!string.IsNullOrEmpty(student.PhoneNumber))
-                                        {
-                                            <a href="tel:@student.PhoneNumber">@student.PhoneNumber</a>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">Belirtilmemiş</span>
-                                        }
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-
-                        @if (!string.IsNullOrEmpty(student.Address))
-                        {
-                            <div class="row mt-3">
-                                <div class="col-12">
-                                    <h5 class="border-bottom pb-2">Adres</h5>
-                                    <p>@student.Address</p>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Ad:</label>
+                                    <p class="form-control-plaintext">@student.FirstName</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Soyad:</label>
+                                    <p class="form-control-plaintext">@student.LastName</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">E-posta:</label>
+                                    <p class="form-control-plaintext">@student.Email</p>
                                 </div>
                             </div>
-                        }
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Telefon:</label>
+                                    <p class="form-control-plaintext">@student.PhoneNumber</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Kayıt Tarihi:</label>
+                                    <p class="form-control-plaintext">@student.EnrolledAt.ToString("dd/MM/yyyy")</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Durum:</label>
+                                    <span class="badge bg-success">Aktif</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -126,23 +88,26 @@ else
 }
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
-
-    private Student student;
+    [Parameter] public int Id { get; set; }
+    
+    private Student? student;
     private bool isLoading = true;
-    private string errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadStudent();
+    }
+
+    private async Task LoadStudent()
+    {
         try
         {
-            student = await StudentService.GetStudentAsync(Id);
+            isLoading = true;
+            student = await StudentService.GetStudentByIdAsync(Id);
         }
         catch (Exception ex)
         {
-            errorMessage = "Öğrenci bilgileri yüklenirken bir hata oluştu: " + ex.Message;
-            Logger.LogError(ex, $"Error loading student with ID {Id}");
+            Logger.LogError(ex, "Error loading student with ID {StudentId}", Id);
         }
         finally
         {
@@ -153,19 +118,5 @@ else
     private void NavigateToStudentList()
     {
         Navigation.NavigateTo("/ogrenciler");
-    }
-
-    private int CalculateAge(DateTime dateOfBirth)
-    {
-        var today = DateTime.Today;
-        var age = today.Year - dateOfBirth.Year;
-        
-        // Handle the case where the birthday hasn't occurred yet this year
-        if (dateOfBirth.Date > today.AddYears(-age))
-        {
-            age--;
-        }
-        
-        return age;
     }
 }

@@ -2,7 +2,6 @@
 @page "/ogrenciler"
 @using StudentManagementFrontend.Models
 @using StudentManagementFrontend.Services
-@using StudentManagementFrontend.Components.Shared
 @using Microsoft.AspNetCore.Authorization
 @inject StudentService StudentService
 @inject NavigationManager Navigation
@@ -15,62 +14,37 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Öğrenci Listesi</h1>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-success" @onclick="ExportToCsv" disabled="@(!filteredStudents.Any())">
+            <button class="btn btn-outline-success" @onclick="ExportToCsv" disabled="@(!students?.Any() == true)">
                 <i class="bi bi-download me-2"></i>
                 CSV İndir
             </button>
-            <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/add-student")">
+            <button class="btn btn-primary" @onclick="@(() => Navigation.NavigateTo("/add-student"))">
                 <i class="bi bi-plus-circle me-2"></i> Yeni Öğrenci Ekle
             </button>
         </div>
     </div>
 
-    <!-- Enhanced Search and Filter Component -->
-    <SearchFilter TItem="StudentModel" 
-                  Items="allStudents" 
-                  ItemsChanged="OnFilteredItemsChanged"
-                  SearchFunction="@(student => $"{student.FullName} {student.Email} {student.Id}")"
-                  SearchPlaceholder="Öğrenci adı, e-posta veya ID ara..."
-                  FilterOptions="statusFilterOptions"
-                  FilterFunction="@((student, filter) => string.IsNullOrEmpty(filter) || GetStudentStatus(student) == filter)"
-                  FilterLabel="Durum"
-                  SortOptions="sortOptions"
-                  SortFunctions="sortFunctions"
-                  TotalCount="allStudents.Count()" />
-
-            @if (isLoading)
-            {
-                <div class="text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Yükleniyor...</span>
-                    </div>
-                </div>
-            }
-            else if (students == null || !students.Any())
-            {
-                <div class="alert alert-info">
-                    Kayıtlı öğrenci bulunamadı.
-                </div>
-            }
-            else
-            {
+    @if (isLoading)
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Yükleniyor...</span>
+            </div>
+        </div>
+    }
+    else if (students?.Any() == true)
+    {
+        <div class="card">
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <th @onclick="() => SortBy(nameof(Student.StudentNumber))">
-                                    Öğrenci No
-                                    @GetSortIcon(nameof(Student.StudentNumber))
-                                </th>
-                                <th @onclick="() => SortBy(nameof(Student.FirstName))">
-                                    Adı
-                                    @GetSortIcon(nameof(Student.FirstName))
-                                </th>
-                                <th @onclick="() => SortBy(nameof(Student.LastName))">
-                                    Soyadı
-                                    @GetSortIcon(nameof(Student.LastName))
-                                </th>
-                                <th>Sınıf</th>
+                                <th>ID</th>
+                                <th>Ad Soyad</th>
+                                <th>E-posta</th>
+                                <th>Telefon</th>
+                                <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
                         </thead>
@@ -78,62 +52,45 @@
                             @foreach (var student in students)
                             {
                                 <tr>
-                                    <td>@student.StudentNumber</td>
-                                    <td>@student.FirstName</td>
-                                    <td>@student.LastName</td>
-                                    <td>@student.Class</td>
+                                    <td>@student.Id</td>
+                                    <td>@student.FullName</td>
+                                    <td>@student.Email</td>
+                                    <td>@student.PhoneNumber</td>
+                                    <td>@student.EnrolledAt.ToString("dd/MM/yyyy")</td>
                                     <td>
-                                        <button class="btn btn-sm btn-info me-2" @onclick="() => ViewStudent(student.Id)">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-warning me-2" @onclick="() => EditStudent(student.Id)">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteStudent(student)">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" @onclick="@(() => ViewStudent(student.Id))">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-warning" @onclick="@(() => EditStudent(student.Id))">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" @onclick="@(() => DeleteStudent(student.Id))">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
-
-                <nav aria-label="Sayfalama">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                            <button class="page-link" @onclick="() => ChangePage(currentPage - 1)" aria-label="Önceki">
-                                <span aria-hidden="true">&laquo;</span>
-                            </button>
-                        </li>
-                        @for (int i = 1; i <= totalPages; i++)
-                        {
-                            <li class="page-item @(i == currentPage ? "active" : "")">
-                                <button class="page-link" @onclick="() => ChangePage(i)">@i</button>
-                            </li>
-                        }
-                        <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-                            <button class="page-link" @onclick="() => ChangePage(currentPage + 1)" aria-label="Sonraki">
-                                <span aria-hidden="true">&raquo;</span>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            }
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-people display-1 text-muted"></i>
+            <h3 class="text-muted">Henüz öğrenci eklenmemiş</h3>
+            <p class="text-muted">İlk öğrenciyi eklemek için yukarıdaki butonu kullanın.</p>
+        </div>
+    }
 </div>
 
 @code {
-    private List<Student> students = new();
+    private List<Student>? students;
     private bool isLoading = true;
-    private string searchTerm = string.Empty;
-    private int currentPage = 1;
-    private int pageSize = 10;
-    private int totalItems = 0;
-    private int totalPages = 1;
-    private string sortColumn = nameof(Student.Id);
-    private bool sortAscending = true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -145,120 +102,64 @@
         try
         {
             isLoading = true;
-            StateHasChanged();
-
-            var allStudents = await StudentService.GetStudentsAsync();
-            
-            // Apply search filter
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                var searchTermLower = searchTerm.ToLower();
-                allStudents = allStudents
-                    .Where(s => s.FirstName.ToLower().Contains(searchTermLower) ||
-                               s.LastName.ToLower().Contains(searchTermLower) ||
-                               (s.StudentNumber ?? "").ToLower().Contains(searchTermLower) ||
-                               (s.Class ?? "").ToLower().Contains(searchTermLower))
-                    .ToList();
-            }
-
-            // Apply sorting
-            allStudents = sortColumn switch
-            {
-                nameof(Student.FirstName) => sortAscending 
-                    ? allStudents.OrderBy(s => s.FirstName).ToList()
-                    : allStudents.OrderByDescending(s => s.FirstName).ToList(),
-                nameof(Student.LastName) => sortAscending 
-                    ? allStudents.OrderBy(s => s.LastName).ToList()
-                    : allStudents.OrderByDescending(s => s.LastName).ToList(),
-                nameof(Student.StudentNumber) => sortAscending 
-                    ? allStudents.OrderBy(s => s.StudentNumber).ToList()
-                    : allStudents.OrderByDescending(s => s.StudentNumber).ToList(),
-                _ => sortAscending 
-                    ? allStudents.OrderBy(s => s.Id).ToList()
-                    : allStudents.OrderByDescending(s => s.Id).ToList()
-            };
-
-            totalItems = allStudents.Count;
-            totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-            
-            // Apply pagination
-            students = allStudents
-                .Skip((currentPage - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
+            students = (await StudentService.GetAllStudentsAsync()).ToList();
         }
         catch (Exception ex)
         {
-            // In a real app, you'd want to show an error message to the user
             Console.WriteLine($"Error loading students: {ex.Message}");
         }
         finally
         {
             isLoading = false;
-            StateHasChanged();
         }
     }
 
-    private void SortBy(string column)
+    private void ViewStudent(int studentId)
     {
-        if (sortColumn == column)
+        Navigation.NavigateTo($"/student-detail/{studentId}");
+    }
+
+    private void EditStudent(int studentId)
+    {
+        Navigation.NavigateTo($"/edit-student/{studentId}");
+    }
+
+    private async Task DeleteStudent(int studentId)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Bu öğrenciyi silmek istediğinizden emin misiniz?"))
         {
-            sortAscending = !sortAscending;
+            try
+            {
+                var success = await StudentService.DeleteStudentAsync(studentId);
+                if (success)
+                {
+                    await LoadStudents();
+                    await JSRuntime.InvokeVoidAsync("alert", "Öğrenci başarıyla silindi.");
+                }
+                else
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "Öğrenci silinirken bir hata oluştu.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting student: {ex.Message}");
+                await JSRuntime.InvokeVoidAsync("alert", "Öğrenci silinirken bir hata oluştu.");
+            }
         }
-        else
+    }
+
+    private async Task ExportToCsv()
+    {
+        if (students?.Any() == true)
         {
-            sortColumn = column;
-            sortAscending = true;
+            var csv = "ID,Ad Soyad,E-posta,Telefon,Kayıt Tarihi\n";
+            foreach (var student in students)
+            {
+                csv += $"{student.Id},{student.FullName},{student.Email},{student.PhoneNumber},{student.EnrolledAt:dd/MM/yyyy}\n";
+            }
+            
+            await JSRuntime.InvokeVoidAsync("downloadFile", "ogrenciler.csv", "text/csv", csv);
         }
-        _ = LoadStudents();
-    }
-
-    private string GetSortIcon(string columnName)
-    {
-        if (sortColumn != columnName) return string.Empty;
-        return sortAscending ? "🔼" : "🔽";
-    }
-
-    private async Task ChangePage(int page)
-    {
-        if (page < 1 || page > totalPages) return;
-        currentPage = page;
-        await LoadStudents();
-    }
-
-    private void ViewStudent(int id)
-    {
-        Navigation.NavigateTo($"ogrenci/{id}");
-    }
-
-    private void EditStudent(int id)
-    {
-        Navigation.NavigateTo($"ogrenci/duzenle/{id}");
-    }
-
-    private async Task DeleteStudent(Student student)
-    {
-        // In a real app, you'd want to show a confirmation dialog first
-        try
-        {
-            await StudentService.DeleteStudentAsync(student.Id);
-            await LoadStudents();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error deleting student: {ex.Message}");
-        }
-    }
-
-    private async Task SearchStudents()
-    {
-        currentPage = 1;
-        await LoadStudents();
-    }
-
-    private async Task OnSearchInput(ChangeEventArgs e)
-    {
-        searchTerm = e.Value?.ToString() ?? string.Empty;
-        // Optional: Add debounce here if you want to search as the user types
     }
 }

@@ -7,8 +7,9 @@ namespace StudentManagementFrontend.Services
     public interface ICourseService
     {
         Task<IEnumerable<Course>> GetAllCoursesAsync();
-        Task<Course> GetCourseByIdAsync(int id);
+        Task<Course?> GetCourseByIdAsync(int id);
         Task<bool> AddCourseAsync(Course course);
+        Task<Course> CreateCourseAsync(Course course);
         Task<bool> UpdateCourseAsync(int id, Course course);
         Task<bool> DeleteCourseAsync(int id);
         Task<IEnumerable<Student>> GetEnrolledStudentsAsync(int courseId);

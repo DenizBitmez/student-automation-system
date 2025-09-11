@@ -12,9 +12,9 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["StudentManagementApi/StudentManagementApi.csproj", "StudentManagementApi/"]
+COPY ["StudentManagementApi.csproj", "StudentManagementApi/"]
 RUN dotnet restore "./StudentManagementApi/StudentManagementApi.csproj"
-COPY . .
+COPY . ./StudentManagementApi/
 WORKDIR "/src/StudentManagementApi"
 RUN dotnet build "./StudentManagementApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

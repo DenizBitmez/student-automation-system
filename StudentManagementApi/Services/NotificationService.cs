@@ -8,7 +8,7 @@ public interface INotificationService
     Task SendNotificationToUserAsync(string userId, NotificationMessage message);
     Task SendNotificationToRoleAsync(string role, NotificationMessage message);
     Task SendNotificationToCourseAsync(string courseId, NotificationMessage message);
-    Task SendGradeNotificationAsync(string studentId, string courseName, double grade, string? comment = null);
+    Task SendGradeNotificationAsync(string studentId, string courseName, decimal grade, string? comment = null);
     Task SendAttendanceNotificationAsync(string studentId, string courseName, bool present);
     Task SendCourseUpdateNotificationAsync(string courseId, string message);
     Task SendSystemNotificationAsync(string message, string type = "info");
@@ -70,7 +70,7 @@ public class NotificationService : INotificationService
         }
     }
 
-    public async Task SendGradeNotificationAsync(string studentId, string courseName, double grade, string? comment = null)
+    public async Task SendGradeNotificationAsync(string studentId, string courseName, decimal grade, string? comment = null)
     {
         var message = new NotificationMessage
         {

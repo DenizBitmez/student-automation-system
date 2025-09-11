@@ -39,6 +39,19 @@ public class TeacherService : ITeacherService
         }
     }
 
+    public async Task<Teacher?> GetTeacherByEmailAsync(string email)
+    {
+        try
+        {
+            return await _httpClient.GetFromJsonAsync<Teacher>($"{BasePath}/email/{email}");
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error fetching teacher with email {email}: {ex.Message}");
+            return null;
+        }
+    }
+
     public async Task<Teacher> CreateTeacherAsync(Teacher teacher)
     {
         try

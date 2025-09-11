@@ -6,16 +6,6 @@ using StudentManagementFrontend.Models.Auth;
 
 namespace StudentManagementFrontend.Services;
 
-public interface IAuthService
-{
-    Task<bool> LoginAsync(LoginModel loginModel);
-    Task<bool> RegisterAsync(RegisterModel registerModel);
-    Task LogoutAsync();
-    Task<string> GetCurrentUserIdAsync();
-    Task<string[]> GetCurrentUserRolesAsync();
-    Task<bool> IsUserInRoleAsync(string role);
-}
-
 public class AuthService : IAuthService
 {
     private readonly HttpClient _httpClient;
@@ -100,6 +90,12 @@ public class AuthService : IAuthService
     {
         var roles = await GetCurrentUserRolesAsync();
         return roles.Contains(role);
+    }
+
+    public async Task<bool> IsUserInAnyRoleAsync(IEnumerable<string> roles)
+    {
+        var userRoles = await GetCurrentUserRolesAsync();
+        return roles.Any(role => userRoles.Contains(role));
     }
 }
 

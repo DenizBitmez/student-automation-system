@@ -24,10 +24,6 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Auth/AuthorizeRoles.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBdXRoXEF1dGhvcml6ZVJvbGVzLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/CourseForm.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb3Vyc2VGb3JtLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -42,10 +38,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Pages/AddTeacher.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZGRUZWFjaGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Pages/CourseDetail.razor]
@@ -74,10 +66,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Pages/GradesAttendance.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xHcmFkZXNBdHRlbmRhbmNlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Pages/Home.razor]
@@ -120,20 +108,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUZWFjaGVyTGlzdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Routes.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Shared/ChartComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcQ2hhcnRDb21wb25lbnQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Shared/NotificationCenter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcTm90aWZpY2F0aW9uQ2VudGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Shared/SearchFilter.razor]
@@ -148,14 +124,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcVGVhY2hlckZvcm0ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Shared/ThemeCustomizer.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcVGhlbWVDdXN0b21pemVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Shared/ThemeToggle.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcVGhlbWVUb2dnbGUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -167,3 +135,15 @@ build_metadata.AdditionalFiles.CssScope = b-clh6zu36bi
 [C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Components/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-uqtcws9r3o
+
+[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/source/repos/OgrenciOtomasyonSistemi/StudentManagementFrontend/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

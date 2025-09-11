@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "fMbsoM0VkaM=",
+  "dgSpecHash": "enWzI1wcOM0=",
   "success": true,
   "projectFilePath": "C:\\Users\\deniz\\source\\repos\\OgrenciOtomasyonSistemi\\StudentManagementApi\\StudentManagementApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\deniz\\.nuget\\packages\\bouncycastle.cryptography\\2.4.0\\bouncycastle.cryptography.2.4.0.nupkg.sha512",
+    "C:\\Users\\deniz\\.nuget\\packages\\efcore.namingconventions\\9.0.0\\efcore.namingconventions.9.0.0.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\itextsharp.lgplv2.core\\3.4.23\\itextsharp.lgplv2.core.3.4.23.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

@@ -13,7 +13,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Öğretmenler</h1>
         <AuthorizeView Roles="Admin">
-            <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/ogretmen/ekle")">
+            <button class="btn btn-primary" @onclick="@(() => Navigation.NavigateTo("/ogretmen/ekle"))">
                 <i class="bi bi-plus-circle me-2"></i>Yeni Öğretmen Ekle
             </button>
         </AuthorizeView>
@@ -65,7 +65,7 @@
                 <h4>Öğretmen bulunamadı</h4>
                 <p>Hiç öğretmen kaydı bulunamadı veya arama kriterlerinize uygun sonuç yok.</p>
                 <AuthorizeView Roles="Admin">
-                    <button class="btn btn-primary" @onclick="() => Navigation.NavigateTo("/ogretmen/ekle")">
+                    <button class="btn btn-primary" @onclick="@(() => Navigation.NavigateTo("/ogretmen/ekle"))">
                         <i class="bi bi-plus-circle me-2"></i>Yeni Öğretmen Ekle
                     </button>
                 </AuthorizeView>
@@ -79,7 +79,7 @@
                         <tr>
                             <th style="width: 50px;">#</th>
                             <th>
-                                <a href="#" @onclick="() => SortBy(nameof(Teacher.FirstName))">
+                                <a href="#" @onclick="@(() => SortBy(nameof(Teacher.FirstName)))">
                                     Öğretmen
                                     @if (SortColumn == nameof(Teacher.FirstName))
                                     {
@@ -133,14 +133,14 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="btn-group" role="group">
-                                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewTeacher(teacher.Id)">
+                                        <button class="btn btn-sm btn-outline-primary" @onclick="@(() => ViewTeacher(teacher.Id))">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <AuthorizeView Roles="Admin">
-                                            <button class="btn btn-sm btn-outline-secondary" @onclick="() => EditTeacher(teacher.Id)">
+                                            <button class="btn btn-sm btn-outline-secondary" @onclick="@(() => EditTeacher(teacher.Id))">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(teacher)">
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="@(() => ConfirmDelete(teacher))">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </AuthorizeView>
@@ -162,18 +162,18 @@
                         <nav>
                             <ul class="pagination mb-0">
                                 <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
-                                    <button class="page-link" @onclick="() => ChangePage(CurrentPage - 1)" @onclick:preventDefault>
+                                    <button class="page-link" @onclick="@(() => ChangePage(CurrentPage - 1))" @onclick:preventDefault>
                                         <i class="bi bi-chevron-left"></i>
                                     </button>
                                 </li>
                                 @for (int i = 1; i <= PageCount; i++)
                                 {
                                     <li class="page-item @(i == CurrentPage ? "active" : "")">
-                                        <button class="page-link" @onclick="() => ChangePage(i)" @onclick:preventDefault>@i</button>
+                                        <button class="page-link" @onclick="@(() => ChangePage(i))" @onclick:preventDefault>@i</button>
                                     </li>
                                 }
                                 <li class="page-item @(CurrentPage == PageCount ? "disabled" : "")">
-                                    <button class="page-link" @onclick="() => ChangePage(CurrentPage + 1)" @onclick:preventDefault>
+                                    <button class="page-link" @onclick="@(() => ChangePage(CurrentPage + 1))" @onclick:preventDefault>
                                         <i class="bi bi-chevron-right"></i>
                                     </button>
                                 </li>

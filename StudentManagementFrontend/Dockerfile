@@ -3,36 +3,27 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copy project file and restore dependencies
-COPY ["StudentManagementFrontend.csproj", "./"]
-RUN dotnet restore "StudentManagementFrontend.csproj"
+COPY StudentManagementFrontend.csproj .
+RUN dotnet restore
 
-# Copy everything else and build
+# Copy source code
 COPY . .
-RUN dotnet build "StudentManagementFrontend.csproj" -c Release -o /app/build
+
+# Build the application
+RUN dotnet build -c Release -o /app/build
 
 # Publish stage
 FROM build AS publish
-RUN dotnet publish "StudentManagementFrontend.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -c Release -o /app/publish
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
-
-# Install nginx for serving static files
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
-
-# Copy published files
 COPY --from=publish /app/publish .
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/sites-available/default
-
 # Expose port
-EXPOSE 5000
+EXPOSE 80
+EXPOSE 443
 
-# Create startup script
-RUN echo '#!/bin/bash\n\
-service nginx start\n\
-dotnet StudentManagementFrontend.dll' > /app/start.sh && chmod +x /app/start.sh
-
-CMD ["/app/start.sh"]
+# Start the application
+ENTRYPOINT ["dotnet", "StudentManagementFrontend.dll"]

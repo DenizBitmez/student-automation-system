@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  studentmanagementapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=StudentManagementDB;Username=postgres;Password=postgres123
+    depends_on:
+      - postgres
+    networks:
+      - student-network
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=StudentManagementDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - student-network
+
+volumes:
+  postgres_data:
+
+networks:
+  student-network:
+    driver: bridge

@@ -39,7 +39,7 @@ public class PdfExportService : IPdfExportService
         document.Open();
 
         // Title
-        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.DARK_GRAY);
+        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18, new BaseColor(64, 64, 64));
         var title = new Paragraph("ÖĞRENCİ LİSTESİ RAPORU", titleFont)
         {
             Alignment = Element.ALIGN_CENTER,
@@ -48,7 +48,7 @@ public class PdfExportService : IPdfExportService
         document.Add(title);
 
         // Date
-        var dateFont = FontFactory.GetFont(FontFactory.HELVETICA, 10, BaseColor.GRAY);
+        var dateFont = FontFactory.GetFont(FontFactory.HELVETICA, 10, new BaseColor(128, 128, 128));
         var date = new Paragraph($"Rapor Tarihi: {DateTime.Now:dd/MM/yyyy HH:mm}", dateFont)
         {
             Alignment = Element.ALIGN_RIGHT,
@@ -61,14 +61,14 @@ public class PdfExportService : IPdfExportService
         table.SetWidths(new float[] { 1f, 3f, 3f, 2f });
 
         // Headers
-        var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE);
+        var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, new BaseColor(255, 255, 255));
         var headerCells = new[] { "ID", "Ad Soyad", "E-posta", "Kayıt Tarihi" };
         
         foreach (var header in headerCells)
         {
             var cell = new PdfPCell(new Phrase(header, headerFont))
             {
-                BackgroundColor = BaseColor.DARK_GRAY,
+                BackgroundColor = new BaseColor(64, 64, 64),
                 HorizontalAlignment = Element.ALIGN_CENTER,
                 Padding = 8
             };
@@ -119,7 +119,7 @@ public class PdfExportService : IPdfExportService
         document.Open();
 
         // Header
-        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.DARK_GRAY);
+        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, new BaseColor(64, 64, 64));
         var title = new Paragraph("NOT RAPORU", titleFont)
         {
             Alignment = Element.ALIGN_CENTER,
@@ -140,14 +140,14 @@ public class PdfExportService : IPdfExportService
         table.SetWidths(new float[] { 2f, 3f, 1f, 2f });
 
         // Headers
-        var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE);
+        var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, new BaseColor(255, 255, 255));
         var headers = new[] { "Ders Kodu", "Ders Adı", "Not", "Yorum" };
         
         foreach (var header in headers)
         {
             var cell = new PdfPCell(new Phrase(header, headerFont))
             {
-                BackgroundColor = BaseColor.DARK_GRAY,
+                BackgroundColor = new BaseColor(64, 64, 64),
                 HorizontalAlignment = Element.ALIGN_CENTER,
                 Padding = 8
             };
@@ -156,7 +156,7 @@ public class PdfExportService : IPdfExportService
 
         // Data
         var dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
-        var grades = new List<double>();
+        var grades = new List<decimal>();
         
         foreach (var enrollment in student.Enrollments)
         {
@@ -229,7 +229,7 @@ public class PdfExportService : IPdfExportService
         document.Open();
 
         // Header
-        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.DARK_GRAY);
+        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, new BaseColor(64, 64, 64));
         var title = new Paragraph("DEVAMSIZLIK RAPORU", titleFont)
         {
             Alignment = Element.ALIGN_CENTER,
@@ -250,14 +250,14 @@ public class PdfExportService : IPdfExportService
         table.SetWidths(new float[] { 3f, 2f, 2f, 1f });
 
         // Headers
-        var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE);
+        var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, new BaseColor(255, 255, 255));
         var headers = new[] { "Ders", "Tarih", "Saat", "Durum" };
         
         foreach (var header in headers)
         {
             var cell = new PdfPCell(new Phrase(header, headerFont))
             {
-                BackgroundColor = BaseColor.DARK_GRAY,
+                BackgroundColor = new BaseColor(64, 64, 64),
                 HorizontalAlignment = Element.ALIGN_CENTER,
                 Padding = 8
             };
@@ -276,7 +276,7 @@ public class PdfExportService : IPdfExportService
             table.AddCell(new PdfPCell(new Phrase(record.Date.ToString("HH:mm"), dataFont)) { Padding = 5 });
             
             var status = record.Present ? "Katıldı" : "Katılmadı";
-            var statusColor = record.Present ? BaseColor.GREEN : BaseColor.RED;
+            var statusColor = record.Present ? new BaseColor(0, 128, 0) : new BaseColor(255, 0, 0);
             var statusCell = new PdfPCell(new Phrase(status, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, statusColor)))
             {
                 Padding = 5,
@@ -330,7 +330,7 @@ public class PdfExportService : IPdfExportService
         document.Open();
 
         // Header
-        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.DARK_GRAY);
+        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, new BaseColor(64, 64, 64));
         var title = new Paragraph("DERS RAPORU", titleFont)
         {
             Alignment = Element.ALIGN_CENTER,
@@ -351,14 +351,14 @@ public class PdfExportService : IPdfExportService
         table.SetWidths(new float[] { 1f, 3f, 2f, 2f });
 
         // Headers
-        var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE);
+        var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, new BaseColor(255, 255, 255));
         var headers = new[] { "ID", "Öğrenci", "Not", "Yorum" };
         
         foreach (var header in headers)
         {
             var cell = new PdfPCell(new Phrase(header, headerFont))
             {
-                BackgroundColor = BaseColor.DARK_GRAY,
+                BackgroundColor = new BaseColor(64, 64, 64),
                 HorizontalAlignment = Element.ALIGN_CENTER,
                 Padding = 8
             };
@@ -367,7 +367,7 @@ public class PdfExportService : IPdfExportService
 
         // Data
         var dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
-        var grades = new List<double>();
+        var grades = new List<decimal>();
         
         foreach (var enrollment in course.Enrollments.OrderBy(e => e.Student.User.FullName))
         {

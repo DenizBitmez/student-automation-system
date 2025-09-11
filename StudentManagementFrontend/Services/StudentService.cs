@@ -18,9 +18,31 @@ public class StudentService
         return await _httpClient.GetFromJsonAsync<List<Student>>(BaseUrl) ?? new List<Student>();
     }
 
+    public async Task<IEnumerable<Student>> GetAllStudentsAsync()
+    {
+        return await _httpClient.GetFromJsonAsync<List<Student>>(BaseUrl) ?? new List<Student>();
+    }
+
     public async Task<Student> GetStudentAsync(int id)
     {
         return await _httpClient.GetFromJsonAsync<Student>($"{BaseUrl}/{id}");
+    }
+
+    public async Task<Student?> GetStudentByIdAsync(int id)
+    {
+        try
+        {
+            return await _httpClient.GetFromJsonAsync<Student>($"{BaseUrl}/{id}");
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching student with ID {id}: {ex.Message}");
+            return null;
+        }
     }
 
     public async Task<Student> AddStudentAsync(Student student)
@@ -36,9 +58,17 @@ public class StudentService
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task DeleteStudentAsync(int id)
+    public async Task<bool> DeleteStudentAsync(int id)
     {
-        var response = await _httpClient.DeleteAsync($"{BaseUrl}/{id}");
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"{BaseUrl}/{id}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting student with ID {id}: {ex.Message}");
+            return false;
+        }
     }
 }
