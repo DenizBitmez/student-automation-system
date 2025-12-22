@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GVGt8t9miyM=",
+  "dgSpecHash": "sLWSzHn6mE4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\deniz\\source\\repos\\OgrenciOtomasyonSistemi\\StudentManagementFrontend\\StudentManagementFrontend.csproj",
+  "projectFilePath": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\StudentManagementFrontend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\deniz\\.nuget\\packages\\blazored.localstorage\\4.5.0\\blazored.localstorage.4.5.0.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\chartjs.blazor.fork\\2.0.2\\chartjs.blazor.fork.2.0.2.nupkg.sha512",

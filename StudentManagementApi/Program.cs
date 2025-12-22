@@ -31,7 +31,12 @@ app.MapHub<StudentManagementApi.Hubs.NotificationHub>("/notificationHub");
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await context.Database.MigrateAsync();
+    
+    // Only run migrations for relational databases (skips for InMemory during tests)
+    if (context.Database.IsRelational())
+    {
+        await context.Database.MigrateAsync();
+    }
 }
 
 await Seed.InitializeAsync(app.Services);

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "enWzI1wcOM0=",
+  "dgSpecHash": "k+wPB8EbcKo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\deniz\\source\\repos\\OgrenciOtomasyonSistemi\\StudentManagementApi\\StudentManagementApi.csproj",
+  "projectFilePath": "C:\\Users\\deniz\\student-automation-system\\StudentManagementApi\\StudentManagementApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\deniz\\.nuget\\packages\\bouncycastle.cryptography\\2.4.0\\bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\efcore.namingconventions\\9.0.0\\efcore.namingconventions.9.0.0.nupkg.sha512",

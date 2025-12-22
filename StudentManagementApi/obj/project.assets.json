@@ -5836,11 +5836,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\deniz\\source\\repos\\OgrenciOtomasyonSistemi\\StudentManagementApi\\StudentManagementApi.csproj",
+      "projectUniqueName": "C:\\Users\\deniz\\student-automation-system\\StudentManagementApi\\StudentManagementApi.csproj",
       "projectName": "StudentManagementApi",
-      "projectPath": "C:\\Users\\deniz\\source\\repos\\OgrenciOtomasyonSistemi\\StudentManagementApi\\StudentManagementApi.csproj",
+      "projectPath": "C:\\Users\\deniz\\student-automation-system\\StudentManagementApi\\StudentManagementApi.csproj",
       "packagesPath": "C:\\Users\\deniz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\deniz\\source\\repos\\OgrenciOtomasyonSistemi\\StudentManagementApi\\obj\\",
+      "outputPath": "C:\\Users\\deniz\\student-automation-system\\StudentManagementApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

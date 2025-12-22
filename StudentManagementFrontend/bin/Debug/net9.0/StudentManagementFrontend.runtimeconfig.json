@@ -12,7 +12,6 @@
       }
     ],
     "configProperties": {
-      "Microsoft.AspNetCore.Components.Routing.RegexConstraintSupport": false,
       "System.GC.Server": true,
       "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false
     }
