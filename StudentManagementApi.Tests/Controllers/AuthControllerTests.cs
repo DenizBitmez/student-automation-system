@@ -29,13 +29,7 @@ public class AuthControllerTests
     public async Task Register_ValidRequest_ReturnsOk()
     {
         // Arrange
-        var registerDto = new RegisterDto
-        {
-            Email = "test@test.com",
-            Password = "Password123!",
-            FullName = "Test User",
-            Role = "Student"
-        };
+        var registerDto = new RegisterDto("test@test.com", "Password123!", "Test User", "Student");
 
         _roleManagerMock.Setup(x => x.RoleExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
@@ -57,13 +51,7 @@ public class AuthControllerTests
     public async Task Register_InvalidRole_ReturnsBadRequest()
     {
         // Arrange
-        var registerDto = new RegisterDto
-        {
-            Email = "test@test.com",
-            Password = "Password123!",
-            FullName = "Test User",
-            Role = "InvalidRole"
-        };
+        var registerDto = new RegisterDto("test@test.com", "Password123!", "Test User", "InvalidRole");
 
         _roleManagerMock.Setup(x => x.RoleExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
@@ -79,11 +67,7 @@ public class AuthControllerTests
     public async Task Login_ValidCredentials_ReturnsAuthResponse()
     {
         // Arrange
-        var loginDto = new LoginDto
-        {
-            Email = "test@test.com",
-            Password = "Password123!"
-        };
+        var loginDto = new LoginDto("test@test.com", "Password123!");
 
         var user = new ApplicationUser
         {
@@ -116,11 +100,7 @@ public class AuthControllerTests
     public async Task Login_InvalidCredentials_ReturnsUnauthorized()
     {
         // Arrange
-        var loginDto = new LoginDto
-        {
-            Email = "test@test.com",
-            Password = "WrongPassword"
-        };
+        var loginDto = new LoginDto("test@test.com", "WrongPassword");
 
         _userManagerMock.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync((ApplicationUser)null);

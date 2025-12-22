@@ -53,5 +53,20 @@ namespace StudentManagementApi.Controllers
 			await db.SaveChangesAsync();
 			return NoContent();
 		}
+
+		[HttpDelete("{id:int}")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var s = await db.Students.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
+			if (s is null) return NotFound();
+			
+			db.Students.Remove(s);
+            if(s.User != null) {
+			    await um.DeleteAsync(s.User);
+            }
+            
+			await db.SaveChangesAsync();
+			return NoContent();
+		}
 	}
 }

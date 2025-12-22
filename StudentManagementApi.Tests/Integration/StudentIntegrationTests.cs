@@ -46,23 +46,13 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
     public async Task AuthFlow_RegisterAndLogin_ShouldWork()
     {
         // Register a new admin user
-        var registerDto = new RegisterDto
-        {
-            Email = "admin@test.com",
-            Password = "Password123!",
-            FullName = "Test Admin",
-            Role = "Admin"
-        };
+        var registerDto = new RegisterDto("admin@test.com", "Password123!", "Test Admin", "Admin");
 
         var registerResponse = await _client.PostAsJsonAsync("/api/auth/register", registerDto);
         registerResponse.Should().BeSuccessful();
 
         // Login with the registered user
-        var loginDto = new LoginDto
-        {
-            Email = registerDto.Email,
-            Password = registerDto.Password
-        };
+        var loginDto = new LoginDto(registerDto.Email, registerDto.Password);
 
         var loginResponse = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
         loginResponse.Should().BeSuccessful();
@@ -85,12 +75,7 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
         // Create a student
-        var createStudentDto = new StudentCreateDto
-        {
-            Email = "student@test.com",
-            Password = "Password123!",
-            FullName = "Test Student"
-        };
+        var createStudentDto = new StudentCreateDto("student@test.com", "Test Student", "Password123!");
 
         var createResponse = await _client.PostAsJsonAsync("/api/student", createStudentDto);
         createResponse.Should().BeSuccessful();
@@ -116,11 +101,7 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
         student.Email.Should().Be(createdStudent.Email);
 
         // Update student
-        var updateDto = new StudentUpdateDto
-        {
-            Email = "updated@test.com",
-            FullName = "Updated Student"
-        };
+        var updateDto = new StudentUpdateDto("Updated Student");
 
         var updateResponse = await _client.PutAsJsonAsync($"/api/student/{createdStudent.Id}", updateDto);
         updateResponse.Should().BeSuccessful();
@@ -155,12 +136,7 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", studentToken);
 
         // Try to create a student (should be forbidden for student role)
-        var createStudentDto = new StudentCreateDto
-        {
-            Email = "newstudent@test.com",
-            Password = "Password123!",
-            FullName = "New Student"
-        };
+        var createStudentDto = new StudentCreateDto("newstudent@test.com", "New Student", "Password123!");
 
         var response = await _client.PostAsJsonAsync("/api/student", createStudentDto);
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
@@ -169,22 +145,12 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
     private async Task<string> GetAdminTokenAsync()
     {
         // Register admin
-        var registerDto = new RegisterDto
-        {
-            Email = $"admin{Guid.NewGuid()}@test.com",
-            Password = "Password123!",
-            FullName = "Test Admin",
-            Role = "Admin"
-        };
+        var registerDto = new RegisterDto($"admin{Guid.NewGuid()}@test.com", "Password123!", "Test Admin", "Admin");
 
         await _client.PostAsJsonAsync("/api/auth/register", registerDto);
 
         // Login admin
-        var loginDto = new LoginDto
-        {
-            Email = registerDto.Email,
-            Password = registerDto.Password
-        };
+        var loginDto = new LoginDto(registerDto.Email, registerDto.Password);
 
         var response = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
         var authResponse = await response.Content.ReadFromJsonAsync<AuthResponse>();
@@ -195,22 +161,12 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
     private async Task<string> GetStudentTokenAsync()
     {
         // Register student
-        var registerDto = new RegisterDto
-        {
-            Email = $"student{Guid.NewGuid()}@test.com",
-            Password = "Password123!",
-            FullName = "Test Student",
-            Role = "Student"
-        };
+        var registerDto = new RegisterDto($"student{Guid.NewGuid()}@test.com", "Password123!", "Test Student", "Student");
 
         await _client.PostAsJsonAsync("/api/auth/register", registerDto);
 
         // Login student
-        var loginDto = new LoginDto
-        {
-            Email = registerDto.Email,
-            Password = registerDto.Password
-        };
+        var loginDto = new LoginDto(registerDto.Email, registerDto.Password);
 
         var response = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
         var authResponse = await response.Content.ReadFromJsonAsync<AuthResponse>();

@@ -56,12 +56,7 @@ public class StudentControllerTests : IDisposable
     public async Task Create_ValidStudent_ReturnsCreatedStudent()
     {
         // Arrange
-        var createDto = new StudentCreateDto
-        {
-            Email = "newstudent@test.com",
-            Password = "Password123!",
-            FullName = "New Student"
-        };
+        var createDto = new StudentCreateDto("newstudent@test.com", "New Student", "Password123!");
 
         var user = new ApplicationUser
         {
@@ -96,12 +91,7 @@ public class StudentControllerTests : IDisposable
     public async Task Create_UserCreationFails_ReturnsBadRequest()
     {
         // Arrange
-        var createDto = new StudentCreateDto
-        {
-            Email = "invalid@test.com",
-            Password = "weak",
-            FullName = "Test Student"
-        };
+        var createDto = new StudentCreateDto("invalid@test.com", "Test Student", "weak");
 
         var identityError = new IdentityError { Description = "Password too weak" };
         _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
@@ -158,22 +148,20 @@ public class StudentControllerTests : IDisposable
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
 
-        var updateDto = new StudentUpdateDto
-        {
-            Email = "updated@test.com",
-            FullName = "Updated Name"
-        };
+        var updateDto = new StudentUpdateDto("Updated Name");
 
         // Act
         var result = await _controller.Update(1, updateDto);
 
         // Assert
-        result.Result.Should().BeOfType<OkObjectResult>();
-        var okResult = result.Result as OkObjectResult;
-        var studentVm = okResult.Value as StudentVm;
-        studentVm.Should().NotBeNull();
-        studentVm.FullName.Should().Be("Updated Name");
-        studentVm.Email.Should().Be("updated@test.com");
+        result.Should().BeOfType<NoContentResult>();
+
+        // Verify update in database
+        var updatedStudent = await _context.Students.Include(s => s.User).FirstOrDefaultAsync(s => s.Id == 1);
+        updatedStudent.Should().NotBeNull();
+        updatedStudent.User.FullName.Should().Be("Updated Name");
+        updatedStudent.User.Email.Should().Be("student@test.com");
+
     }
 
     [Fact]
