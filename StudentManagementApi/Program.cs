@@ -42,3 +42,5 @@ using (var scope = app.Services.CreateScope())
 await Seed.InitializeAsync(app.Services);
 
 app.Run();
+
+public partial class Program { }
