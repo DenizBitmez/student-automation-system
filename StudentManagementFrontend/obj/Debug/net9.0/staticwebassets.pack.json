@@ -9,12 +9,12 @@
       "PackagePath": "staticwebassets\\StudentManagementFrontend.lznygv93k9.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\app.css",
-      "PackagePath": "staticwebassets\\app.css"
-    },
-    {
       "Id": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\appsettings.json",
       "PackagePath": "staticwebassets\\appsettings.json"
+    },
+    {
+      "Id": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
       "Id": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\favicon.png",

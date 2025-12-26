@@ -13,7 +13,7 @@ public class Student
     public string? Class { get; set; }
     public DateTime EnrollmentDate { get; set; } = DateTime.Now;
     
-    // Computed properties
-    public string FullName => $"{FirstName} {LastName}";
-    public DateTime EnrolledAt => EnrollmentDate;
+    // Properties matching Backend DTO
+    public string FullName { get; set; } = string.Empty;
+    public DateTime EnrolledAt { get; set; } // Set by backend DTO
 }

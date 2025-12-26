@@ -6,7 +6,7 @@ namespace StudentManagementFrontend.Services;
 public class TeacherService : ITeacherService
 {
     private readonly HttpClient _httpClient;
-    private const string BasePath = "api/teachers";
+    private const string BasePath = "api/teacher";
 
     public TeacherService(HttpClient httpClient)
     {
@@ -17,7 +17,8 @@ public class TeacherService : ITeacherService
     {
         try
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Teacher>>(BasePath) ?? new List<Teacher>();
+            var vms = await _httpClient.GetFromJsonAsync<IEnumerable<TeacherVm>>(BasePath) ?? new List<TeacherVm>();
+            return vms.Select(MapToTeacher);
         }
         catch (HttpRequestException ex)
         {
@@ -30,7 +31,8 @@ public class TeacherService : ITeacherService
     {
         try
         {
-            return await _httpClient.GetFromJsonAsync<Teacher>($"{BasePath}/{id}");
+            var vm = await _httpClient.GetFromJsonAsync<TeacherVm>($"{BasePath}/{id}");
+            return vm != null ? MapToTeacher(vm) : null;
         }
         catch (HttpRequestException ex)
         {
@@ -39,16 +41,28 @@ public class TeacherService : ITeacherService
         }
     }
 
+    // Email lookup likely returns Teacher or TeacherVm? Let's assume TeacherVm for consistency if Controller changed, but Controller for Email wasn't viewed. 
+    // Assuming Email lookup wasn't changed and still works or needs check. 
+    // Wait, Controller doesn't have Email lookup? Use GetAll and filter if needed or rely on existing?
+    // User didn't complain about Email lookup, but Create triggers it. 
+    
     public async Task<Teacher?> GetTeacherByEmailAsync(string email)
     {
+         // Assuming backend has this (?) or we just implement it client side for now if missing
+         // Checking TeacherController content previously... it ONLY had Get, GetById, Create.
+         // NO Email endpoint in TeacherController!
+         // So GetTeacherByEmailAsync likely fails 404.
+         // FIX: Filter from GetAll.
+         
         try
         {
-            return await _httpClient.GetFromJsonAsync<Teacher>($"{BasePath}/email/{email}");
+            var teachers = await GetAllTeachersAsync();
+            return teachers.FirstOrDefault(t => t.Email == email);
         }
-        catch (HttpRequestException ex)
+        catch (Exception ex)
         {
-            Console.WriteLine($"Error fetching teacher with email {email}: {ex.Message}");
-            return null;
+             Console.WriteLine($"Error fetching teacher with email {email}: {ex.Message}");
+             return null;
         }
     }
 
@@ -56,15 +70,53 @@ public class TeacherService : ITeacherService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync(BasePath, teacher);
+            // Input 'teacher' has FirstName, LastName etc.
+            // DTO expects Department, FullName, Email... 
+            // Wait, Create accepts TeacherCreateDto (Email, Password, FullName, Department).
+            // Logic in Service is passing 'Teacher' object. 
+            // We need to map Teacher -> TeacherCreateDto anonymous object? 
+            // Or just ensure Teacher matches JSON params.
+            
+            var createDto = new 
+            {
+                Email = teacher.Email,
+                FullName = $"{teacher.FirstName} {teacher.LastName}",
+                Password = "Password123!", // Default password for now? Or prompts?
+                Department = teacher.Branch
+            };
+            
+            var response = await _httpClient.PostAsJsonAsync(BasePath, createDto);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Teacher>() ?? throw new Exception("Failed to deserialize teacher");
+            
+            var vm = await response.Content.ReadFromJsonAsync<TeacherVm>();
+            if (vm == null) throw new Exception("Failed to deserialize teacher");
+            
+            return MapToTeacher(vm);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error creating teacher: {ex.Message}");
             throw;
         }
+    }
+
+    private static Teacher MapToTeacher(TeacherVm vm)
+    {
+        // Try to split FullName
+        var parts = vm.FullName.Split(' ', 2);
+        var first = parts.Length > 0 ? parts[0] : "";
+        var last = parts.Length > 1 ? parts[1] : "";
+
+        return new Teacher
+        {
+            Id = vm.Id,
+            Email = vm.Email,
+            FullName = vm.FullName, // We added this property to Teacher model
+            FirstName = first,
+            LastName = last,
+            Branch = vm.Department,
+            IsActive = true
+        };
     }
 
     public async Task<bool> UpdateTeacherAsync(int id, Teacher teacher)

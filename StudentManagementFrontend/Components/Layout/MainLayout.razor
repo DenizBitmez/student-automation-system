@@ -1,9 +1,11 @@
 ﻿@inherits LayoutComponentBase
 @using StudentManagementFrontend.Models.Auth
 @using Microsoft.AspNetCore.Authorization
+@using Blazored.LocalStorage
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IAuthService AuthService
 @inject NavigationManager Navigation
+@inject ILocalStorageService LocalStorage
 
 <div class="page">
     <div class="sidebar">
@@ -13,15 +15,23 @@
     <main>
         <div class="top-row px-4">
             <div class="d-flex align-items-center justify-content-between w-100">
-                <div class="d-flex align-items-center">
-                    <a href="/giris" class="btn btn-outline-primary btn-sm me-2">Giriş Yap</a>
-                    <a href="/kayit" class="btn btn-primary btn-sm">Kayıt Ol</a>
-                </div>
-                
-                <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-outline-danger btn-sm" @onclick="Logout">
-                        <i class="bi bi-box-arrow-right"></i> Çıkış Yap
-                    </button>
+                <div class="d-flex align-items-center w-100 justify-content-end">
+                    <AuthorizeView>
+                        <Authorized>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="me-3">Hoşgeldiniz, @context.User.Identity?.Name</span>
+                                <button class="btn btn-outline-danger btn-sm" @onclick="Logout">
+                                    <i class="bi bi-box-arrow-right"></i> Çıkış Yap
+                                </button>
+                            </div>
+                        </Authorized>
+                        <NotAuthorized>
+                            <div class="d-flex align-items-center">
+                                <a href="/giris" class="btn btn-outline-primary btn-sm me-2">Giriş Yap</a>
+                                <a href="/kayit" class="btn btn-primary btn-sm">Kayıt Ol</a>
+                            </div>
+                        </NotAuthorized>
+                    </AuthorizeView>
                 </div>
             </div>
         </div>
@@ -39,6 +49,28 @@
 </div>
 
 @code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var token = await LocalStorage.GetItemAsync<string>("authToken");
+                if (!string.IsNullOrEmpty(token))
+                {
+                    if (AuthStateProvider is CustomAuthStateProvider customProvider)
+                    {
+                        customProvider.NotifyUserAuthentication(token);
+                    }
+                }
+            }
+            catch
+            {
+                // Ignored
+            }
+        }
+    }
+
     private async Task Logout()
     {
         await AuthService.LogoutAsync();

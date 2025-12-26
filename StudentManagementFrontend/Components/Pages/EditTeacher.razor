@@ -25,7 +25,7 @@ else if (Teacher == null)
     </div>
     
     <div class="mt-3">
-        <button class="btn btn-outline-secondary" @onclick="() => Navigation.NavigateTo(ReturnUrl)">
+        <button class="btn btn-outline-secondary" @onclick='() => Navigation.NavigateTo(ReturnUrl ?? "/ogretmenler")'>
             <i class="bi bi-arrow-left me-2"></i>Geri Dön
         </button>
     </div>
@@ -183,6 +183,6 @@ else
     
     private void Cancel()
     {
-        Navigation.NavigateTo(!string.IsNullOrEmpty(ReturnUrl) ? ReturnUrl : $"ogretmen/{TeacherId}");
+        Navigation.NavigateTo(!string.IsNullOrEmpty(ReturnUrl) ? ReturnUrl! : $"ogretmen/{TeacherId}");
     }
 }

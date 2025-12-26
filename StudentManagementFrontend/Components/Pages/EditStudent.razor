@@ -57,9 +57,9 @@ else
     [Parameter]
     public int Id { get; set; }
 
-    private Student student;
+    private Student? student;
     private bool isLoading = true;
-    private string errorMessage;
+    private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {

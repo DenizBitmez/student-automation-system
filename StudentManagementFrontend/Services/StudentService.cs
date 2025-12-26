@@ -6,7 +6,7 @@ namespace StudentManagementFrontend.Services;
 public class StudentService
 {
     private readonly HttpClient _httpClient;
-    private const string BaseUrl = "api/ogrenciler";
+    private const string BaseUrl = "api/student";
 
     public StudentService(HttpClient httpClient)
     {
@@ -15,24 +15,28 @@ public class StudentService
 
     public async Task<List<Student>> GetStudentsAsync()
     {
-        return await _httpClient.GetFromJsonAsync<List<Student>>(BaseUrl) ?? new List<Student>();
+        var vms = await _httpClient.GetFromJsonAsync<List<StudentVm>>(BaseUrl) ?? new List<StudentVm>();
+        return vms.Select(MapToStudent).ToList();
     }
 
     public async Task<IEnumerable<Student>> GetAllStudentsAsync()
     {
-        return await _httpClient.GetFromJsonAsync<List<Student>>(BaseUrl) ?? new List<Student>();
+        var vms = await _httpClient.GetFromJsonAsync<List<StudentVm>>(BaseUrl) ?? new List<StudentVm>();
+        return vms.Select(MapToStudent);
     }
 
-    public async Task<Student> GetStudentAsync(int id)
+    public async Task<Student?> GetStudentAsync(int id)
     {
-        return await _httpClient.GetFromJsonAsync<Student>($"{BaseUrl}/{id}");
+        var vm = await _httpClient.GetFromJsonAsync<StudentVm>($"{BaseUrl}/{id}");
+        return vm != null ? MapToStudent(vm) : null;
     }
 
     public async Task<Student?> GetStudentByIdAsync(int id)
     {
         try
         {
-            return await _httpClient.GetFromJsonAsync<Student>($"{BaseUrl}/{id}");
+            var vm = await _httpClient.GetFromJsonAsync<StudentVm>($"{BaseUrl}/{id}");
+            return vm != null ? MapToStudent(vm) : null;
         }
         catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
@@ -45,11 +49,37 @@ public class StudentService
         }
     }
 
-    public async Task<Student> AddStudentAsync(Student student)
+    public async Task<Student?> AddStudentAsync(Student student)
     {
-        var response = await _httpClient.PostAsJsonAsync(BaseUrl, student);
+        var createDto = new
+        {
+             FirstName = student.FirstName,
+             LastName = student.LastName,
+             Email = student.Email,
+             StudentNumber = student.StudentNumber,
+             Password = "Password123!" // Default
+        };
+        
+        var response = await _httpClient.PostAsJsonAsync(BaseUrl, createDto);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<Student>();
+        var vm = await response.Content.ReadFromJsonAsync<StudentVm>();
+        return vm != null ? MapToStudent(vm) : null;
+    }
+    
+    private static Student MapToStudent(StudentVm vm)
+    {
+        // Split FullName if possible, or leave/use FullName property in Model
+        var parts = vm.FullName.Split(' ', 2);
+        return new Student
+        {
+            Id = vm.Id,
+            StudentNumber = vm.StudentNumber,
+            Email = vm.Email,
+            FullName = vm.FullName,
+            FirstName = parts.Length > 0 ? parts[0] : "",
+            LastName = parts.Length > 1 ? parts[1] : "",
+            EnrolledAt = vm.EnrolledAt
+        };
     }
 
     public async Task UpdateStudentAsync(Student student)

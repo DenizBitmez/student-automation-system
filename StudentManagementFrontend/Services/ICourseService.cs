@@ -12,7 +12,7 @@ namespace StudentManagementFrontend.Services
         Task<Course> CreateCourseAsync(Course course);
         Task<bool> UpdateCourseAsync(int id, Course course);
         Task<bool> DeleteCourseAsync(int id);
-        Task<IEnumerable<Student>> GetEnrolledStudentsAsync(int courseId);
+        Task<IEnumerable<CourseStudentVm>> GetEnrolledStudentsAsync(int courseId);
         Task<bool> EnrollStudentAsync(int courseId, int studentId);
         Task<bool> RemoveStudentFromCourseAsync(int courseId, int studentId);
         Task<bool> UpdateStudentGradeAsync(int courseId, int studentId, double grade);

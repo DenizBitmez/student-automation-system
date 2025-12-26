@@ -58,7 +58,7 @@ namespace StudentManagementApi.Extensions
 			services.AddCors(opt =>
 			{
 				opt.AddPolicy("client", p =>
-				p.WithOrigins("http://localhost:5173", "http://localhost:5004")
+				p.WithOrigins("http://localhost:5173", "http://localhost:5004", "http://localhost:5186", "https://localhost:7187")
 				.AllowAnyHeader().AllowAnyMethod());
 			});
 

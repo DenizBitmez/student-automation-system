@@ -4,6 +4,9 @@
 @using StudentManagementFrontend.Services
 @using Microsoft.AspNetCore.Authorization
 @inject ICourseService CourseService
+@inject IGradeService GradeService
+@inject IAttendanceService AttendanceService
+@inject IEnrollmentService EnrollmentService
 @inject NavigationManager Navigation
 @inject ILogger<CourseDetail> Logger
 
@@ -23,7 +26,6 @@ else if (Course == null)
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         Ders bulunamadı veya yüklenirken bir hata oluştu.
     </div>
-    
     <div class="mt-3">
         <button class="btn btn-outline-secondary" @onclick="@(() => Navigation.NavigateTo(ReturnUrl))">
             <i class="bi bi-arrow-left me-2"></i>Geri Dön
@@ -44,15 +46,17 @@ else
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-12">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h2 class="h5 mb-0">Ders Bilgileri</h2>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0"><i class="bi bi-info-circle me-2"></i>Ders Bilgileri</h2>
                         <div>
-                            <button class="btn btn-warning me-2" @onclick="@(() => Navigation.NavigateTo($"/ders/duzenle/{Course.Id}"))">
-                                <i class="bi bi-pencil"></i> Düzenle
-                            </button>
+                             <AuthorizeView Roles="Admin">
+                                <button class="btn btn-warning me-2" @onclick="@(() => Navigation.NavigateTo($"/ders/duzenle/{Course.Id}"))">
+                                    <i class="bi bi-pencil"></i> Düzenle
+                                </button>
+                             </AuthorizeView>
                             <button class="btn btn-outline-secondary" @onclick="@(() => Navigation.NavigateTo(ReturnUrl))">
                                 <i class="bi bi-arrow-left"></i> Geri Dön
                             </button>
@@ -61,35 +65,161 @@ else
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Ders Kodu:</label>
-                                    <p class="form-control-plaintext">@Course.Code</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Ders Adı:</label>
-                                    <p class="form-control-plaintext">@Course.Name</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Açıklama:</label>
-                                    <p class="form-control-plaintext">@Course.Description</p>
-                                </div>
+                                <p><strong>Ders Kodu:</strong> @Course.Code</p>
+                                <p><strong>Ders Adı:</strong> @Course.Name</p>
+                                <p><strong>Açıklama:</strong> @Course.Description</p>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Kredi:</label>
-                                    <p class="form-control-plaintext">@Course.Credits</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Dönem:</label>
-                                    <p class="form-control-plaintext">@Course.Semester</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Durum:</label>
-                                    <span class="badge bg-success">Aktif</span>
-                                </div>
+                                <p><strong>Kredi:</strong> @Course.Credits</p>
+                                <p><strong>Dönem:</strong> @Course.Semester</p>
+                                <p><strong>Öğretmen:</strong> @Course.TeacherName</p>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <AuthorizeView Roles="Admin,Teacher">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h3 class="h5 mb-0"><i class="bi bi-people me-2"></i>Kayıtlı Öğrenciler</h3>
+                             <button class="btn btn-sm btn-primary" @onclick="OpenEnrollModal">
+                                <i class="bi bi-person-plus me-2"></i>Öğrenci Ekle
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            @if (EnrolledStudents == null)
+                            {
+                                <p>Öğrenciler yükleniyor...</p>
+                            }
+                            else if (!EnrolledStudents.Any())
+                            {
+                                <div class="alert alert-info">Bu derse kayıtlı öğrenci bulunmamaktadır.</div>
+                            }
+                            else
+                            {
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Numara</th>
+                                                <th>Ad Soyad</th>
+                                                <th>Not</th>
+                                                <th>Devamsızlık</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var student in EnrolledStudents)
+                                            {
+                                                <tr>
+                                                    <td>@student.StudentNumber</td>
+                                                    <td>@student.FullName</td>
+                                                    <td>
+                                                        @if (student.Grade.HasValue)
+                                                        {
+                                                            <span class="badge bg-success">@student.Grade</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-muted">-</span>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-info">@student.AttendanceCount</span>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-primary me-1" @onclick="() => OpenGradeModal(student)">
+                                                            <i class="bi bi-pencil-square"></i> Not Gir
+                                                        </button>
+                                                        <button class="btn btn-sm btn-warning me-1" @onclick="() => MarkAttendance(student.EnrollmentId)">
+                                                            <i class="bi bi-check-circle"></i> Yoklama
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AuthorizeView>
+    </div>
+}
+
+@if (ShowGradeModal)
+{
+    <div class="modal show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Not Girişi - @SelectedStudent?.FullName</h5>
+                    <button type="button" class="btn-close" @onclick="CloseGradeModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Not (0-100)</label>
+                        <input type="number" class="form-control" @bind="GradeValue" min="0" max="100" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Yorum</label>
+                        <textarea class="form-control" @bind="GradeComment"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseGradeModal">İptal</button>
+                    <button type="button" class="btn btn-primary" @onclick="SaveGrade">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@inject StudentService StudentService
+
+@* ... (Existing code) ... *@
+
+@if (ShowEnrollModal)
+{
+    <div class="modal show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Öğrenci Ekle</h5>
+                    <button type="button" class="btn-close" @onclick="CloseEnrollModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Öğrenci ara..." @bind="EnrollSearchTerm" @bind:event="oninput" />
+                    </div>
+                    <div class="list-group" style="max-height: 300px; overflow-y: auto;">
+                        @if (FilteredAvailableStudents == null || !FilteredAvailableStudents.Any())
+                        {
+                            <div class="text-center p-3 text-muted">Öğrenci bulunamadı.</div>
+                        }
+                        else
+                        {
+                            @foreach (var student in FilteredAvailableStudents)
+                            {
+                                <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" @onclick="() => EnrollStudent(student.Id)">
+                                    <div>
+                                        <div class="fw-bold">@student.FullName</div>
+                                        <small class="text-muted">@student.StudentNumber</small>
+                                    </div>
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseEnrollModal">Kapat</button>
                 </div>
             </div>
         </div>
@@ -101,27 +231,109 @@ else
     [Parameter] public string ReturnUrl { get; set; } = "/dersler";
     
     private Course? Course;
+    private IEnumerable<CourseStudentVm>? EnrolledStudents;
     private bool IsLoading = true;
+    
+    // Grade Modal
+    private bool ShowGradeModal = false;
+    private CourseStudentVm? SelectedStudent;
+    private decimal GradeValue;
+    private string? GradeComment;
+
+    // Enroll Modal
+    private bool ShowEnrollModal = false;
+    private List<Student>? AllStudents;
+    private IEnumerable<Student> FilteredAvailableStudents => 
+        AllStudents?
+        .Where(s => !EnrolledStudents.Any(es => es.StudentId == s.Id) && 
+                    (string.IsNullOrEmpty(EnrollSearchTerm) || s.FullName.ToLower().Contains(EnrollSearchTerm.ToLower()))) 
+        ?? new List<Student>();
+    private string EnrollSearchTerm = "";
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadCourse();
+        await LoadData();
     }
 
-    private async Task LoadCourse()
+    private async Task LoadData()
     {
         try
         {
             IsLoading = true;
             Course = await CourseService.GetCourseByIdAsync(CourseId);
+            if (Course != null)
+            {
+                EnrolledStudents = await CourseService.GetEnrolledStudentsAsync(CourseId);
+            }
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Error loading course with ID {CourseId}", CourseId);
+            Logger.LogError(ex, "Error loading course data");
         }
         finally
         {
             IsLoading = false;
+        }
+    }
+
+    private async Task OpenEnrollModal()
+    {
+        if (AllStudents == null)
+        {
+            AllStudents = (await StudentService.GetAllStudentsAsync()).ToList();
+        }
+        EnrollSearchTerm = "";
+        ShowEnrollModal = true;
+    }
+
+    private void CloseEnrollModal()
+    {
+        ShowEnrollModal = false;
+    }
+
+    private async Task EnrollStudent(int studentId)
+    {
+        var success = await EnrollmentService.EnrollStudentAsync(CourseId, studentId);
+        if (success)
+        {
+            await LoadData();
+            // Optional: Keep modal open or close it? Close it for now.
+             CloseEnrollModal();
+        }
+    }
+
+    private void OpenGradeModal(CourseStudentVm student)
+    {
+        SelectedStudent = student;
+        GradeValue = student.Grade ?? 0;
+        GradeComment = ""; 
+        ShowGradeModal = true;
+    }
+
+    private void CloseGradeModal()
+    {
+        ShowGradeModal = false;
+        SelectedStudent = null;
+    }
+
+    private async Task SaveGrade()
+    {
+        if (SelectedStudent == null) return;
+        
+        var success = await GradeService.SetGradeAsync(SelectedStudent.EnrollmentId, GradeValue, GradeComment);
+        if (success)
+        {
+            await LoadData(); 
+            CloseGradeModal();
+        }
+    }
+
+    private async Task MarkAttendance(int enrollmentId)
+    {
+        var success = await AttendanceService.TickAttendanceAsync(enrollmentId, true);
+         if (success)
+        {
+            await LoadData(); 
         }
     }
 }

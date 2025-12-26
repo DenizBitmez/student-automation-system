@@ -29,7 +29,8 @@ public class AuthService : IAuthService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync("api/auth/login", loginModel);
+            var loginDto = new { Username = loginModel.Username, Password = loginModel.Password };
+            var response = await _httpClient.PostAsJsonAsync("api/auth/login", loginDto);
             
             if (!response.IsSuccessStatusCode)
                 return false;
@@ -58,7 +59,21 @@ public class AuthService : IAuthService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync("api/auth/register", registerModel);
+            var registerDto = new 
+            { 
+                UserName = registerModel.Username,
+                Email = registerModel.Email,
+                Password = registerModel.Password,
+                FullName = $"{registerModel.FirstName} {registerModel.LastName}",
+                Role = registerModel.Role
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("api/auth/register", registerDto);
+            if (!response.IsSuccessStatusCode)
+            {
+               var errorContent = await response.Content.ReadAsStringAsync();
+               Console.WriteLine($"Registration failed: {errorContent}");
+            }
             return response.IsSuccessStatusCode;
         }
         catch (Exception ex)

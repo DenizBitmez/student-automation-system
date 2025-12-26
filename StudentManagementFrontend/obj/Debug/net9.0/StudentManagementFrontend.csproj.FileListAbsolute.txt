@@ -119,9 +119,9 @@ C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementFrontend\ob
 C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.pdb
 C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.genruntimeconfig.cache
 C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementFrontend\obj\Debug\net9.0\ref\StudentManagementFrontend.dll
+C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\web.config
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\appsettings.json
-C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\web.config
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\appsettings.Development.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\appsettings.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\StudentManagementFrontend.deps.json
@@ -183,7 +183,6 @@ C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\scopedcss\projectbundle\StudentManagementFrontend.bundle.scp.css
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\mpzswgcqbu-49ox6r4gbs.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\sxct8pnmfx-49ox6r4gbs.gz
-C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\wifu53e8ul-wo1tx67z4v.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\ld9hglfdkx-c170hrfpsz.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\a2cjwaoy8f-i09bwfq87a.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\fzzgrsf61r-t1cqhe9u97.gz
@@ -249,3 +248,4 @@ C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.pdb
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.genruntimeconfig.cache
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\ref\StudentManagementFrontend.dll
+C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\9nluhscr3m-wo1tx67z4v.gz

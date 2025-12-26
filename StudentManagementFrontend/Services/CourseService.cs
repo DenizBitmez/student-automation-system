@@ -6,7 +6,7 @@ namespace StudentManagementFrontend.Services;
 public class CourseService : ICourseService
 {
     private readonly HttpClient _httpClient;
-    private const string BasePath = "api/courses";
+    private const string BasePath = "api/course";
 
     public CourseService(HttpClient httpClient)
     {
@@ -17,7 +17,8 @@ public class CourseService : ICourseService
     {
         try
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Course>>(BasePath) ?? new List<Course>();
+            var vms = await _httpClient.GetFromJsonAsync<IEnumerable<CourseVm>>(BasePath) ?? new List<CourseVm>();
+            return vms.Select(MapToCourse);
         }
         catch (HttpRequestException ex)
         {
@@ -30,7 +31,8 @@ public class CourseService : ICourseService
     {
         try
         {
-            return await _httpClient.GetFromJsonAsync<Course>($"{BasePath}/{id}");
+            var vm = await _httpClient.GetFromJsonAsync<CourseVm>($"{BasePath}/{id}");
+            return vm != null ? MapToCourse(vm) : null;
         }
         catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
@@ -45,31 +47,49 @@ public class CourseService : ICourseService
 
     public async Task<bool> AddCourseAsync(Course course)
     {
-        try
-        {
-            var response = await _httpClient.PostAsJsonAsync(BasePath, course);
-            return response.IsSuccessStatusCode;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error adding course: {ex.Message}");
-            return false;
-        }
+         try {
+             await CreateCourseAsync(course);
+             return true;
+         } catch { return false; }
     }
 
     public async Task<Course> CreateCourseAsync(Course course)
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync(BasePath, course);
+            var createDto = new 
+            {
+                Code = course.Code,
+                Name = course.Name,
+                TeacherId = course.TeacherId
+            };
+            
+            var response = await _httpClient.PostAsJsonAsync(BasePath, createDto);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Course>() ?? throw new Exception("Failed to deserialize course");
+            var vm = await response.Content.ReadFromJsonAsync<CourseVm>();
+            if (vm == null) throw new Exception("Failed to deserialize course");
+            return MapToCourse(vm);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error creating course: {ex.Message}");
             throw;
         }
+    }
+
+    private static Course MapToCourse(CourseVm vm)
+    {
+        return new Course
+        {
+            Id = vm.Id,
+            Code = vm.Code,
+            Name = vm.Name,
+            TeacherId = vm.TeacherId,
+            TeacherName = vm.TeacherName,
+            Credits = 5,
+            Semester = "Fall",
+            IsActive = vm.Status == CourseStatus.Active
+        };
     }
 
     public async Task<bool> UpdateCourseAsync(int id, Course course)
@@ -113,16 +133,16 @@ public class CourseService : ICourseService
         }
     }
 
-    public async Task<IEnumerable<Student>> GetEnrolledStudentsAsync(int courseId)
+    public async Task<IEnumerable<CourseStudentVm>> GetEnrolledStudentsAsync(int courseId)
     {
         try
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Student>>($"{BasePath}/{courseId}/students") ?? new List<Student>();
+            return await _httpClient.GetFromJsonAsync<IEnumerable<CourseStudentVm>>($"{BasePath}/{courseId}/students") ?? new List<CourseStudentVm>();
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error fetching students for course {courseId}: {ex.Message}");
-            return new List<Student>();
+            return new List<CourseStudentVm>();
         }
     }
 

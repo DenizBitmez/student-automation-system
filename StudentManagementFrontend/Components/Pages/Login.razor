@@ -77,13 +77,23 @@
     private bool IsLoading { get; set; }
     private string ErrorMessage { get; set; } = string.Empty;
     
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        // Check if user is already logged in
-        var token = await LocalStorage.GetItemAsync<string>("authToken");
-        if (!string.IsNullOrEmpty(token))
+        if (firstRender)
         {
-            Navigation.NavigateTo("/");
+            try
+            {
+                // Check if user is already logged in
+                var token = await LocalStorage.GetItemAsync<string>("authToken");
+                if (!string.IsNullOrEmpty(token))
+                {
+                    Navigation.NavigateTo("/");
+                }
+            }
+            catch
+            {
+                // Ignore parsing errors or if JS is not ready
+            }
         }
     }
     

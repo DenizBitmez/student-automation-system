@@ -29,7 +29,7 @@ else
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/ogrenciler">Öğrenciler</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">@student.FirstName @student.LastName</li>
+                        <li class="breadcrumb-item active" aria-current="page">@student.FullName</li>
                     </ol>
                 </nav>
             </div>
@@ -53,12 +53,8 @@ else
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold">Ad:</label>
-                                    <p class="form-control-plaintext">@student.FirstName</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Soyad:</label>
-                                    <p class="form-control-plaintext">@student.LastName</p>
+                                    <label class="form-label fw-bold">Ad Soyad:</label>
+                                    <p class="form-control-plaintext">@student.FullName</p>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">E-posta:</label>

@@ -21,10 +21,15 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddr
 builder.Services.AddBlazoredLocalStorage();
 
 // Register services
+// Register services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IGradeService, GradeService>();
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 
 // Configure authentication
 builder.Services.AddAuthorizationCore();
@@ -42,9 +47,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
-
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

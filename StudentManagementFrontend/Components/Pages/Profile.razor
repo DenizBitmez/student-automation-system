@@ -1,0 +1,95 @@
+@page "/profil"
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+
+<PageTitle>Profilim</PageTitle>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h3 class="mb-0"><i class="bi bi-person-circle me-2"></i>Kullanıcı Profili</h3>
+                </div>
+                <div class="card-body">
+                    <AuthorizeView>
+                        <Authorized>
+                            <div class="text-center mb-4">
+                                <div class="avatar-circle">
+                                    <span class="initials">@GetInitials(context.User)</span>
+                                </div>
+                                <h4 class="mt-3">@context.User.Identity?.Name</h4>
+                                <p class="text-muted">
+                                    @foreach (var claim in context.User.Claims.Where(c => c.Type == ClaimTypes.Role))
+                                    {
+                                        <span class="badge bg-primary me-1">@claim.Value</span>
+                                    }
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="fw-bold">Kullanıcı Adı:</label>
+                                        <p>@context.User.Identity?.Name</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="fw-bold">Roller:</label>
+                                        <p>
+                                            @string.Join(", ", context.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value))
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Additional info could go here -->
+                                     <div class="alert alert-info">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Şu anda temel profil bilgilerinizi görüntülüyorsunuz.
+                                    </div>
+                                </div>
+                            </div>
+                        </Authorized>
+                        <NotAuthorized>
+                            <div class="alert alert-warning">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                Profilinizi görüntülemek için giriş yapmalısınız.
+                            </div>
+                            <button class="btn btn-primary" @onclick="GoToLogin">Giriş Yap</button>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+        background-color: #6c757d;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+</style>
+
+@code {
+    private string GetInitials(ClaimsPrincipal user)
+    {
+        var name = user.Identity?.Name;
+        if (string.IsNullOrEmpty(name)) return "U";
+        return name.Substring(0, 1).ToUpper();
+    }
+
+    private void GoToLogin()
+    {
+        Navigation.NavigateTo("/giris");
+    }
+}

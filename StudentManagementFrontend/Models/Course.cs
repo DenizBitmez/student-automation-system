@@ -34,6 +34,8 @@ namespace StudentManagementFrontend.Models
         public int? TeacherId { get; set; }
         
         public Teacher? Teacher { get; set; }
+
+        public string TeacherName { get; set; } = string.Empty;
         
         // Navigation properties
         public ICollection<StudentCourse>? StudentCourses { get; set; }

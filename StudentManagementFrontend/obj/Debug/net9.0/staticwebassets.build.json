@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "hMOk/dnxVfmaA7sOlvUQwHBFlgMXgq5PsbIeLXrR9o0=",
+  "Hash": "ckN1CnXaWhyPe/bN3/yOJ6vJZpt3J61tPGkuTkiGPx0=",
   "Source": "StudentManagementFrontend",
   "BasePath": "_content/StudentManagementFrontend",
   "Mode": "Default",
@@ -288,6 +288,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "SourceId": "StudentManagementFrontend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/StudentManagementFrontend",
+      "RelativePath": "css/app#[.{fingerprint=wo1tx67z4v}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "pw1kfn6v69",
+      "Integrity": "V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css"
     },
     {
       "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\a2cjwaoy8f-i09bwfq87a.gz",
@@ -1067,27 +1088,6 @@
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\wifu53e8ul-wo1tx67z4v.gz",
-      "SourceId": "StudentManagementFrontend",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\",
-      "BasePath": "_content/StudentManagementFrontend",
-      "RelativePath": "app#[.{fingerprint=wo1tx67z4v}]?.css.gz",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\app.css",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "Fingerprint": "pw1kfn6v69",
-      "Integrity": "V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\app.css"
-    },
-    {
       "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\xhpyu0m31y-60plgt3s4k.gz",
       "SourceId": "StudentManagementFrontend",
       "SourceType": "Discovered",
@@ -1214,27 +1214,6 @@
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\StudentManagementFrontend.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\app.css",
-      "SourceId": "StudentManagementFrontend",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\",
-      "BasePath": "_content/StudentManagementFrontend",
-      "RelativePath": "app#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "wo1tx67z4v",
-      "Integrity": "MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\app.css"
-    },
-    {
       "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\appsettings.json",
       "SourceId": "StudentManagementFrontend",
       "SourceType": "Discovered",
@@ -1254,6 +1233,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\appsettings.json"
+    },
+    {
+      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css",
+      "SourceId": "StudentManagementFrontend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\",
+      "BasePath": "_content/StudentManagementFrontend",
+      "RelativePath": "css/app#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "wo1tx67z4v",
+      "Integrity": "MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\app.css"
     },
     {
       "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\favicon.png",
@@ -2403,304 +2403,6 @@
       ]
     },
     {
-      "Route": "app.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\wifu53e8ul-wo1tx67z4v.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000546746856"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1828"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
-        }
-      ]
-    },
-    {
-      "Route": "app.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\app.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3641"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
-        }
-      ]
-    },
-    {
-      "Route": "app.css.gz",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\wifu53e8ul-wo1tx67z4v.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1828"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M="
-        }
-      ]
-    },
-    {
-      "Route": "app.wo1tx67z4v.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\wifu53e8ul-wo1tx67z4v.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000546746856"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1828"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "wo1tx67z4v"
-        },
-        {
-          "Name": "label",
-          "Value": "app.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
-        }
-      ]
-    },
-    {
-      "Route": "app.wo1tx67z4v.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\app.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3641"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "wo1tx67z4v"
-        },
-        {
-          "Name": "label",
-          "Value": "app.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
-        }
-      ]
-    },
-    {
-      "Route": "app.wo1tx67z4v.css.gz",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\wifu53e8ul-wo1tx67z4v.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1828"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "wo1tx67z4v"
-        },
-        {
-          "Name": "label",
-          "Value": "app.css.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M="
-        }
-      ]
-    },
-    {
       "Route": "appsettings.c170hrfpsz.json",
       "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\ld9hglfdkx-c170hrfpsz.gz",
       "Selectors": [
@@ -3293,6 +2995,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-hxAP8Rlp2ZogpWFLbF8NBA3+AxdadEbyQttS1IpPkxY="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000546746856"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1828"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3641"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.css.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1828"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.wo1tx67z4v.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000546746856"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1828"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "wo1tx67z4v"
+        },
+        {
+          "Name": "label",
+          "Value": "css/app.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.wo1tx67z4v.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3641"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "wo1tx67z4v"
+        },
+        {
+          "Name": "label",
+          "Value": "css/app.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.wo1tx67z4v.css.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1828"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "wo1tx67z4v"
+        },
+        {
+          "Name": "label",
+          "Value": "css/app.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M="
         }
       ]
     },
@@ -17409,7 +17409,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17462,7 +17462,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17499,7 +17499,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17546,7 +17546,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17607,7 +17607,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17652,7 +17652,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17707,7 +17707,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17768,7 +17768,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17813,7 +17813,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17868,7 +17868,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17921,7 +17921,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17958,7 +17958,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
         },
         {
           "Name": "Cache-Control",

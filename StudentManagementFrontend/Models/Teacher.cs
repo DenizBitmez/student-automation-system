@@ -33,7 +33,7 @@ public class Teacher
 
     public string? ProfileImageUrl { get; set; }
 
-    public string FullName => $"{FirstName} {LastName}";
+    public string FullName { get; set; } = string.Empty;
 
     public string? UserId { get; set; }
 

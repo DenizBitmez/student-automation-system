@@ -38,7 +38,7 @@
 
 @code {
     private Student student = new() { DateOfBirth = DateTime.Today.AddYears(-18) };
-    private string errorMessage;
+    private string? errorMessage;
 
     private async Task HandleValidSubmit(Student student)
     {
