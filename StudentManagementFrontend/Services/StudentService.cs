@@ -53,15 +53,18 @@ public class StudentService
     {
         var createDto = new
         {
-             FirstName = student.FirstName,
-             LastName = student.LastName,
              Email = student.Email,
-             StudentNumber = student.StudentNumber,
+             FullName = $"{student.FirstName} {student.LastName}".Trim(),
              Password = "Password123!" // Default
         };
         
         var response = await _httpClient.PostAsJsonAsync(BaseUrl, createDto);
-        response.EnsureSuccessStatusCode();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Server Error ({response.StatusCode}): {errorContent}");
+        }
         var vm = await response.Content.ReadFromJsonAsync<StudentVm>();
         return vm != null ? MapToStudent(vm) : null;
     }

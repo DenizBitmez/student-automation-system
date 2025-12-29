@@ -10,13 +10,16 @@
 
 <PageTitle>Dashboard - Öğrenci Otomasyon Sistemi</PageTitle>
 
-<div class="container-fluid">
+<div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                <div class="text-muted">
-                    Hoş geldiniz, @currentUser?.Identity?.Name
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div>
+                    <h1 class="h3 mb-1 fw-bold">Kontrol Paneli</h1>
+                    <p class="text-muted mb-0">Hoş geldiniz, <span class="text-primary fw-medium">@currentUser?.Identity?.Name</span></p>
+                </div>
+                <div class="date-badge bg-white shadow-sm p-2 rounded-pill px-4 text-muted border">
+                   <i class="bi bi-calendar3 me-2"></i> @DateTime.Now.ToString("dd MMMM yyyy")
                 </div>
             </div>
         </div>
@@ -24,7 +27,7 @@
 
     @if (isLoading)
     {
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center py-5">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Yükleniyor...</span>
             </div>
@@ -33,68 +36,65 @@
     else
     {
         <AuthorizeView Roles="Admin,Teacher">
-            <div class="row">
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-primary shadow h-100 py-2">
+            <div class="row g-4 mb-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card h-100 shadow-sm border-0 border-start border-4 border-primary hover-lift">
                         <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Toplam Öğrenci
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@totalStudents</div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="text-uppercase small fw-bold text-primary mb-1">Toplam Öğrenci</div>
+                                    <div class="h3 mb-0 fw-bold text-dark">@totalStudents</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                                <div class="icon-circle bg-primary-subtle text-primary rounded-circle p-3">
+                                    <i class="bi bi-people-fill fs-4"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card h-100 shadow-sm border-0 border-start border-4 border-success hover-lift">
                         <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        Toplam Öğretmen
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@totalTeachers</div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="text-uppercase small fw-bold text-success mb-1">Toplam Öğretmen</div>
+                                    <div class="h3 mb-0 fw-bold text-dark">@totalTeachers</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
+                                <div class="icon-circle bg-success-subtle text-success rounded-circle p-3">
+                                    <i class="bi bi-person-video3 fs-4"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card h-100 shadow-sm border-0 border-start border-4 border-info hover-lift">
                         <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    Toplam Ders
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="text-uppercase small fw-bold text-info mb-1">Toplam Ders</div>
+                                    <div class="h3 mb-0 fw-bold text-dark">@totalCourses</div>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">@totalCourses</div>
+                                <div class="icon-circle bg-info-subtle text-info rounded-circle p-3">
+                                    <i class="bi bi-journal-bookmark-fill fs-4"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-warning shadow h-100 py-2">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card h-100 shadow-sm border-0 border-start border-4 border-warning hover-lift">
                         <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                        Toplam Kayıt
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@totalEnrollments</div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="text-uppercase small fw-bold text-warning mb-1">Toplam Kayıt</div>
+                                    <div class="h3 mb-0 fw-bold text-dark">@totalEnrollments</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                <div class="icon-circle bg-warning-subtle text-warning rounded-circle p-3">
+                                    <i class="bi bi-clipboard-check-fill fs-4"></i>
                                 </div>
                             </div>
                         </div>
@@ -105,23 +105,77 @@
             <AuthorizeView Roles="Admin" Context="adminContext">
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Hızlı İşlemler</h6>
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-header bg-transparent border-bottom py-3">
+                                <h6 class="m-0 fw-bold text-primary"><i class="bi bi-lightning-charge-fill me-2"></i>Hızlı İşlemler</h6>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body p-0">
                                 <div class="list-group list-group-flush">
-                                    <a href="/add-student" class="list-group-item list-group-item-action">
-                                        <i class="fas fa-plus-circle text-success me-2"></i>
-                                        Yeni Öğrenci Ekle
+                                    <a href="/ogrenci/ekle" class="list-group-item list-group-item-action d-flex align-items-center py-3 px-4">
+                                        <div class="bg-success-subtle text-success rounded-circle p-2 me-3">
+                                            <i class="bi bi-person-plus-fill"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Yeni Öğrenci Ekle</h6>
+                                            <small class="text-muted">Sisteme yeni bir öğrenci kaydı oluştur</small>
+                                        </div>
+                                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
                                     </a>
-                                    <a href="/add-teacher" class="list-group-item list-group-item-action">
-                                        <i class="fas fa-plus-circle text-info me-2"></i>
-                                        Yeni Öğretmen Ekle
+                                    <a href="/ogretmen/ekle" class="list-group-item list-group-item-action d-flex align-items-center py-3 px-4">
+                                        <div class="bg-info-subtle text-info rounded-circle p-2 me-3">
+                                            <i class="bi bi-person-badge-fill"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Yeni Öğretmen Ekle</h6>
+                                            <small class="text-muted">Akademik kadroya yeni eğitmen ekle</small>
+                                        </div>
+                                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
                                     </a>
-                                    <a href="/add-course" class="list-group-item list-group-item-action">
-                                        <i class="fas fa-plus-circle text-warning me-2"></i>
-                                        Yeni Ders Ekle
+                                    <a href="/ders/ekle" class="list-group-item list-group-item-action d-flex align-items-center py-3 px-4">
+                                        <div class="bg-warning-subtle text-warning rounded-circle p-2 me-3">
+                                            <i class="bi bi-journal-plus"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Yeni Ders Ekle</h6>
+                                            <small class="text-muted">Müfredata yeni bir ders tanımla</small>
+                                        </div>
+                                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </AuthorizeView>
+
+            <AuthorizeView Roles="Teacher" Context="teacherContext">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-header bg-transparent border-bottom py-3">
+                                <h6 class="m-0 fw-bold text-primary"><i class="bi bi-lightning-charge-fill me-2"></i>Hızlı İşlemler</h6>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <a href="/courses" class="list-group-item list-group-item-action d-flex align-items-center py-3 px-4">
+                                        <div class="bg-primary-subtle text-primary rounded-circle p-2 me-3">
+                                            <i class="bi bi-journal-check"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Not ve Yoklama Yönetimi</h6>
+                                            <small class="text-muted">Derslerinize not girin veya yoklama alın</small>
+                                        </div>
+                                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                                    </a>
+                                     <a href="/students" class="list-group-item list-group-item-action d-flex align-items-center py-3 px-4">
+                                        <div class="bg-info-subtle text-info rounded-circle p-2 me-3">
+                                            <i class="bi bi-people"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Öğrenci Listesi</h6>
+                                            <small class="text-muted">Öğrencilerinizi görüntüleyin</small>
+                                        </div>
+                                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
                                     </a>
                                 </div>
                             </div>
@@ -134,15 +188,17 @@
         <AuthorizeView Roles="Student">
             <div class="row">
                  <div class="col-md-12 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2">
-                         <div class="card-body">
-                            <h4 class="card-title text-primary">Öğrenci Paneli</h4>
-                             <p class="card-text">
-                                 Merhaba! Sol menüden derslerinize ve notlarınıza ulaşabilirsiniz.
-                             </p>
-                             <a href="/ogrenci/derslerim" class="btn btn-primary">
-                                 <i class="bi bi-journal-text me-2"></i> Derslerime Git
-                             </a>
+                    <div class="card border-0 shadow-sm overflow-hidden h-100">
+                         <div class="card-body p-5 text-center bg-primary-subtle position-relative">
+                             <div class="position-relative z-1">
+                                <h2 class="display-5 fw-bold text-primary mb-3">Öğrenci Paneli</h2>
+                                <p class="lead mb-4 mx-auto" style="max-width: 600px;">
+                                    Derslerinizi, notlarınızı ve devamsızlık durumunuzu buradan takip edebilirsiniz.
+                                </p>
+                                <a href="/ogrenci/derslerim" class="btn btn-primary btn-lg shadow-sm hover-scale">
+                                    <i class="bi bi-journal-text me-2"></i> Derslerime Git
+                                </a>
+                             </div>
                          </div>
                     </div>
                 </div>
@@ -151,19 +207,23 @@
         
         <div class="row">
             <div class="col-lg-12">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Sistem Bilgileri</h6>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-muted">Öğrenci Otomasyon Sistemi v1.0</p>
-                        <p class="text-muted">Son güncelleme: @DateTime.Now.ToString("dd/MM/yyyy")</p>
-                    </div>
+                <div class="d-flex justify-content-center mt-4">
+                     <small class="text-muted">Öğrenci Otomasyon Sistemi v1.0 &copy; @DateTime.Now.Year</small>
                 </div>
             </div>
         </div>
     }
 </div>
+
+<style>
+    .hover-lift {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+</style>
 
 @code {
     private ClaimsPrincipal? currentUser;
@@ -174,38 +234,33 @@
     private int totalEnrollments = 0;
 
     [CascadingParameter]
-    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (AuthenticationStateTask != null)
+        if (firstRender)
         {
-             var authState = await AuthenticationStateTask;
-             currentUser = authState.User;
-             
-             if (currentUser.Identity?.IsAuthenticated == true)
-             {
-                 if (currentUser.IsInRole("Admin") || currentUser.IsInRole("Teacher"))
-                 {
-                     await LoadDashboardData();
-                 }
-             }
-        }
-        else
-        {
-            // Fallback if cascading parameter is not provided (though it should be)
-             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-             currentUser = authState.User;
-             if (currentUser.Identity?.IsAuthenticated == true)
-             {
-                 if (currentUser.IsInRole("Admin") || currentUser.IsInRole("Teacher"))
-                 {
-                     await LoadDashboardData();
-                 }
-             }
-        }
+            isLoading = true;
+            StateHasChanged();
 
-        isLoading = false;
+            if (AuthenticationStateTask != null)
+            {
+                 var authState = await AuthenticationStateTask;
+                 currentUser = authState.User;
+                 
+                 if (currentUser.Identity?.IsAuthenticated == true)
+                 {
+                     if (currentUser.IsInRole("Admin") || currentUser.IsInRole("Teacher"))
+                     {
+                         await LoadDashboardData();
+                     }
+                 }
+            }
+            // Logic for non-cascading fallback omitted as cascading is standard
+            
+            isLoading = false;
+            StateHasChanged();
+        }
     }
 
     private async Task LoadDashboardData()

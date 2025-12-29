@@ -131,14 +131,22 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="btn-group" role="group">
-                                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewCourse(course.Id)">
+                                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewCourse(course.Id)" title="Detay">
                                             <i class="bi bi-eye"></i>
                                         </button>
-                                        <AuthorizeView Roles="Admin,Teacher">
-                                            <button class="btn btn-sm btn-outline-secondary" @onclick="() => EditCourse(course.Id)">
+                                        <AuthorizeView Roles="Teacher">
+                                            <button class="btn btn-sm btn-primary" @onclick="() => NavigateToGrades(course.Id)" title="Not Gir">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-success" @onclick="() => NavigateToAttendance(course.Id)" title="Yoklama Al">
+                                                <i class="bi bi-check-square"></i>
+                                            </button>
+                                        </AuthorizeView>
+                                        <AuthorizeView Roles="Admin">
+                                            <button class="btn btn-sm btn-outline-secondary" @onclick="() => EditCourse(course.Id)" title="Düzenle">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(course)">
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(course)" title="Sil">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </AuthorizeView>
@@ -218,22 +226,27 @@
         "2021-2022 Bahar"
     };
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            var courses = await CourseService.GetAllCoursesAsync();
-            Courses = courses.ToList();
-            FilterCourses();
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Error loading courses");
-            // Show error message to user
-        }
-        finally
-        {
-            IsLoading = false;
+            try
+            {
+                var courses = await CourseService.GetAllCoursesAsync();
+                Courses = courses.ToList();
+                FilterCourses();
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error loading courses");
+                // Show error message to user
+            }
+            finally
+            {
+                IsLoading = false;
+                StateHasChanged();
+            }
         }
     }
 
@@ -314,6 +327,16 @@
     private void EditCourse(int id)
     {
         Navigation.NavigateTo($"ders/duzenle/{id}");
+    }
+
+    private void NavigateToGrades(int courseId)
+    {
+        Navigation.NavigateTo($"/ders/notlar/{courseId}");
+    }
+
+    private void NavigateToAttendance(int courseId)
+    {
+        Navigation.NavigateTo($"/ders/yoklama/{courseId}");
     }
 
     private async Task DeleteCourse(Course course)

@@ -7,27 +7,31 @@
 <PageTitle>Ana Sayfa - Öğrenci Otomasyon Sistemi</PageTitle>
 
 <div class="hero-section">
-    <div class="container">
+    <div class="hero-overlay"></div>
+    <div class="container relative-z">
         <div class="row align-items-center min-vh-100">
-            <div class="col-lg-6">
+            <div class="col-lg-6 animate-slide-up">
                 <div class="hero-content">
-                    <h1 class="display-4 fw-bold text-primary mb-4">
-                        <i class="bi bi-mortarboard me-3"></i>
-                        Öğrenci Otomasyon Sistemi
+                    <div class="badge bg-white text-primary mb-3 px-3 py-2 rounded-pill shadow-sm">
+                        <i class="bi bi-stars me-1"></i> Yeni Nesil Otomasyon
+                    </div>
+                    <h1 class="display-3 fw-bold text-white mb-4 lh-sm">
+                        Eğitim Süreçlerinizi <br/>
+                        <span class="text-warning">Dijitalleştirin</span>
                     </h1>
-                    <p class="lead mb-4">
-                        Modern, kullanıcı dostu ve güvenli öğrenci yönetim sistemi. 
-                        Öğrenci, öğretmen ve yönetici işlemlerini tek platformda yönetin.
+                    <p class="lead text-white-50 mb-5 fs-5 w-75">
+                        Öğrenci, öğretmen ve ders yönetimini tek bir modern platformda birleştirin. 
+                        Güvenli, hızlı ve kullanıcı dostu deneyim.
                     </p>
                     
                     <AuthorizeView>
                         <Authorized>
                             <div class="d-flex gap-3">
-                                <a href="/dashboard" class="btn btn-primary btn-lg">
+                                <a href="/dashboard" class="btn btn-light btn-lg text-primary fw-bold shadow-lg hover-scale">
                                     <i class="bi bi-speedometer2 me-2"></i>
-                                    Dashboard'a Git
+                                    Panele Git
                                 </a>
-                                <a href="/profil" class="btn btn-outline-primary btn-lg">
+                                <a href="/profil" class="btn btn-outline-light btn-lg hover-scale">
                                     <i class="bi bi-person-circle me-2"></i>
                                     Profilim
                                 </a>
@@ -35,11 +39,11 @@
                         </Authorized>
                         <NotAuthorized>
                             <div class="d-flex gap-3">
-                                <a href="/giris" class="btn btn-primary btn-lg">
+                                <a href="/giris" class="btn btn-light btn-lg text-primary fw-bold shadow-lg hover-scale">
                                     <i class="bi bi-box-arrow-in-right me-2"></i>
                                     Giriş Yap
                                 </a>
-                                <a href="/kayit" class="btn btn-outline-primary btn-lg">
+                                <a href="/kayit" class="btn btn-outline-light btn-lg hover-scale">
                                     <i class="bi bi-person-plus me-2"></i>
                                     Kayıt Ol
                                 </a>
@@ -48,29 +52,28 @@
                     </AuthorizeView>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="hero-image">
-                    <div class="feature-cards">
-                        <div class="feature-card">
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="hero-cards ps-5">
+                    <div class="feature-card glass-card float-anim-1">
+                        <div class="icon-sq bg-primary-light text-primary mb-3">
                             <i class="bi bi-people-fill"></i>
-                            <h5>Öğrenci Yönetimi</h5>
-                            <p>Öğrenci bilgilerini kolayca yönetin</p>
                         </div>
-                        <div class="feature-card">
+                        <h5>Öğrenci Yönetimi</h5>
+                        <p class="text-muted small mb-0">Detaylı öğrenci takibi ve analizi</p>
+                    </div>
+                    <div class="feature-card glass-card float-anim-2 ms-5 mt-4">
+                        <div class="icon-sq bg-success-light text-success mb-3">
                             <i class="bi bi-journal-bookmark-fill"></i>
-                            <h5>Ders Yönetimi</h5>
-                            <p>Ders programlarını organize edin</p>
                         </div>
-                        <div class="feature-card">
+                        <h5>Ders Programı</h5>
+                        <p class="text-muted small mb-0">Akıllı ders ve sınav planlama</p>
+                    </div>
+                    <div class="feature-card glass-card float-anim-3 mt-4">
+                        <div class="icon-sq bg-warning-light text-warning mb-3">
                             <i class="bi bi-graph-up-arrow"></i>
-                            <h5>Not Takibi</h5>
-                            <p>Notları ve başarıyı takip edin</p>
                         </div>
-                        <div class="feature-card">
-                            <i class="bi bi-calendar-check-fill"></i>
-                            <h5>Devamsızlık</h5>
-                            <p>Devamsızlık kayıtlarını tutun</p>
-                        </div>
+                        <h5>Başarı Analizi</h5>
+                        <p class="text-muted small mb-0">Gelişmiş raporlama araçları</p>
                     </div>
                 </div>
             </div>
@@ -79,73 +82,42 @@
 </div>
 
 <!-- Features Section -->
-<div class="features-section py-5">
+<div class="features-section py-6">
     <div class="container">
         <div class="row text-center mb-5">
-            <div class="col-12">
-                <h2 class="fw-bold mb-3">Sistem Özellikleri</h2>
-                <p class="lead text-muted">Modern eğitim yönetimi için ihtiyacınız olan tüm araçlar</p>
+            <div class="col-lg-8 mx-auto">
+                <span class="text-primary fw-bold text-uppercase letter-spacing-1">Özellikler</span>
+                <h2 class="fw-bold display-6 mt-2 mb-3">Neden Bizi Seçmelisiniz?</h2>
+                <p class="lead text-muted">Eğitim kurumunuzun tüm ihtiyaçlarına cevap veren kapsamlı çözümler</p>
             </div>
         </div>
         
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="feature-item text-center">
-                    <div class="feature-icon">
-                        <i class="bi bi-shield-check"></i>
+                <div class="feature-item p-4 rounded-4 hover-lift">
+                    <div class="feature-icon mb-4 text-primary bg-primary-subtle rounded-3 p-3 d-inline-block">
+                        <i class="bi bi-shield-check fs-2"></i>
                     </div>
-                    <h5>Güvenli</h5>
-                    <p>Verileriniz güvenli şifreleme ile korunur</p>
+                    <h4>Güvenli Altyapı</h4>
+                    <p class="text-muted">Verileriniz endüstri standardı şifreleme yöntemleriyle her zaman güvende.</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="feature-item text-center">
-                    <div class="feature-icon">
-                        <i class="bi bi-lightning-charge"></i>
+                <div class="feature-item p-4 rounded-4 hover-lift">
+                    <div class="feature-icon mb-4 text-success bg-success-subtle rounded-3 p-3 d-inline-block">
+                        <i class="bi bi-lightning-charge fs-2"></i>
                     </div>
-                    <h5>Hızlı</h5>
-                    <p>Modern teknoloji ile hızlı ve responsive</p>
+                    <h4>Yüksek Performans</h4>
+                    <p class="text-muted">Modern teknolojilerle geliştirilmiş, hızlı ve kesintisiz deneyim.</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="feature-item text-center">
-                    <div class="feature-icon">
-                        <i class="bi bi-phone"></i>
+                <div class="feature-item p-4 rounded-4 hover-lift">
+                    <div class="feature-icon mb-4 text-info bg-info-subtle rounded-3 p-3 d-inline-block">
+                        <i class="bi bi-phone fs-2"></i>
                     </div>
-                    <h5>Mobil Uyumlu</h5>
-                    <p>Her cihazdan erişim imkanı</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Stats Section -->
-<div class="stats-section py-5 bg-light">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <h3 class="display-4 fw-bold text-primary">500+</h3>
-                    <p class="text-muted">Aktif Öğrenci</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <h3 class="display-4 fw-bold text-success">50+</h3>
-                    <p class="text-muted">Öğretmen</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <h3 class="display-4 fw-bold text-info">100+</h3>
-                    <p class="text-muted">Ders</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <h3 class="display-4 fw-bold text-warning">1000+</h3>
-                    <p class="text-muted">Kayıt</p>
+                    <h4>Mobil Uyumlu</h4>
+                    <p class="text-muted">Tablet ve telefonlarınızdan her an her yerden erişim imkanı.</p>
                 </div>
             </div>
         </div>
@@ -154,125 +126,81 @@
 
 <style>
     .hero-section {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        min-height: 100vh;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
         position: relative;
         overflow: hidden;
     }
 
-    .hero-section::before {
-        content: '';
+    .hero-overlay {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.1)" points="0,1000 1000,0 1000,1000"/></svg>');
-        background-size: cover;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
-    .hero-content {
+    .relative-z {
         position: relative;
         z-index: 2;
     }
 
-    .feature-cards {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
+    .hover-scale {
+        transition: transform 0.2s;
+    }
+
+    .hover-scale:hover {
+        transform: scale(1.05);
+    }
+
+    .hero-cards {
         position: relative;
-        z-index: 2;
     }
 
     .feature-card {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 1rem;
         padding: 1.5rem;
-        text-align: center;
-        color: white;
-        transition: transform 0.3s ease;
+        border-radius: 1rem;
+        width: 280px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        background: rgba(255,255,255,0.9);
+        backdrop-filter: blur(10px);
     }
 
-    .feature-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .feature-card i {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
-
-    .feature-card h5 {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-
-    .feature-card p {
-        font-size: 0.9rem;
-        opacity: 0.9;
-        margin: 0;
-    }
-
-    .features-section {
-        background: white;
-    }
-
-    .feature-item {
-        padding: 2rem 1rem;
-    }
-
-    .feature-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 50%;
+    .icon-sq {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 1.5rem;
-        color: white;
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
-    .feature-item h5 {
-        font-weight: 600;
-        margin-bottom: 1rem;
+    .bg-primary-light { background: #EEF2FF; }
+    .bg-success-light { background: #F0FDF4; }
+    .bg-warning-light { background: #FFFBEB; }
+
+    .py-6 { padding-top: 5rem; padding-bottom: 5rem; }
+
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: white;
+        border: 1px solid var(--border);
     }
 
-    .feature-item p {
-        color: #6c757d;
-        margin: 0;
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-light);
     }
 
-    .stats-section {
-        background: #f8f9fa;
-    }
+    .letter-spacing-1 { letter-spacing: 1px; }
 
-    .stat-item {
-        padding: 1rem;
-    }
+    /* Floating Animations */
+    .float-anim-1 { animation: float 6s ease-in-out infinite; }
+    .float-anim-2 { animation: float 7s ease-in-out infinite 1s; }
+    .float-anim-3 { animation: float 8s ease-in-out infinite 2s; }
 
-    .stat-item h3 {
-        margin-bottom: 0.5rem;
-    }
-
-    .stat-item p {
-        font-weight: 500;
-        margin: 0;
-    }
-
-    @@media (max-width: 768px) {
-        .feature-cards {
-            grid-template-columns: 1fr;
-            margin-top: 2rem;
-        }
-        
-        .hero-content h1 {
-            font-size: 2.5rem;
-        }
+    @@keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
     }
 </style>

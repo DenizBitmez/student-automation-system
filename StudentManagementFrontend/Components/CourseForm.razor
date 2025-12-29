@@ -88,7 +88,7 @@
         <div class="col-12 mt-4">
             <div class="d-flex justify-content-between">
                 <div>
-                    <button type="button" class="btn btn-outline-secondary me-2" @onclick="OnCancel">
+                    <button type="button" class="btn btn-outline-secondary me-2" @onclick="OnCancelClick">
                         <i class="bi bi-x-circle me-1"></i> İptal
                     </button>
                     @if (IsEditMode)
@@ -125,7 +125,7 @@
     public EventCallback<Course> OnSubmitCallback { get; set; }
 
     [Parameter]
-    public EventCallback OnCancelCallback { get; set; }
+    public EventCallback OnCancel { get; set; }
 
     [Parameter]
     public EventCallback<Course> OnSaveDraftCallback { get; set; }
@@ -152,23 +152,26 @@
         "2021-2022 Bahar"
     };
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            var teachers = await TeacherService.GetAllTeachersAsync();
-            Teachers = teachers.ToList();
-            
-            // If this is a new course and no teacher is selected, select the first teacher by default
-            if (!IsEditMode && Teachers.Any() && Course.TeacherId == 0)
+            try
             {
-                Course.TeacherId = Teachers.First().Id;
+                var teachers = await TeacherService.GetAllTeachersAsync();
+                Teachers = teachers.ToList();
+                
+                // If this is a new course and no teacher is selected, select the first teacher by default
+                if (!IsEditMode && Teachers.Any() && Course.TeacherId == 0)
+                {
+                    Course.TeacherId = Teachers.First().Id;
+                }
+                StateHasChanged();
             }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Error loading teachers for course form");
-            // Show error message to user
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error loading teachers for course form");
+            }
         }
     }
 
@@ -190,9 +193,9 @@
         }
     }
 
-    private void OnCancel()
+    private async Task OnCancelClick()
     {
-        OnCancelCallback.InvokeAsync();
+        await OnCancel.InvokeAsync();
     }
 
     private async Task SaveDraft()

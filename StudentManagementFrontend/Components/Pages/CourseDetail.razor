@@ -245,7 +245,7 @@ else
     private List<Student>? AllStudents;
     private IEnumerable<Student> FilteredAvailableStudents => 
         AllStudents?
-        .Where(s => !EnrolledStudents.Any(es => es.StudentId == s.Id) && 
+        .Where(s => (EnrolledStudents == null || !EnrolledStudents.Any(es => es.StudentId == s.Id)) && 
                     (string.IsNullOrEmpty(EnrollSearchTerm) || s.FullName.ToLower().Contains(EnrollSearchTerm.ToLower()))) 
         ?? new List<Student>();
     private string EnrollSearchTerm = "";

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ckN1CnXaWhyPe/bN3/yOJ6vJZpt3J61tPGkuTkiGPx0=",
+  "Hash": "jbQSq5m3a8wfR8WEQ4EAYJailT3WK0p4DzMKpqXgq1o=",
   "Source": "StudentManagementFrontend",
   "BasePath": "_content/StudentManagementFrontend",
   "Mode": "Default",
@@ -290,12 +290,12 @@
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-gxgu1igd10.gz",
       "SourceId": "StudentManagementFrontend",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/StudentManagementFrontend",
-      "RelativePath": "css/app#[.{fingerprint=wo1tx67z4v}]?.css.gz",
+      "RelativePath": "css/app#[.{fingerprint=gxgu1igd10}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -304,8 +304,8 @@
       "RelatedAsset": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "pw1kfn6v69",
-      "Integrity": "V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=",
+      "Fingerprint": "g18fe8cfac",
+      "Integrity": "jLsEcIb9PpGFyDryaoTRVFB7wZgiAyW6UGXvv3SK640=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css"
@@ -416,12 +416,12 @@
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-lznygv93k9.gz",
+      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-v85mr6t8a0.gz",
       "SourceId": "StudentManagementFrontend",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/StudentManagementFrontend",
-      "RelativePath": "StudentManagementFrontend#[.{fingerprint=lznygv93k9}]!.bundle.scp.css.gz",
+      "RelativePath": "StudentManagementFrontend#[.{fingerprint=v85mr6t8a0}]!.bundle.scp.css.gz",
       "AssetKind": "All",
       "AssetMode": "Reference",
       "AssetRole": "Alternative",
@@ -430,8 +430,8 @@
       "RelatedAsset": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\StudentManagementFrontend.bundle.scp.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "9h1btna7d7",
-      "Integrity": "w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=",
+      "Fingerprint": "pyktoqdns0",
+      "Integrity": "n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\StudentManagementFrontend.bundle.scp.css"
@@ -1130,12 +1130,12 @@
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-lznygv93k9.gz",
+      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-v85mr6t8a0.gz",
       "SourceId": "StudentManagementFrontend",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/StudentManagementFrontend",
-      "RelativePath": "StudentManagementFrontend#[.{fingerprint=lznygv93k9}]?.styles.css.gz",
+      "RelativePath": "StudentManagementFrontend#[.{fingerprint=v85mr6t8a0}]?.styles.css.gz",
       "AssetKind": "All",
       "AssetMode": "CurrentProject",
       "AssetRole": "Alternative",
@@ -1144,8 +1144,8 @@
       "RelatedAsset": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\bundle\\StudentManagementFrontend.styles.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "9h1btna7d7",
-      "Integrity": "w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=",
+      "Fingerprint": "pyktoqdns0",
+      "Integrity": "n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\bundle\\StudentManagementFrontend.styles.css"
@@ -1186,8 +1186,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "lznygv93k9",
-      "Integrity": "DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=",
+      "Fingerprint": "v85mr6t8a0",
+      "Integrity": "D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\bundle\\StudentManagementFrontend.styles.css"
@@ -1207,8 +1207,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "lznygv93k9",
-      "Integrity": "DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=",
+      "Fingerprint": "v85mr6t8a0",
+      "Integrity": "D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\StudentManagementFrontend.bundle.scp.css"
@@ -1249,8 +1249,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "wo1tx67z4v",
-      "Integrity": "MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=",
+      "Fingerprint": "gxgu1igd10",
+      "Integrity": "zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\app.css"
@@ -3000,12 +3000,12 @@
     },
     {
       "Route": "css/app.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-gxgu1igd10.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000546746856"
+          "Quality": "0.000525210084"
         }
       ],
       "ResponseHeaders": [
@@ -3015,15 +3015,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1828"
+          "Value": "1903"
         },
         {
           "Name": "ETag",
-          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
+          "Value": "\"jLsEcIb9PpGFyDryaoTRVFB7wZgiAyW6UGXvv3SK640=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Sun, 28 Dec 2025 23:35:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3043,13 +3043,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
+          "Value": "W/\"zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
+          "Value": "sha256-zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8="
         }
       ]
     },
@@ -3064,7 +3064,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3641"
+          "Value": "6144"
         },
         {
           "Name": "Content-Type",
@@ -3072,11 +3072,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
+          "Value": "\"zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Sun, 28 Dec 2025 23:35:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3086,13 +3086,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
+          "Value": "sha256-zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8="
         }
       ]
     },
     {
       "Route": "css/app.css.gz",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-gxgu1igd10.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3101,7 +3101,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1828"
+          "Value": "1903"
         },
         {
           "Name": "Content-Type",
@@ -3109,11 +3109,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
+          "Value": "\"jLsEcIb9PpGFyDryaoTRVFB7wZgiAyW6UGXvv3SK640=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Sun, 28 Dec 2025 23:35:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3131,18 +3131,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M="
+          "Value": "sha256-jLsEcIb9PpGFyDryaoTRVFB7wZgiAyW6UGXvv3SK640="
         }
       ]
     },
     {
-      "Route": "css/app.wo1tx67z4v.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "Route": "css/app.gxgu1igd10.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-gxgu1igd10.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000546746856"
+          "Quality": "0.000525210084"
         }
       ],
       "ResponseHeaders": [
@@ -3152,15 +3152,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1828"
+          "Value": "1903"
         },
         {
           "Name": "ETag",
-          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
+          "Value": "\"jLsEcIb9PpGFyDryaoTRVFB7wZgiAyW6UGXvv3SK640=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Sun, 28 Dec 2025 23:35:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3180,13 +3180,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
+          "Value": "W/\"zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "wo1tx67z4v"
+          "Value": "gxgu1igd10"
         },
         {
           "Name": "label",
@@ -3194,12 +3194,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
+          "Value": "sha256-zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8="
         }
       ]
     },
     {
-      "Route": "css/app.wo1tx67z4v.css",
+      "Route": "css/app.gxgu1igd10.css",
       "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\app.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3209,7 +3209,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3641"
+          "Value": "6144"
         },
         {
           "Name": "Content-Type",
@@ -3217,11 +3217,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=\""
+          "Value": "\"zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Sun, 28 Dec 2025 23:35:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3231,7 +3231,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "wo1tx67z4v"
+          "Value": "gxgu1igd10"
         },
         {
           "Name": "label",
@@ -3239,13 +3239,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA="
+          "Value": "sha256-zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8="
         }
       ]
     },
     {
-      "Route": "css/app.wo1tx67z4v.css.gz",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-wo1tx67z4v.gz",
+      "Route": "css/app.gxgu1igd10.css.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\9nluhscr3m-gxgu1igd10.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3254,7 +3254,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1828"
+          "Value": "1903"
         },
         {
           "Name": "Content-Type",
@@ -3262,11 +3262,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M=\""
+          "Value": "\"jLsEcIb9PpGFyDryaoTRVFB7wZgiAyW6UGXvv3SK640=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 22 Dec 2025 22:39:55 GMT"
+          "Value": "Sun, 28 Dec 2025 23:35:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3284,7 +3284,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "wo1tx67z4v"
+          "Value": "gxgu1igd10"
         },
         {
           "Name": "label",
@@ -3292,7 +3292,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-V24uBYRUPKHXxcbTn4BZii0EB4SIT2Bzh4i4gSS9B7M="
+          "Value": "sha256-jLsEcIb9PpGFyDryaoTRVFB7wZgiAyW6UGXvv3SK640="
         }
       ]
     },
@@ -17386,12 +17386,12 @@
     },
     {
       "Route": "StudentManagementFrontend.bundle.scp.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-lznygv93k9.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-v85mr6t8a0.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000558659218"
+          "Quality": "0.000747943156"
         }
       ],
       "ResponseHeaders": [
@@ -17401,15 +17401,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1789"
+          "Value": "1336"
         },
         {
           "Name": "ETag",
-          "Value": "\"w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=\""
+          "Value": "\"n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17429,13 +17429,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=\""
+          "Value": "W/\"D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM="
+          "Value": "sha256-D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44="
         }
       ]
     },
@@ -17450,7 +17450,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5997"
+          "Value": "4752"
         },
         {
           "Name": "Content-Type",
@@ -17458,11 +17458,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=\""
+          "Value": "\"D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17472,13 +17472,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM="
+          "Value": "sha256-D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44="
         }
       ]
     },
     {
       "Route": "StudentManagementFrontend.bundle.scp.css.gz",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-lznygv93k9.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-v85mr6t8a0.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -17487,7 +17487,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1789"
+          "Value": "1336"
         },
         {
           "Name": "Content-Type",
@@ -17495,11 +17495,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=\""
+          "Value": "\"n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17517,18 +17517,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY="
+          "Value": "sha256-n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g="
         }
       ]
     },
     {
-      "Route": "StudentManagementFrontend.lznygv93k9.bundle.scp.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-lznygv93k9.gz",
+      "Route": "StudentManagementFrontend.styles.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-v85mr6t8a0.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000558659218"
+          "Quality": "0.000747943156"
         }
       ],
       "ResponseHeaders": [
@@ -17538,15 +17538,152 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1789"
+          "Value": "1336"
         },
         {
           "Name": "ETag",
-          "Value": "\"w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=\""
+          "Value": "\"n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44="
+        }
+      ]
+    },
+    {
+      "Route": "StudentManagementFrontend.styles.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\bundle\\StudentManagementFrontend.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4752"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44="
+        }
+      ]
+    },
+    {
+      "Route": "StudentManagementFrontend.styles.css.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-v85mr6t8a0.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1336"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g="
+        }
+      ]
+    },
+    {
+      "Route": "StudentManagementFrontend.v85mr6t8a0.bundle.scp.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-v85mr6t8a0.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000747943156"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1336"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17566,13 +17703,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=\""
+          "Value": "W/\"D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lznygv93k9"
+          "Value": "v85mr6t8a0"
         },
         {
           "Name": "label",
@@ -17580,12 +17717,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM="
+          "Value": "sha256-D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44="
         }
       ]
     },
     {
-      "Route": "StudentManagementFrontend.lznygv93k9.bundle.scp.css",
+      "Route": "StudentManagementFrontend.v85mr6t8a0.bundle.scp.css",
       "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\StudentManagementFrontend.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -17595,7 +17732,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5997"
+          "Value": "4752"
         },
         {
           "Name": "Content-Type",
@@ -17603,11 +17740,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=\""
+          "Value": "\"D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17617,7 +17754,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lznygv93k9"
+          "Value": "v85mr6t8a0"
         },
         {
           "Name": "label",
@@ -17625,13 +17762,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM="
+          "Value": "sha256-D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44="
         }
       ]
     },
     {
-      "Route": "StudentManagementFrontend.lznygv93k9.bundle.scp.css.gz",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-lznygv93k9.gz",
+      "Route": "StudentManagementFrontend.v85mr6t8a0.bundle.scp.css.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\e4dw11la5p-v85mr6t8a0.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -17640,7 +17777,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1789"
+          "Value": "1336"
         },
         {
           "Name": "Content-Type",
@@ -17648,11 +17785,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=\""
+          "Value": "\"n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17670,7 +17807,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lznygv93k9"
+          "Value": "v85mr6t8a0"
         },
         {
           "Name": "label",
@@ -17678,18 +17815,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY="
+          "Value": "sha256-n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g="
         }
       ]
     },
     {
-      "Route": "StudentManagementFrontend.lznygv93k9.styles.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-lznygv93k9.gz",
+      "Route": "StudentManagementFrontend.v85mr6t8a0.styles.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-v85mr6t8a0.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000558659218"
+          "Quality": "0.000747943156"
         }
       ],
       "ResponseHeaders": [
@@ -17699,15 +17836,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1789"
+          "Value": "1336"
         },
         {
           "Name": "ETag",
-          "Value": "\"w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=\""
+          "Value": "\"n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17727,13 +17864,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=\""
+          "Value": "W/\"D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lznygv93k9"
+          "Value": "v85mr6t8a0"
         },
         {
           "Name": "label",
@@ -17741,12 +17878,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM="
+          "Value": "sha256-D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44="
         }
       ]
     },
     {
-      "Route": "StudentManagementFrontend.lznygv93k9.styles.css",
+      "Route": "StudentManagementFrontend.v85mr6t8a0.styles.css",
       "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\bundle\\StudentManagementFrontend.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -17756,7 +17893,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5997"
+          "Value": "4752"
         },
         {
           "Name": "Content-Type",
@@ -17764,11 +17901,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=\""
+          "Value": "\"D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17778,7 +17915,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lznygv93k9"
+          "Value": "v85mr6t8a0"
         },
         {
           "Name": "label",
@@ -17786,13 +17923,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM="
+          "Value": "sha256-D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44="
         }
       ]
     },
     {
-      "Route": "StudentManagementFrontend.lznygv93k9.styles.css.gz",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-lznygv93k9.gz",
+      "Route": "StudentManagementFrontend.v85mr6t8a0.styles.css.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-v85mr6t8a0.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -17801,7 +17938,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1789"
+          "Value": "1336"
         },
         {
           "Name": "Content-Type",
@@ -17809,11 +17946,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=\""
+          "Value": "\"n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
+          "Value": "Sun, 28 Dec 2025 23:41:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17831,7 +17968,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lznygv93k9"
+          "Value": "v85mr6t8a0"
         },
         {
           "Name": "label",
@@ -17839,144 +17976,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY="
-        }
-      ]
-    },
-    {
-      "Route": "StudentManagementFrontend.styles.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-lznygv93k9.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000558659218"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1789"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM="
-        }
-      ]
-    },
-    {
-      "Route": "StudentManagementFrontend.styles.css",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\scopedcss\\bundle\\StudentManagementFrontend.styles.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5997"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM="
-        }
-      ]
-    },
-    {
-      "Route": "StudentManagementFrontend.styles.css.gz",
-      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\yo2yx5pfh7-lznygv93k9.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1789"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 26 Dec 2025 12:46:25 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-w8q4gsu5M8eebK2ZvNQp8voGj00fZbw85UW81EyFFfY="
+          "Value": "sha256-n6BHm5UlD/PWg9sJho9fF6UyqTOc+g20Jlvek7ouE+g="
         }
       ]
     }

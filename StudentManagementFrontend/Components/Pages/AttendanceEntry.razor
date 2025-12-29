@@ -1,0 +1,159 @@
+@page "/ders/yoklama/{CourseId:int}"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using Microsoft.AspNetCore.Authorization
+@inject ICourseService CourseService
+@inject IAttendanceService AttendanceService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Teacher,Admin")]
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1 fw-bold">Yoklama Al</h1>
+            <p class="text-muted mb-0">@(Course?.Name ?? "Ders Yükleniyor...") - @(Course?.Code ?? "")</p>
+            <small class="text-primary">@DateTime.Now.ToString("dd MMMM yyyy, dddd")</small>
+        </div>
+        <button class="btn btn-outline-secondary" @onclick="GoBack">
+            <i class="bi bi-arrow-left me-2"></i>Geri Dön
+        </button>
+    </div>
+
+    @if (IsLoading)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Yükleniyor...</span>
+            </div>
+        </div>
+    }
+    else if (Students == null || !Students.Any())
+    {
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle me-2"></i>Bu derse kayıtlı öğrenci bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Öğrenci No</th>
+                                <th>Ad Soyad</th>
+                                <th>Toplam Devamsızlık</th>
+                                <th class="text-end pe-4">Bugünkü Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in Students)
+                            {
+                                <tr>
+                                    <td class="ps-4">@student.StudentNumber</td>
+                                    <td class="fw-medium">@student.FullName</td>
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            @student.AttendanceCount ders
+                                        </span>
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        @if (AttendanceStatus.ContainsKey(student.EnrollmentId))
+                                        {
+                                            <span class="badge @(AttendanceStatus[student.EnrollmentId] ? "bg-success" : "bg-danger")">
+                                                @(AttendanceStatus[student.EnrollmentId] ? "Var" : "Yok")
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-outline-success" 
+                                                        @onclick="() => MarkAttendance(student.EnrollmentId, true)">
+                                                    <i class="bi bi-check-lg me-1"></i>Var
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                        @onclick="() => MarkAttendance(student.EnrollmentId, false)">
+                                                    <i class="bi bi-x-lg me-1"></i>Yok
+                                                </button>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    private Course? Course { get; set; }
+    private List<CourseStudentVm>? Students { get; set; }
+    private bool IsLoading { get; set; } = true;
+    
+    // Track status for this session to update UI without reload
+    private Dictionary<int, bool> AttendanceStatus { get; set; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+        }
+    }
+
+    private async Task LoadData()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        try
+        {
+            Course = await CourseService.GetCourseByIdAsync(CourseId);
+            var students = await CourseService.GetEnrolledStudentsAsync(CourseId);
+            Students = students.ToList();
+            AttendanceStatus.Clear();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading attendance: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task MarkAttendance(int enrollmentId, bool present)
+    {
+        try
+        {
+            var success = await AttendanceService.TickAttendanceAsync(enrollmentId, present);
+            
+            if (success)
+            {
+                AttendanceStatus[enrollmentId] = present;
+                
+                // If present, verify if backend increments count, if so we might want to refresh list or manual increment
+                // For now just show status change
+                
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error marking attendance: {ex.Message}");
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/courses");
+    }
+}

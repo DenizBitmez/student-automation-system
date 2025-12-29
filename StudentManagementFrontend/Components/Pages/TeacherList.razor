@@ -109,7 +109,7 @@
                                             else
                                             {
                                                 <div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
-                                                    @teacher.FirstName[0]@teacher.LastName[0]
+                                                    @(!string.IsNullOrEmpty(teacher.FirstName) ? teacher.FirstName[0] : "")@(!string.IsNullOrEmpty(teacher.LastName) ? teacher.LastName[0] : "")
                                                 </div>
                                             }
                                         </div>
@@ -210,22 +210,27 @@
     private ListSortDirection SortDirection = ListSortDirection.Ascending;
     private HashSet<string> Branches { get; set; } = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            Teachers = (await TeacherService.GetAllTeachersAsync()).ToList();
-            FilterTeachers();
-            ExtractBranches();
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Error loading teachers");
-            // Show error message to user
-        }
-        finally
-        {
-            IsLoading = false;
+            try
+            {
+                Teachers = (await TeacherService.GetAllTeachersAsync()).ToList();
+                FilterTeachers();
+                ExtractBranches();
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error loading teachers");
+                // Show error message to user
+            }
+            finally
+            {
+                IsLoading = false;
+                StateHasChanged();
+            }
         }
     }
 

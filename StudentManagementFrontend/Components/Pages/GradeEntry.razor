@@ -1,0 +1,184 @@
+@page "/ders/notlar/{CourseId:int}"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using Microsoft.AspNetCore.Authorization
+@inject ICourseService CourseService
+@inject IGradeService GradeService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Teacher,Admin")]
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1 fw-bold">Not Girişi</h1>
+            <p class="text-muted mb-0">@(Course?.Name ?? "Ders Yükleniyor...") - @(Course?.Code ?? "")</p>
+        </div>
+        <button class="btn btn-outline-secondary" @onclick="GoBack">
+            <i class="bi bi-arrow-left me-2"></i>Geri Dön
+        </button>
+    </div>
+
+    @if (IsLoading)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Yükleniyor...</span>
+            </div>
+        </div>
+    }
+    else if (Students == null || !Students.Any())
+    {
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle me-2"></i>Bu derse kayıtlı öğrenci bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Öğrenci No</th>
+                                <th>Ad Soyad</th>
+                                <th>Mevcut Not</th>
+                                <th style="width: 150px;">Yeni Not</th>
+                                <th>Açıklama</th>
+                                <th class="text-end pe-4">İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in Students)
+                            {
+                                <tr>
+                                    <td class="ps-4">@student.StudentNumber</td>
+                                    <td class="fw-medium">@student.FullName</td>
+                                    <td>
+                                        @if (student.Grade.HasValue)
+                                        {
+                                            <span class="badge @(student.Grade >= 50 ? "bg-success" : "bg-danger")">
+                                                @student.Grade
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" 
+                                               @bind="GradeInputs[student.EnrollmentId]" 
+                                               min="0" max="100" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" 
+                                               @bind="CommentInputs[student.EnrollmentId]" 
+                                               placeholder="Opsiyonel" />
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <button class="btn btn-sm btn-primary" 
+                                                @onclick="() => SaveGrade(student.EnrollmentId)"
+                                                disabled="@IsSaving">
+                                            <i class="bi bi-save"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    private Course? Course { get; set; }
+    private List<CourseStudentVm>? Students { get; set; }
+    private bool IsLoading { get; set; } = true;
+    private bool IsSaving { get; set; }
+    
+    // Dictionary to hold temporary inputs
+    private Dictionary<int, decimal> GradeInputs { get; set; } = new();
+    private Dictionary<int, string> CommentInputs { get; set; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+        }
+    }
+
+    private async Task LoadData()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        try
+        {
+            Course = await CourseService.GetCourseByIdAsync(CourseId);
+            var students = await CourseService.GetEnrolledStudentsAsync(CourseId);
+            Students = students.ToList();
+
+            // Initialize inputs
+            GradeInputs.Clear();
+            CommentInputs.Clear();
+            foreach (var student in Students)
+            {
+                if (student.Grade.HasValue)
+                {
+                    GradeInputs[student.EnrollmentId] = student.Grade.Value;
+                }
+                CommentInputs[student.EnrollmentId] = "";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading grades: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task SaveGrade(int enrollmentId)
+    {
+        if (!GradeInputs.ContainsKey(enrollmentId)) return;
+
+        IsSaving = true;
+        try
+        {
+            decimal grade = GradeInputs[enrollmentId];
+            string comment = CommentInputs.ContainsKey(enrollmentId) ? CommentInputs[enrollmentId] : "";
+
+            var success = await GradeService.SetGradeAsync(enrollmentId, grade, comment);
+            
+            if (success)
+            {
+                // Refresh data to show updated grade
+                var students = await CourseService.GetEnrolledStudentsAsync(CourseId);
+                Students = students.ToList();
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving grade: {ex.Message}");
+        }
+        finally
+        {
+            IsSaving = false;
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/courses");
+    }
+}

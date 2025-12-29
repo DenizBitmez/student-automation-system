@@ -10,15 +10,18 @@
 
 <PageTitle>Öğrenci Listesi</PageTitle>
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Öğrenci Listesi</h1>
+        <div>
+            <h1 class="h3 mb-1 fw-bold">Öğrenci Listesi</h1>
+            <p class="text-muted mb-0">Tüm öğrencileri yönetin, düzenleyin veya silin.</p>
+        </div>
         <div class="d-flex gap-2">
             <button class="btn btn-outline-success" @onclick="ExportToCsv" disabled="@(!students?.Any() == true)">
                 <i class="bi bi-download me-2"></i>
                 CSV İndir
             </button>
-            <button class="btn btn-primary" @onclick="@(() => Navigation.NavigateTo("/ogrenci/ekle"))">
+            <button class="btn btn-primary shadow-sm hover-scale" @onclick="@(() => Navigation.NavigateTo("/ogrenci/ekle"))">
                 <i class="bi bi-plus-circle me-2"></i> Yeni Öğrenci Ekle
             </button>
         </div>
@@ -26,7 +29,7 @@
 
     @if (isLoading)
     {
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center py-5">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Yükleniyor...</span>
             </div>
@@ -34,38 +37,53 @@
     }
     else if (students?.Any() == true)
     {
-        <div class="card">
-            <div class="card-body">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
                             <tr>
-                                <th>ID</th>
-                                <th>Ad Soyad</th>
-                                <th>E-posta</th>
-                                <th>Telefon</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
+                                <th class="ps-4 py-3">ID</th>
+                                <th class="py-3">Ad Soyad</th>
+                                <th class="py-3">E-posta</th>
+                                <th class="py-3">Telefon</th>
+                                <th class="py-3">Kayıt Tarihi</th>
+                                <th class="pe-4 py-3 text-end">İşlemler</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var student in students)
                             {
                                 <tr>
-                                    <td>@student.Id</td>
-                                    <td>@student.FullName</td>
-                                    <td>@student.Email</td>
-                                    <td>@student.PhoneNumber</td>
-                                    <td>@student.EnrolledAt.ToString("dd/MM/yyyy")</td>
+                                    <td class="ps-4 fw-medium text-muted">#@student.Id</td>
                                     <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-outline-primary" @onclick="@(() => ViewStudent(student.Id))">
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                                <i class="bi bi-person-fill"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold text-dark">@student.FullName</div>
+                                                <div class="small text-muted">Öğrenci</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted">@student.Email</td>
+                                    <td class="text-muted">@student.PhoneNumber</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border fw-normal">
+                                            <i class="bi bi-calendar3 me-1"></i>
+                                            @student.EnrolledAt.ToString("dd.MM.yyyy")
+                                        </span>
+                                    </td>
+                                    <td class="pe-4 text-end">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-light text-primary" title="Görüntüle" @onclick="@(() => ViewStudent(student.Id))">
                                                 <i class="bi bi-eye"></i>
                                             </button>
-                                            <button class="btn btn-outline-warning" @onclick="@(() => EditStudent(student.Id))">
+                                            <button class="btn btn-sm btn-light text-warning" title="Düzenle" @onclick="@(() => EditStudent(student.Id))">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-outline-danger" @onclick="@(() => DeleteStudent(student.Id))">
+                                            <button class="btn btn-sm btn-light text-danger" title="Sil" @onclick="@(() => DeleteStudent(student.Id))">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
@@ -81,20 +99,38 @@
     else
     {
         <div class="text-center py-5">
-            <i class="bi bi-people display-1 text-muted"></i>
-            <h3 class="text-muted">Henüz öğrenci eklenmemiş</h3>
-            <p class="text-muted">İlk öğrenciyi eklemek için yukarıdaki butonu kullanın.</p>
+            <div class="mb-3 text-muted opacity-25">
+                 <i class="bi bi-people display-1"></i>
+            </div>
+            <h3 class="h5 fw-bold text-muted">Henüz öğrenci eklenmemiş</h3>
+            <p class="text-muted mb-4">Sisteme öğrenci ekleyerek başlayabilirsiniz.</p>
+            <button class="btn btn-primary" @onclick="@(() => Navigation.NavigateTo("/ogrenci/ekle"))">
+                <i class="bi bi-plus-circle me-2"></i> İlk Öğrenciyi Ekle
+            </button>
         </div>
     }
 </div>
+
+<style>
+    .hover-scale {
+        transition: transform 0.2s;
+    }
+    .hover-scale:hover {
+        transform: scale(1.05);
+    }
+</style>
 
 @code {
     private List<Student>? students;
     private bool isLoading = true;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await LoadStudents();
+        if (firstRender)
+        {
+            await LoadStudents();
+            StateHasChanged();
+        }
     }
 
     private async Task LoadStudents()

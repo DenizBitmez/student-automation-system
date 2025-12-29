@@ -1,11 +1,20 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Öğrenci Otomasyon Sistemi</a>
+    <div class="container-fluid ps-0">
+        <a class="navbar-brand d-flex align-items-center gap-3" href="/">
+            <div class="brand-icon bg-white text-primary rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; min-width: 40px;">
+                <i class="bi bi-mortarboard-fill fs-5"></i>
+            </div>
+            <div class="brand-text lh-1">
+                <div class="fw-bold fs-6">Öğrenci</div>
+                <div class="small text-white-50" style="font-size: 0.75rem; letter-spacing: 0.5px;">OTOMASYON</div>
+            </div>
+        </a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
+
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
@@ -90,18 +99,9 @@
                 </AuthorizeView>
             </Authorized>
             <NotAuthorized>
-                <!-- Navigation for Unauthenticated Users -->
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/giris">
-                        <i class="bi bi-box-arrow-in-right me-2"></i> Giriş Yap
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/kayit">
-                        <i class="bi bi-person-plus me-2"></i> Kayıt Ol
-                    </NavLink>
-                </div>
+                <!-- Navigation for Unauthenticated Users: Hidden as they should use the Landing Page / Login Page main actions -->
             </NotAuthorized>
+
         </AuthorizeView>
     </nav>
 </div>

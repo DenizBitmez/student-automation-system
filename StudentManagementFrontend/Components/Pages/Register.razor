@@ -8,101 +8,113 @@
 
 <PageTitle>Kayıt Ol</PageTitle>
 
-<div class="d-flex justify-content-center align-items-center min-vh-100">
-    <div class="card shadow" style="width: 100%; max-width: 500px;">
-        <div class="card-header bg-primary text-white text-center py-3">
-            <h4 class="mb-0">Yeni Hesap Oluştur</h4>
+<div class="auth-layout">
+    <div class="glass-card p-5 animate-slide-up" style="width: 100%; max-width: 600px;">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-gradient">Hesap Oluştur</h2>
+            <p class="text-muted">Öğrenci Otomasyon Sistemine katılın</p>
         </div>
         
-        <div class="card-body p-4">
-            @if (!string.IsNullOrEmpty(SuccessMessage))
-            {
-                <div class="alert alert-success">
-                    @SuccessMessage
-                    <button type="button" class="btn-close float-end" @onclick="@(() => { SuccessMessage = string.Empty; Navigation.NavigateTo("/login"); })"></button>
-                </div>
-            }
-            else if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                <div class="alert alert-danger">
-                    @ErrorMessage
-                    <button type="button" class="btn-close float-end" @onclick="() => ErrorMessage = string.Empty"></button>
-                </div>
-            }
+        @if (!string.IsNullOrEmpty(SuccessMessage))
+        {
+            <div class="alert alert-success animate-fade-in">
+                <i class="bi bi-check-circle-fill me-2"></i> @SuccessMessage
+                <button type="button" class="btn-close float-end" @onclick="@(() => { SuccessMessage = string.Empty; Navigation.NavigateTo("/login"); })"></button>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="alert alert-danger animate-fade-in">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> @ErrorMessage
+                <button type="button" class="btn-close float-end" @onclick="() => ErrorMessage = string.Empty"></button>
+            </div>
+        }
 
-            <EditForm Model="@RegisterModel" OnValidSubmit="HandleRegister" class="needs-validation" novalidate>
-                <DataAnnotationsValidator />
+        <EditForm Model="@RegisterModel" OnValidSubmit="HandleRegister" class="needs-validation" novalidate>
+            <DataAnnotationsValidator />
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label">Ad</label>
+                    <InputText id="firstName" @bind-Value="RegisterModel.FirstName" class="form-control" placeholder="Adınız" />
+                    <ValidationMessage For="@(() => RegisterModel.FirstName)" class="validation-message" />
+                </div>
                 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="firstName" class="form-label">Ad *</label>
-                        <InputText id="firstName" @bind-Value="RegisterModel.FirstName" class="form-control" />
-                        <ValidationMessage For="@(() => RegisterModel.FirstName)" class="text-danger" />
+                <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label">Soyad</label>
+                    <InputText id="lastName" @bind-Value="RegisterModel.LastName" class="form-control" placeholder="Soyadınız" />
+                    <ValidationMessage For="@(() => RegisterModel.LastName)" class="validation-message" />
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="username" class="form-label">Kullanıcı Adı</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-at text-muted"></i></span>
+                    <InputText id="username" @bind-Value="RegisterModel.Username" class="form-control border-start-0 ps-0" placeholder="kullaniciadi" />
+                </div>
+                <div class="form-text small">En az 3 karakter olmalı.</div>
+                <ValidationMessage For="@(() => RegisterModel.Username)" class="validation-message" />
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">E-posta</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                    <InputText id="email" type="email" @bind-Value="RegisterModel.Email" class="form-control border-start-0 ps-0" placeholder="ornek@email.com" />
+                </div>
+                <ValidationMessage For="@(() => RegisterModel.Email)" class="validation-message" />
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label">Şifre</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                        <InputText id="password" type="password" @bind-Value="RegisterModel.Password" class="form-control border-start-0 ps-0" placeholder="••••••" />
                     </div>
-                    
-                    <div class="col-md-6 mb-3">
-                        <label for="lastName" class="form-label">Soyad *</label>
-                        <InputText id="lastName" @bind-Value="RegisterModel.LastName" class="form-control" />
-                        <ValidationMessage For="@(() => RegisterModel.LastName)" class="text-danger" />
+                    <ValidationMessage For="@(() => RegisterModel.Password)" class="validation-message" />
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="confirmPassword" class="form-label">Şifre Tekrar</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-check2-circle text-muted"></i></span>
+                        <InputText id="confirmPassword" type="password" @bind-Value="RegisterModel.ConfirmPassword" class="form-control border-start-0 ps-0" placeholder="••••••" />
                     </div>
+                    <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)" class="validation-message" />
                 </div>
-                
-                <div class="mb-3">
-                    <label for="username" class="form-label">Kullanıcı Adı *</label>
-                    <InputText id="username" @bind-Value="RegisterModel.Username" class="form-control" />
-                    <div class="form-text">Kullanıcı adınız en az 3 karakter uzunluğunda olmalıdır.</div>
-                    <ValidationMessage For="@(() => RegisterModel.Username)" class="text-danger" />
-                </div>
-                
-                <div class="mb-3">
-                    <label for="email" class="form-label">E-posta *</label>
-                    <InputText id="email" type="email" @bind-Value="RegisterModel.Email" class="form-control" />
-                    <ValidationMessage For="@(() => RegisterModel.Email)" class="text-danger" />
-                </div>
-                
-                <div class="mb-3">
-                    <label for="password" class="form-label">Şifre *</label>
-                    <InputText id="password" type="password" @bind-Value="RegisterModel.Password" class="form-control" />
-                    <div class="form-text">Şifreniz en az 6 karakter uzunluğunda olmalıdır.</div>
-                    <ValidationMessage For="@(() => RegisterModel.Password)" class="text-danger" />
-                </div>
-                
-                <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Şifre Tekrar *</label>
-                    <InputText id="confirmPassword" type="password" @bind-Value="RegisterModel.ConfirmPassword" class="form-control" />
-                    <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)" class="text-danger" />
-                </div>
-                
-                <div class="mb-4">
-                    <label for="role" class="form-label">Hesap Türü *</label>
-                    <select id="role" @bind="RegisterModel.Role" class="form-select">
-                        <option value="">Hesap türünü seçiniz</option>
-                        <option value="Student">Öğrenci</option>
-                        <option value="Teacher">Öğretmen</option>
-                    </select>
-                    <ValidationMessage For="@(() => RegisterModel.Role)" class="text-danger" />
-                </div>
-                
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary" disabled="@IsLoading">
-                        @if (IsLoading)
-                        {
-                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                            <span>Kayıt Olunuyor...</span>
-                        }
-                        else
-                        {
-                            <i class="bi bi-person-plus me-2"></i>
-                            <span>Kayıt Ol</span>
-                        }
-                    </button>
-                </div>
-            </EditForm>
-        </div>
+            </div>
+            
+            <div class="mb-4">
+                <label for="role" class="form-label">Hesap Türü</label>
+                <select id="role" @bind="RegisterModel.Role" class="form-select">
+                    <option value="">Hesap türünü seçiniz</option>
+                    <option value="Student">Öğrenci</option>
+                    <option value="Teacher">Öğretmen</option>
+                </select>
+                <ValidationMessage For="@(() => RegisterModel.Role)" class="validation-message" />
+            </div>
+            
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary btn-lg" disabled="@IsLoading">
+                    @if (IsLoading)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        <span>Kayıt Olunuyor...</span>
+                    }
+                    else
+                    {
+                        <span>Hesap Oluştur</span>
+                        <i class="bi bi-chevron-right ms-2"></i>
+                    }
+                </button>
+            </div>
+        </EditForm>
         
-        <div class="card-footer text-center py-3">
+        <div class="text-center mt-4 text-muted small">
             Zaten hesabınız var mı? 
-            <a href="/giris" class="text-primary text-decoration-none fw-bold">Giriş Yapın</a>
+            <a href="/giris" class="text-primary text-decoration-none fw-bold ms-1">Giriş Yapın</a>
         </div>
     </div>
 </div>

@@ -80,13 +80,18 @@ public class TeacherService : ITeacherService
             var createDto = new 
             {
                 Email = teacher.Email,
-                FullName = $"{teacher.FirstName} {teacher.LastName}",
-                Password = "Password123!", // Default password for now? Or prompts?
+                FullName = $"{teacher.FirstName} {teacher.LastName}".Trim(),
+                Password = "Password123!", // Default password
                 Department = teacher.Branch
             };
             
             var response = await _httpClient.PostAsJsonAsync(BasePath, createDto);
-            response.EnsureSuccessStatusCode();
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Server Error ({response.StatusCode}): {errorContent}");
+            }
             
             var vm = await response.Content.ReadFromJsonAsync<TeacherVm>();
             if (vm == null) throw new Exception("Failed to deserialize teacher");

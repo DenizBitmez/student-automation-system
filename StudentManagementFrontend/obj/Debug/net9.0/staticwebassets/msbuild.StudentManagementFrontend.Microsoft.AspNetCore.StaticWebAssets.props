@@ -48,8 +48,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>wo1tx67z4v</Fingerprint>
-      <Integrity>MInBWZgXgdikiFbv5h4gPnnDROAywQXDD5XCpBi68IA=</Integrity>
+      <Fingerprint>gxgu1igd10</Fingerprint>
+      <Integrity>zOUVUrE5IIjxzllMqHg1bbw+/89WIuEE4nLLh5mMYB8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\app.css'))</OriginalItemSpec>
@@ -918,23 +918,23 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\register.html'))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\StudentManagementFrontend.lznygv93k9.bundle.scp.css'))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\StudentManagementFrontend.v85mr6t8a0.bundle.scp.css'))">
       <SourceType>Package</SourceType>
       <SourceId>StudentManagementFrontend</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/StudentManagementFrontend</BasePath>
-      <RelativePath>StudentManagementFrontend.lznygv93k9.bundle.scp.css</RelativePath>
+      <RelativePath>StudentManagementFrontend.v85mr6t8a0.bundle.scp.css</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>Reference</AssetMode>
       <AssetRole>Primary</AssetRole>
       <RelatedAsset></RelatedAsset>
       <AssetTraitName>ScopedCss</AssetTraitName>
       <AssetTraitValue>ProjectBundle</AssetTraitValue>
-      <Fingerprint>lznygv93k9</Fingerprint>
-      <Integrity>DxYpfnxm/1GEQ2FcmodgJa2RBuJJ/06Y6/rDAlOf8jM=</Integrity>
+      <Fingerprint>v85mr6t8a0</Fingerprint>
+      <Integrity>D2f0cQ9XEp5wuIa6OJxcGAu9vDn2UQoDiUU9kIdbP44=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\StudentManagementFrontend.lznygv93k9.bundle.scp.css'))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\StudentManagementFrontend.v85mr6t8a0.bundle.scp.css'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

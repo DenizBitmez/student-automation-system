@@ -14,8 +14,15 @@ builder.Services.AddServerSideBlazor();
 // Set the base address for the HTTP client
 var baseAddress = builder.Configuration["BaseUrl"] ?? "http://localhost:5000/";
 
-// Register the HTTP client with the base address
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
+// Register JwtInterceptor
+builder.Services.AddScoped<JwtInterceptor>();
+
+// Register the HTTP client with the base address and message handler
+builder.Services.AddHttpClient("API", client => client.BaseAddress = new Uri(baseAddress))
+    .AddHttpMessageHandler<JwtInterceptor>();
+
+// Register the default HttpClient (scoped) to use the factory
+builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("API"));
 
 // Add Blazored LocalStorage for token management
 builder.Services.AddBlazoredLocalStorage();
