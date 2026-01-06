@@ -1,0 +1,158 @@
+@page "/ogrenci/aktiviteler"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject ActivityService ActivityService
+@attribute [Authorize(Roles = "Student")]
+
+<div class="animate-fade-in">
+    <div class="row align-items-center mb-4">
+        <div class="col">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-secondary-gradient p-3 rounded-3 shadow-glow">
+                    <i class="bi bi-stars text-white fs-4"></i>
+                </div>
+                <div>
+                    <h2 class="h3 fw-bold mb-0">Sosyal Aktivitelerim</h2>
+                    <p class="text-muted mb-0">Okuduğunuz kitapları, katıldığınız etkinlikleri ve başarılarınızı kaydedin.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-secondary px-4 fw-bold rounded-pill text-white" @onclick="() => showForm = !showForm">
+                <i class="bi bi-plus-lg me-2"></i> Aktivite Ekle
+            </button>
+        </div>
+    </div>
+
+    @if (showForm)
+    {
+        <div class="card border-0 shadow-lg mb-5 animate-slide-up">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-4">Yeni Aktivite Kaydı</h5>
+                <EditForm Model="createModel" OnValidSubmit="HandleSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Aktivite Adı</label>
+                            <InputText @bind-Value="createModel.Title" class="form-control" placeholder="Örn: Sefiller - Kitap Okuma" />
+                            <ValidationMessage For="@(() => createModel.Title)" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Tür</label>
+                            <InputSelect @bind-Value="createModel.Type" class="form-select">
+                                <option value="Kitap">Kitap Okuma</option>
+                                <option value="Spor">Spor</option>
+                                <option value="Sanat">Sanat/Müzik</option>
+                                <option value="Bilim">Bilim/Teknoloji</option>
+                                <option value="Gönüllülük">Sosyal Sorumluluk</option>
+                            </InputSelect>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama (Opsiyonel)</label>
+                        <InputTextArea @bind-Value="createModel.Description" class="form-control" rows="2" placeholder="Kısa bir not ekleyebilirsiniz..." />
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Tarih</label>
+                        <InputDate @bind-Value="createModel.ActivityDate" class="form-control" />
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-secondary text-white px-4 fw-bold rounded-pill" disabled="@isSubmitting">
+                            @if (isSubmitting) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                            Kaydet
+                        </button>
+                        <button type="button" class="btn btn-light px-4 fw-bold rounded-pill" @onclick="() => showForm = false">Vazgeç</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    }
+
+    @if (activities == null)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-secondary" role="status"></div>
+        </div>
+    }
+    else if (!activities.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center">
+            <i class="bi bi-award text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold">Henüz Aktivite Girmediniz</h4>
+            <p class="text-muted">Gelişiminizi takip etmek için ilk aktivitenizi ekleyin.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var a in activities)
+            {
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm h-100 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-light p-2 rounded-circle">
+                                    <i class="bi @GetIcon(a.Type) text-secondary fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-0">@a.Title</h5>
+                                    <span class="badge bg-secondary-subtle text-secondary small">@a.Type</span>
+                                </div>
+                                <div class="ms-auto text-end">
+                                    <small class="text-muted fw-bold d-block">@a.ActivityDate.ToString("dd.MM.yyyy")</small>
+                                </div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(a.Description))
+                            {
+                                <p class="text-muted small mb-0">@a.Description</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<ActivityVm>? activities;
+    private bool showForm = false;
+    private bool isSubmitting = false;
+    private ActivityVm createModel = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadActivities();
+    }
+
+    private async Task LoadActivities()
+    {
+        activities = await ActivityService.GetMyActivitiesAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        try
+        {
+            await ActivityService.CreateActivityAsync(createModel);
+            createModel = new();
+            showForm = false;
+            await LoadActivities();
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private string GetIcon(string type) => type switch
+    {
+        "Kitap" => "bi-book-half",
+        "Spor" => "bi-trophy-fill",
+        "Sanat" => "bi-palette-fill",
+        "Bilim" => "bi-cpu-fill",
+        "Gönüllülük" => "bi-heart-fill",
+        _ => "bi-star-fill"
+    };
+}

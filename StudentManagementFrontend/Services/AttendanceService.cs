@@ -6,6 +6,7 @@ public interface IAttendanceService
 {
     Task<bool> TickAttendanceAsync(int enrollmentId, bool present);
     Task<IEnumerable<AttendanceRecordDto>> GetAttendanceByStudentAsync(int studentId);
+    Task<IEnumerable<AttendanceRecordDto>> GetMyAttendanceAsync();
 }
 
 public class AttendanceService : IAttendanceService
@@ -41,6 +42,19 @@ public class AttendanceService : IAttendanceService
         catch (Exception ex)
         {
             Console.WriteLine($"Error fetching attendance for student {studentId}: {ex.Message}");
+            return new List<AttendanceRecordDto>();
+        }
+    }
+
+    public async Task<IEnumerable<AttendanceRecordDto>> GetMyAttendanceAsync()
+    {
+        try
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<AttendanceRecordDto>>($"{BasePath}/my") ?? new List<AttendanceRecordDto>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching my attendance: {ex.Message}");
             return new List<AttendanceRecordDto>();
         }
     }

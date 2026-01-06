@@ -8,43 +8,61 @@ public interface IReportService
     Task DownloadStudentGradesPdfAsync(int studentId);
     Task DownloadStudentAttendancePdfAsync(int studentId);
     Task DownloadCourseReportPdfAsync(int courseId);
+    Task DownloadMyGradesPdfAsync();
+    Task DownloadMyAttendancePdfAsync();
 }
 
 public class ReportService : IReportService
 {
     private readonly IJSRuntime _jsRuntime;
-    private readonly string _baseUrl;
+    private readonly HttpClient _httpClient;
 
-    // We inject HttpClient to get BaseAddress, or Config
     public ReportService(IJSRuntime jsRuntime, HttpClient httpClient)
     {
         _jsRuntime = jsRuntime;
-        _baseUrl = httpClient.BaseAddress?.ToString() ?? "http://localhost:5274/";
+        _httpClient = httpClient;
     }
 
-    private string GetFullUrl(string relativePath) => $"{_baseUrl.TrimEnd('/')}/{relativePath.TrimStart('/')}";
+    private async Task DownloadFileAsync(string relativePath, string fileName)
+    {
+        try
+        {
+            var data = await _httpClient.GetByteArrayAsync(relativePath);
+            await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, "application/pdf", data);
+        }
+        catch (Exception ex)
+        {
+            await _jsRuntime.InvokeVoidAsync("alert", $"Dosya indirilirken hata oluştu: {ex.Message}");
+        }
+    }
 
     public async Task DownloadStudentListPdfAsync()
     {
-        var url = GetFullUrl("api/reports/students/pdf");
-        await _jsRuntime.InvokeVoidAsync("open", url, "_blank");
+        await DownloadFileAsync("api/reports/students/pdf", "ogrenci_listesi.pdf");
     }
 
     public async Task DownloadStudentGradesPdfAsync(int studentId)
     {
-        var url = GetFullUrl($"api/reports/students/{studentId}/grades/pdf");
-        await _jsRuntime.InvokeVoidAsync("open", url, "_blank");
+        await DownloadFileAsync($"api/reports/students/{studentId}/grades/pdf", $"karne_{studentId}.pdf");
     }
 
     public async Task DownloadStudentAttendancePdfAsync(int studentId)
     {
-        var url = GetFullUrl($"api/reports/students/{studentId}/attendance/pdf");
-        await _jsRuntime.InvokeVoidAsync("open", url, "_blank");
+        await DownloadFileAsync($"api/reports/students/{studentId}/attendance/pdf", $"devamsizlik_{studentId}.pdf");
     }
 
     public async Task DownloadCourseReportPdfAsync(int courseId)
     {
-        var url = GetFullUrl($"api/reports/courses/{courseId}/pdf");
-        await _jsRuntime.InvokeVoidAsync("open", url, "_blank");
+        await DownloadFileAsync($"api/reports/courses/{courseId}/pdf", $"ders_raporu_{courseId}.pdf");
+    }
+
+    public async Task DownloadMyGradesPdfAsync()
+    {
+        await DownloadFileAsync("api/reports/my/grades/pdf", "karne.pdf");
+    }
+
+    public async Task DownloadMyAttendancePdfAsync()
+    {
+        await DownloadFileAsync("api/reports/my/attendance/pdf", "devamsizlik_raporu.pdf");
     }
 }

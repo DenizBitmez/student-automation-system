@@ -7,6 +7,7 @@ public interface IGradeService
 {
     Task<bool> SetGradeAsync(int enrollmentId, decimal grade, string? comment);
     Task<IEnumerable<GradeDto>> GetGradesByStudentAsync(int studentId);
+    Task<IEnumerable<GradeDto>> GetMyGradesAsync();
 }
 
 public class GradeService : IGradeService
@@ -43,6 +44,19 @@ public class GradeService : IGradeService
         catch (Exception ex)
         {
             Console.WriteLine($"Error fetching grades for student {studentId}: {ex.Message}");
+            return new List<GradeDto>();
+        }
+    }
+
+    public async Task<IEnumerable<GradeDto>> GetMyGradesAsync()
+    {
+        try
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<GradeDto>>($"{BasePath}/my") ?? new List<GradeDto>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching my grades: {ex.Message}");
             return new List<GradeDto>();
         }
     }

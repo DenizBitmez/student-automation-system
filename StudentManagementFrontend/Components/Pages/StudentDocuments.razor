@@ -1,0 +1,96 @@
+@page "/ogrenci/belgeler"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject DocumentService DocumentService
+@inject IJSRuntime JSRuntime
+@inject IReportService ReportService
+@attribute [Authorize(Roles = "Student")]
+
+<div class="animate-fade-in">
+    <div class="d-flex align-items-center gap-3 mb-5">
+        <div class="bg-danger-gradient p-3 rounded-3 shadow-glow">
+            <i class="bi bi-file-earmark-pdf-fill text-white fs-4"></i>
+        </div>
+        <div>
+            <h2 class="h3 fw-bold mb-0">Karneler & Belgeler</h2>
+            <p class="text-muted mb-0">Resmi belgelerinize ve dönem sonu karnelerinize buradan ulaşabilirsiniz.</p>
+        </div>
+    </div>
+
+    @if (documents == null)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-danger" role="status"></div>
+        </div>
+    }
+    else if (!documents.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center">
+            <i class="bi bi-file-earmark-lock text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold">Belge Bulunamadı</h4>
+            <p class="text-muted">Henüz yayınlanmış bir belgeniz bulunmuyor.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var doc in documents)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 hover-lift overflow-hidden">
+                        <div class="card-body p-0">
+                            <div class="p-4">
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div class="@(doc.Type == "Karne" ? "bg-primary-light text-primary" : "bg-warning-light text-warning") p-3 rounded-3">
+                                        <i class="bi @(doc.Type == "Karne" ? "bi-mortarboard-fill" : "bi-patch-check-fill") fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0 text-main">@doc.Title</h6>
+                                        <small class="text-muted">@doc.Type • @doc.IssueDate.ToString("MMMM yyyy")</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-light p-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="small text-muted fw-bold">PDF Formatında</span>
+                                <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-bold" @onclick="() => Download(doc)">
+                                    <i class="bi bi-download me-1"></i> İndir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="mt-5">
+        <div class="alert alert-info border-0 shadow-sm rounded-lg p-4 d-flex align-items-start gap-3">
+            <i class="bi bi-info-circle-fill fs-4 text-info mt-1"></i>
+            <div>
+                <h6 class="fw-bold">Not: Güncel Durum Çıktısı</h6>
+                <p class="mb-0 small">Karneler sadece dönem sonlarında yayınlanır. Güncel not durumunuzu "Notlarım" sayfasından PDF olarak indirebilirsiniz.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<DocumentVm>? documents;
+
+    protected override async Task OnInitializedAsync()
+    {
+        documents = await DocumentService.GetMyDocumentsAsync();
+    }
+
+    private async Task Download(DocumentVm doc)
+    {
+        if (doc.Type == "Karne")
+        {
+            await ReportService.DownloadMyGradesPdfAsync();
+        }
+        else if (!string.IsNullOrEmpty(doc.FileUrl) && doc.FileUrl != "#")
+        {
+            await JSRuntime.InvokeVoidAsync("open", doc.FileUrl, "_blank");
+        }
+    }
+}

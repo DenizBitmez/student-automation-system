@@ -7,9 +7,9 @@
 		public string Name { get; set; } = default!;
 		public int TeacherId { get; set; }
 		public Teacher Teacher { get; set; } = default!;
-		public CourseStatus Status { get; set; } = CourseStatus.Draft;
+		public CourseStatus Status { get; set; } = CourseStatus.Active;
 		public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
 	}
 
-	public enum CourseStatus { Draft, Started, Finished }
+	public enum CourseStatus { Active, Completed, Archived }
 }

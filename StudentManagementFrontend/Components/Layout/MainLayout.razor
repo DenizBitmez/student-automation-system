@@ -8,39 +8,69 @@
 @inject ILocalStorageService LocalStorage
 
 <div class="page">
-    <div class="sidebar">
+    <div class="sidebar d-none d-lg-block">
         <NavMenu />
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <div class="d-flex align-items-center justify-content-between w-100">
-                <div class="d-flex align-items-center w-100 justify-content-end">
-                    <AuthorizeView>
-                        <Authorized>
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="me-3">Hoşgeldiniz, @context.User.Identity?.Name</span>
-                                <button class="btn btn-outline-danger btn-sm" @onclick="Logout">
-                                    <i class="bi bi-box-arrow-right"></i> Çıkış Yap
-                                </button>
-                            </div>
-                        </Authorized>
-                        <NotAuthorized>
-                            <div class="d-flex align-items-center">
-                                <a href="/giris" class="btn btn-outline-primary btn-sm me-2">Giriş Yap</a>
-                                <a href="/kayit" class="btn btn-primary btn-sm">Kayıt Ol</a>
-                            </div>
-                        </NotAuthorized>
-                    </AuthorizeView>
-                </div>
+        <header class="top-bar px-4 py-3 d-flex align-items-center justify-content-between bg-white border-bottom">
+            <div class="search-trigger d-flex align-items-center gap-2 text-muted d-none d-md-flex">
+                <i class="bi bi-search"></i>
+                <span class="small">Hızlı arama...</span>
             </div>
-        </div>
 
-        <article class="content px-4">
+            <div class="user-actions d-flex align-items-center gap-4">
+                <AuthorizeView>
+                    <Authorized>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="user-info text-end d-none d-sm-block">
+                                <div class="fw-bold small text-main">@context.User.Identity?.Name</div>
+                                <div class="text-muted" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    @(context.User.IsInRole("Admin") ? "Yönetici" : context.User.IsInRole("Teacher") ? "Öğretmen" : "Öğrenci")
+                                </div>
+                            </div>
+                            <div class="avatar bg-primary-light text-primary rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; font-weight: 700;">
+                                @context.User.Identity?.Name?.Substring(0, 1).ToUpper()
+                            </div>
+                            <button class="btn btn-outline-danger btn-sm px-3" @onclick="Logout" title="Çıkış Yap">
+                                <i class="bi bi-box-arrow-right"></i>
+                            </button>
+                        </div>
+                    </Authorized>
+                    <NotAuthorized>
+                        <div class="d-flex align-items-center gap-2">
+                            <a href="/giris" class="btn btn-outline-primary btn-sm px-4">Giriş</a>
+                            <a href="/kayit" class="btn btn-primary btn-sm px-4">Kayıt Ol</a>
+                        </div>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+        </header>
+
+        <article class="content container-fluid px-4 py-4 animate-fade-in">
             @Body
         </article>
     </main>
 </div>
+
+<style>
+    .top-bar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        height: 72px;
+    }
+
+    .avatar {
+        transition: var(--transition);
+        cursor: pointer;
+    }
+
+    .avatar:hover {
+        transform: scale(1.05);
+        box-shadow: var(--shadow-md);
+    }
+</style>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.

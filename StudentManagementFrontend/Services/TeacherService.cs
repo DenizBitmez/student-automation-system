@@ -128,7 +128,12 @@ public class TeacherService : ITeacherService
     {
         try
         {
-            var response = await _httpClient.PutAsJsonAsync($"{BasePath}/{id}", teacher);
+            var updateDto = new 
+            {
+                FullName = string.IsNullOrEmpty(teacher.FullName) ? $"{teacher.FirstName} {teacher.LastName}".Trim() : teacher.FullName,
+                Department = teacher.Branch
+            };
+            var response = await _httpClient.PutAsJsonAsync($"{BasePath}/{id}", updateDto);
             return response.IsSuccessStatusCode;
         }
         catch (HttpRequestException ex)

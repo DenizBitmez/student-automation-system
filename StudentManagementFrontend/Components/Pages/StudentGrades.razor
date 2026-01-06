@@ -1,0 +1,86 @@
+@page "/ogrenci/notlar"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject IGradeService GradeService
+@inject IReportService ReportService
+@attribute [Authorize(Roles = "Student")]
+
+<div class="animate-fade-in">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary-gradient p-3 rounded-3 shadow-glow">
+                <i class="bi bi-journal-text text-white fs-4"></i>
+            </div>
+            <div>
+                <h2 class="h3 fw-bold mb-0">Notlarım</h2>
+                <p class="text-muted mb-0">Derslerinizdeki başarı durumunu buradan takip edebilirsiniz.</p>
+            </div>
+        </div>
+        <button class="btn btn-outline-primary shadow-sm px-4" @onclick="DownloadKarne">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Karne İndir
+        </button>
+    </div>
+
+    @if (grades == null)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else if (!grades.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center">
+            <i class="bi bi-info-circle text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold">Henüz Notunuz Yok</h4>
+            <p class="text-muted">Kaydolduğunuz dersler için henüz bir not girişi yapılmamış.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var grade in grades)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 hover-lift">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <span class="badge bg-primary-light text-primary mb-2">@grade.Code</span>
+                                    <h5 class="fw-bold mb-0">@grade.Name</h5>
+                                </div>
+                                <div class="text-end">
+                                    <div class="h3 fw-bold mb-0 @(grade.Grade >= 60 ? "text-success" : "text-danger")">
+                                        @(grade.Grade?.ToString("0.##") ?? "-")
+                                    </div>
+                                    <small class="text-muted fw-bold">100 Üzerinden</small>
+                                </div>
+                            </div>
+                            
+                            @if (!string.IsNullOrEmpty(grade.Comment))
+                            {
+                                <div class="bg-light p-3 rounded-3 mt-3">
+                                    <small class="text-muted d-block mb-1">Eğitmen Notu:</small>
+                                    <p class="small mb-0 italic">"@grade.Comment"</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private IEnumerable<GradeDto>? grades;
+
+    protected override async Task OnInitializedAsync()
+    {
+        grades = await GradeService.GetMyGradesAsync();
+    }
+
+    private async Task DownloadKarne()
+    {
+        await ReportService.DownloadMyGradesPdfAsync();
+    }
+}

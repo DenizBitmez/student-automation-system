@@ -19,6 +19,10 @@ namespace StudentManagementFrontend.Services
         Task<IEnumerable<Course>> SearchCoursesAsync(string searchTerm);
         Task<IEnumerable<Course>> GetCoursesByTeacherIdAsync(int teacherId);
         Task<IEnumerable<Course>> GetActiveCoursesAsync();
+        Task<bool> UpdateCourseStatusAsync(int courseId, bool isActive);
         Task<int> GetEnrolledStudentCountAsync(int courseId);
+        Task<int> GetActiveCourseCountAsync();
+        Task<int> GetTotalCourseCountAsync();
+        Task<IEnumerable<Course>> GetCoursesBySemesterAsync(string semester);
     }
 }

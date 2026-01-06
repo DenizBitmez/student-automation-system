@@ -87,7 +87,11 @@ public class StudentService
 
     public async Task UpdateStudentAsync(Student student)
     {
-        var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/{student.Id}", student);
+        var updateDto = new 
+        {
+            FullName = string.IsNullOrEmpty(student.FullName) ? $"{student.FirstName} {student.LastName}".Trim() : student.FullName
+        };
+        var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/{student.Id}", updateDto);
         response.EnsureSuccessStatusCode();
     }
 

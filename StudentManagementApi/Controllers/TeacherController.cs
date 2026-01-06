@@ -42,5 +42,39 @@ namespace StudentManagementApi.Controllers
 			await db.SaveChangesAsync();
 			return CreatedAtAction(nameof(GetById), new { id = teacher.Id }, new TeacherVm(teacher.Id, user.Email!, user.FullName ?? "", teacher.Department));
 		}
+
+		[HttpPut("{id:int}")]
+		public async Task<IActionResult> Update(int id, TeacherUpdateDto dto)
+		{
+			var t = await db.Teachers.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
+			if (t is null) return NotFound();
+
+			t.Department = dto.Department;
+			t.User.FullName = dto.FullName;
+
+			await db.SaveChangesAsync();
+			return NoContent();
+		}
+
+		[HttpDelete("{id:int}")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var t = await db.Teachers.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
+			if (t is null) return NotFound();
+
+			// Remove teacher entry
+			db.Teachers.Remove(t);
+			
+			// Optional: Remove user entry too? For now just the teacher role/entry
+			// In many systems we keep the user but remove the role/profile. 
+			// But here let's be thorough if it's a "Delete Teacher" action.
+			await um.DeleteAsync(t.User);
+
+			await db.SaveChangesAsync();
+			return NoContent();
+		}
+
+		[HttpGet("count")]
+		public async Task<int> GetCount() => await db.Teachers.CountAsync();
 	}
 }

@@ -1,0 +1,137 @@
+@page "/sikayetler"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject ComplaintService ComplaintService
+@attribute [Authorize(Roles = "Admin,Teacher")]
+
+<div class="animate-fade-in">
+    <div class="d-flex align-items-center gap-3 mb-5">
+        <div class="bg-primary-gradient p-3 rounded-3 shadow-glow">
+            <i class="bi bi-chat-left-dots-fill text-white fs-4"></i>
+        </div>
+        <div>
+            <h2 class="h3 fw-bold mb-0">Öğrenci Şikayet & Dilekleri</h2>
+            <p class="text-muted mb-0">Öğrencilerden gelen başvuruları inceleyin ve yanıtlayın.</p>
+        </div>
+    </div>
+
+    @if (complaints == null)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else if (!complaints.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center">
+            <i class="bi bi-check-circle text-success fs-1 mb-3"></i>
+            <h4 class="fw-bold">Okunmamış Başvuru Yok</h4>
+            <p class="text-muted">Harika! Tüm öğrenci talepleri yanıtlanmış.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var c in complaints)
+            {
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm overflow-hidden">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <h5 class="fw-bold mb-0">@c.Title</h5>
+                                        <span class="badge @(c.IsResolved ? "bg-success-subtle text-success" : "bg-warning-subtle text-warning") rounded-pill">
+                                            @(c.IsResolved ? "Çözüldü" : "Bekliyor")
+                                        </span>
+                                    </div>
+                                    <small class="text-muted">
+                                        <i class="bi bi-person-fill"></i> @c.StudentName • @c.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                                    </small>
+                                </div>
+                                <AuthorizeView Roles="Admin">
+                                    @if (!c.IsResolved)
+                                    {
+                                        <button class="btn btn-primary rounded-pill px-4 fw-bold" @onclick="() => SelectComplaint(c)">
+                                            Yanıtla
+                                        </button>
+                                    }
+                                </AuthorizeView>
+                            </div>
+                            <p class="text-main mb-0">@c.Description</p>
+
+                            @if (!string.IsNullOrEmpty(c.AdminResponse))
+                            {
+                                <div class="mt-4 p-3 bg-light rounded-3 border-start border-primary border-4">
+                                    <small class="text-muted fw-bold d-block mb-1">Yanıtınız:</small>
+                                    <p class="small mb-0">@c.AdminResponse</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@if (selectedComplaint != null)
+{
+    <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="fw-bold">Şikayeti Yanıtla</h5>
+                    <button type="button" class="btn-close" @onclick="() => selectedComplaint = null"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="bg-light p-3 rounded-3 mb-4">
+                        <small class="text-muted fw-bold">Şikayet Detayı:</small>
+                        <p class="mb-0 small">@selectedComplaint.Description</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Yanıtınız</label>
+                        <textarea @bind="adminResponse" class="form-control" rows="4" placeholder="Öğrenciye iletilecek yanıtı yazın..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4 rounded-pill" @onclick="() => selectedComplaint = null">Kapat</button>
+                    <button type="button" class="btn btn-primary px-4 rounded-pill shadow-sm" @onclick="SubmitResponse" disabled="@string.IsNullOrWhiteSpace(adminResponse)">
+                        Yanıtı Gönder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<ComplaintVm>? complaints;
+    private ComplaintVm? selectedComplaint;
+    private string adminResponse = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadComplaints();
+    }
+
+    private async Task LoadComplaints()
+    {
+        complaints = await ComplaintService.GetAllComplaintsAsync();
+    }
+
+    private void SelectComplaint(ComplaintVm c)
+    {
+        selectedComplaint = c;
+        adminResponse = "";
+    }
+
+    private async Task SubmitResponse()
+    {
+        if (selectedComplaint == null) return;
+        
+        await ComplaintService.RespondToComplaintAsync(selectedComplaint.Id, adminResponse);
+        selectedComplaint = null;
+        await LoadComplaints();
+    }
+}

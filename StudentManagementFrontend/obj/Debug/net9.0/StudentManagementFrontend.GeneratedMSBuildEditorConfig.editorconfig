@@ -40,6 +40,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZGRUZWFjaGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/AdminComplaints.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZG1pbkNvbXBsYWludHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/AttendanceEntry.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBdHRlbmRhbmNlRW50cnkucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -100,8 +104,28 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZXNldFBhc3N3b3JkLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/StudentActivities.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdHVkZW50QWN0aXZpdGllcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/StudentAttendance.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdHVkZW50QXR0ZW5kYW5jZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/StudentComplaints.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdHVkZW50Q29tcGxhaW50cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/StudentDetail.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdHVkZW50RGV0YWlsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/StudentDocuments.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdHVkZW50RG9jdW1lbnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/StudentGrades.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdHVkZW50R3JhZGVzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/StudentList.razor]

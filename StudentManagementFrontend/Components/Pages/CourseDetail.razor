@@ -72,7 +72,18 @@ else
                             <div class="col-md-6">
                                 <p><strong>Kredi:</strong> @Course.Credits</p>
                                 <p><strong>Dönem:</strong> @Course.Semester</p>
-                                <p><strong>Öğretmen:</strong> @Course.TeacherName</p>
+                                <p><strong>Öğretmen:</strong> 
+                                    @if (Course.TeacherId > 0)
+                                    {
+                                        <a href="/ogretmen/@Course.TeacherId" class="text-decoration-none">
+                                            @(string.IsNullOrEmpty(Course.TeacherName) ? "Öğretmen" : Course.TeacherName)
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Atanmadı</span>
+                                    }
+                                </p>
                             </div>
                         </div>
                     </div>

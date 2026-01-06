@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StudentManagementApi.Data;
 using StudentManagementApi.Services;
 
 namespace StudentManagementApi.Controllers;
@@ -10,10 +12,12 @@ namespace StudentManagementApi.Controllers;
 public class ReportsController : ControllerBase
 {
     private readonly IPdfExportService _pdfExportService;
+    private readonly AppDbContext _db;
 
-    public ReportsController(IPdfExportService pdfExportService)
+    public ReportsController(IPdfExportService pdfExportService, AppDbContext db)
     {
         _pdfExportService = pdfExportService;
+        _db = db;
     }
 
     [HttpGet("students/pdf")]
@@ -87,6 +91,44 @@ public class ReportsController : ControllerBase
         catch (ArgumentException ex)
         {
             return NotFound(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = "PDF oluşturulurken hata oluştu.", error = ex.Message });
+        }
+    }
+
+    [HttpGet("my/grades/pdf")]
+    [Authorize(Roles = "Student")]
+    public async Task<IActionResult> ExportMyGradesToPdf()
+    {
+        try
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var student = await _db.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+            if (student == null) return NotFound("Öğrenci bulunamadı.");
+
+            var pdfBytes = await _pdfExportService.ExportGradeReportToPdfAsync(student.Id);
+            return File(pdfBytes, "application/pdf", $"karne_{student.Id}.pdf");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = "PDF oluşturulurken hata oluştu.", error = ex.Message });
+        }
+    }
+
+    [HttpGet("my/attendance/pdf")]
+    [Authorize(Roles = "Student")]
+    public async Task<IActionResult> ExportMyAttendanceToPdf()
+    {
+        try
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var student = await _db.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+            if (student == null) return NotFound("Öğrenci bulunamadı.");
+
+            var pdfBytes = await _pdfExportService.ExportAttendanceReportToPdfAsync(student.Id);
+            return File(pdfBytes, "application/pdf", $"devamsizlik_{student.Id}.pdf");
         }
         catch (Exception ex)
         {

@@ -1,0 +1,142 @@
+@page "/ogrenci/sikayet"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject ComplaintService ComplaintService
+@attribute [Authorize(Roles = "Student")]
+
+<div class="animate-fade-in">
+    <div class="row align-items-center mb-4">
+        <div class="col">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-warning-gradient p-3 rounded-3 shadow-glow">
+                    <i class="bi bi-chat-dots-fill text-white fs-4"></i>
+                </div>
+                <div>
+                    <h2 class="h3 fw-bold mb-0">Dilek & Şikayet</h2>
+                    <p class="text-muted mb-0">Görüşlerinizi bizimle paylaşın, sistemi birlikte geliştirelim.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary px-4 fw-bold rounded-pill" @onclick="() => showForm = !showForm">
+                <i class="bi bi-plus-lg me-2"></i> Yeni Başvuru
+            </button>
+        </div>
+    </div>
+
+    @if (showForm)
+    {
+        <div class="card border-0 shadow-lg mb-5 animate-fade-in">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-4">Yeni Dilek/Şikayet Formu</h5>
+                <EditForm Model="createModel" OnValidSubmit="HandleSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="mb-3">
+                        <label class="form-label">Konu</label>
+                        <InputText @bind-Value="createModel.Title" class="form-control" placeholder="Örn: Kütüphane saatleri hakkında" />
+                        <ValidationMessage For="@(() => createModel.Title)" />
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Açıklama</label>
+                        <InputTextArea @bind-Value="createModel.Description" class="form-control" rows="4" placeholder="Lütfen detaylı bilgi verin..." />
+                        <ValidationMessage For="@(() => createModel.Description)" />
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4 fw-bold rounded-pill" disabled="@isSubmitting">
+                            @if (isSubmitting) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                            Gönder
+                        </button>
+                        <button type="button" class="btn btn-light px-4 fw-bold rounded-pill" @onclick="() => showForm = false">Vazgeç</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    }
+
+    @if (complaints == null)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else if (!complaints.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center">
+            <i class="bi bi-chat-right text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold">Henüz Başvurunuz Yok</h4>
+            <p class="text-muted">Görüşlerinizi bildirmek için "Yeni Başvuru" butonunu kullanın.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var c in complaints)
+            {
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1">@c.Title</h5>
+                                    <small class="text-muted">@c.CreatedAt.ToString("dd MMMM yyyy, HH:mm")</small>
+                                </div>
+                                <span class="badge @(c.IsResolved ? "bg-success-subtle text-success" : "bg-warning-subtle text-warning") rounded-pill px-3 py-2">
+                                    @(c.IsResolved ? "Çözüldü" : "İnceleniyor")
+                                </span>
+                            </div>
+                            <p class="text-main mb-4">@c.Description</p>
+
+                            @if (!string.IsNullOrEmpty(c.AdminResponse))
+                            {
+                                <div class="bg-primary-light p-4 rounded-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2 text-primary fw-bold">
+                                        <i class="bi bi-reply-fill"></i>
+                                        <span>Yönetim Yanıtı</span>
+                                    </div>
+                                    <p class="small mb-0 text-main">@c.AdminResponse</p>
+                                    @if (c.ResolvedAt.HasValue)
+                                    {
+                                        <small class="text-muted d-block mt-2">Yanıt Tarihi: @c.ResolvedAt.Value.ToString("dd.MM.yyyy")</small>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<ComplaintVm>? complaints;
+    private bool showForm = false;
+    private bool isSubmitting = false;
+    private ComplaintCreateVm createModel = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadComplaints();
+    }
+
+    private async Task LoadComplaints()
+    {
+        complaints = await ComplaintService.GetMyComplaintsAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        try
+        {
+            await ComplaintService.CreateComplaintAsync(createModel);
+            createModel = new();
+            showForm = false;
+            await LoadComplaints();
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

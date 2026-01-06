@@ -11,6 +11,9 @@ namespace StudentManagementApi.Data
 		public DbSet<Course> Courses => Set<Course>();
 		public DbSet<Enrollment> Enrollments => Set<Enrollment>();
 		public DbSet<AttendanceRecord> AttendanceRecords => Set<AttendanceRecord>();
+		public DbSet<Complaint> Complaints => Set<Complaint>();
+		public DbSet<SocialActivity> SocialActivities => Set<SocialActivity>();
+		public DbSet<StudentDocument> StudentDocuments => Set<StudentDocument>();
 
 
 		protected override void OnModelCreating(ModelBuilder b)

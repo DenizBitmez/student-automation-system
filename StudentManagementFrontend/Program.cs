@@ -37,6 +37,9 @@ builder.Services.AddScoped<IGradeService, GradeService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+builder.Services.AddScoped<ComplaintService>();
+builder.Services.AddScoped<ActivityService>();
+builder.Services.AddScoped<DocumentService>();
 
 // Configure authentication
 builder.Services.AddAuthorizationCore();

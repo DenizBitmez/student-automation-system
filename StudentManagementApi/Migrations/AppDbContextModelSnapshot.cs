@@ -281,7 +281,7 @@ namespace StudentManagementApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("date");
 
                     b.Property<int>("EnrollmentId")
@@ -299,6 +299,57 @@ namespace StudentManagementApi.Migrations
                         .HasDatabaseName("ix_attendance_records_enrollment_id");
 
                     b.ToTable("attendance_records", (string)null);
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.Complaint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdminResponse")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("admin_response");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_resolved");
+
+                    b.Property<DateTime?>("ResolvedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("resolved_at");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("student_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id")
+                        .HasName("pk_complaints");
+
+                    b.HasIndex("StudentId")
+                        .HasDatabaseName("ix_complaints_student_id");
+
+                    b.ToTable("complaints", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementApi.Domain.Course", b =>
@@ -383,6 +434,53 @@ namespace StudentManagementApi.Migrations
                     b.ToTable("enrollments", (string)null);
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.SocialActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ActivityDate")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("activity_date");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("description");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("student_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("title");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_social_activities");
+
+                    b.HasIndex("StudentId")
+                        .HasDatabaseName("ix_social_activities_student_id");
+
+                    b.ToTable("social_activities", (string)null);
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -393,7 +491,7 @@ namespace StudentManagementApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("EnrolledAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("enrolled_at");
 
                     b.Property<string>("UserId")
@@ -408,6 +506,53 @@ namespace StudentManagementApi.Migrations
                         .HasDatabaseName("ix_students_user_id");
 
                     b.ToTable("students", (string)null);
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.StudentDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("file_url");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("issue_date");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("student_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("title");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("type");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("uploaded_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_student_documents");
+
+                    b.HasIndex("StudentId")
+                        .HasDatabaseName("ix_student_documents_student_id");
+
+                    b.ToTable("student_documents", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementApi.Domain.Teacher", b =>
@@ -506,6 +651,18 @@ namespace StudentManagementApi.Migrations
                     b.Navigation("Enrollment");
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.Complaint", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_complaints_students_student_id");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.Course", b =>
                 {
                     b.HasOne("StudentManagementApi.Domain.Teacher", "Teacher")
@@ -539,6 +696,18 @@ namespace StudentManagementApi.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.SocialActivity", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_social_activities_students_student_id");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.Student", b =>
                 {
                     b.HasOne("StudentManagementApi.Domain.ApplicationUser", "User")
@@ -549,6 +718,18 @@ namespace StudentManagementApi.Migrations
                         .HasConstraintName("fk_students_users_user_id");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.StudentDocument", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_student_documents_students_student_id");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("StudentManagementApi.Domain.Teacher", b =>

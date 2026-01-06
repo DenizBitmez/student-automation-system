@@ -246,7 +246,7 @@ C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.pdb
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.genruntimeconfig.cache
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\ref\StudentManagementFrontend.dll
-C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\9nluhscr3m-gxgu1igd10.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\yo2yx5pfh7-v85mr6t8a0.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\e4dw11la5p-v85mr6t8a0.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\package-lock.json
+C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\9nluhscr3m-nbr077sxlc.gz

@@ -88,7 +88,8 @@ public class CourseService : ICourseService
             TeacherName = vm.TeacherName,
             Credits = 5,
             Semester = "Fall",
-            IsActive = vm.Status == CourseStatus.Active
+            IsActive = vm.Status == CourseStatus.Active,
+            StudentCount = vm.StudentCount
         };
     }
 
@@ -96,7 +97,13 @@ public class CourseService : ICourseService
     {
         try
         {
-            var response = await _httpClient.PutAsJsonAsync($"{BasePath}/{id}", course);
+            var updateDto = new 
+            {
+                Code = course.Code,
+                Name = course.Name,
+                TeacherId = course.TeacherId ?? 0
+            };
+            var response = await _httpClient.PutAsJsonAsync($"{BasePath}/{id}", updateDto);
             return response.IsSuccessStatusCode;
         }
         catch (Exception ex)
@@ -192,7 +199,8 @@ public class CourseService : ICourseService
     {
         try
         {
-            var response = await _httpClient.PutAsJsonAsync($"{BasePath}/{courseId}/status", new { isActive });
+            var status = isActive ? CourseStatus.Active : CourseStatus.Archived;
+            var response = await _httpClient.PutAsJsonAsync($"{BasePath}/{courseId}/status", new { Status = status });
             return response.IsSuccessStatusCode;
         }
         catch (Exception ex)

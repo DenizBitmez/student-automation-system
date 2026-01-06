@@ -114,10 +114,10 @@
                                 <td>@course.Name</td>
                                 <td>@course.Semester</td>
                                 <td>
-                                    @if (course.Teacher != null)
+                                    @if (course.TeacherId > 0 || !string.IsNullOrEmpty(course.TeacherName))
                                     {
-                                        <a href="/ogretmen/@course.Teacher.Id" class="text-decoration-none">
-                                            @course.Teacher.FullName
+                                        <a href="/ogretmen/@course.TeacherId" class="text-decoration-none">
+                                            @(string.IsNullOrEmpty(course.TeacherName) ? "Öğretmen" : course.TeacherName)
                                         </a>
                                     }
                                     else
@@ -125,7 +125,7 @@
                                         <span class="text-muted">Atanmadı</span>
                                     }
                                 </td>
-                                <td>@(course.StudentCourses?.Count ?? 0)</td>
+                                <td>@course.StudentCount</td>
                                 <td>
                                     <span class="badge @(course.IsActive ? "bg-success" : "bg-secondary")">
                                         @(course.IsActive ? "Aktif" : "Pasif")

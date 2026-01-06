@@ -7,6 +7,8 @@ using StudentManagementApi.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Enable legacy timestamp behavior for Npgsql to avoid UTC issues
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddControllers();
 builder.Services.AddAppServices(builder.Configuration);

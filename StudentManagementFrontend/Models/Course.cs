@@ -41,6 +41,7 @@ namespace StudentManagementFrontend.Models
         public ICollection<StudentCourse>? StudentCourses { get; set; }
         public ICollection<Grade>? Grades { get; set; }
         public ICollection<Attendance>? Attendances { get; set; }
+        public int StudentCount { get; set; }
         
         // Helper properties
         public string DisplayName => $"{Code} - {Name}";

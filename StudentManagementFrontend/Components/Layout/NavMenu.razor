@@ -1,118 +1,153 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid ps-0">
-        <a class="navbar-brand d-flex align-items-center gap-3" href="/">
-            <div class="brand-icon bg-white text-primary rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; min-width: 40px;">
-                <i class="bi bi-mortarboard-fill fs-5"></i>
-            </div>
-            <div class="brand-text lh-1">
-                <div class="fw-bold fs-6">Öğrenci</div>
-                <div class="small text-white-50" style="font-size: 0.75rem; letter-spacing: 0.5px;">OTOMASYON</div>
-            </div>
-        </a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
+﻿<div class="sidebar-header d-flex align-items-center px-4 py-4">
+    <a class="navbar-brand d-flex align-items-center gap-3" href="/">
+        <div class="brand-bolt bg-primary shadow-glow rounded-3 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+            <i class="bi bi-mortarboard-fill text-white fs-4"></i>
+        </div>
+        <div class="brand-info">
+            <h1 class="h5 mb-0 text-white fw-bold tracking-tight">OtoSistem</h1>
+            <span class="text-white-50 small fw-medium" style="font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;">Akademik Yönetim</span>
+        </div>
+    </a>
 </div>
 
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
+<div class="sidebar-content px-3 py-2 mt-2">
+    <nav class="nav flex-column gap-2">
         <AuthorizeView>
             <Authorized>
-                <!-- Dashboard for all authenticated users -->
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/dashboard">
-                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                <div class="nav-section-label px-3 mt-4 mb-2">GENEL</div>
+                <div class="nav-item">
+                    <NavLink class="nav-link modernized-nav-link" href="/dashboard" Match="NavLinkMatch.All">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Panel</span>
                     </NavLink>
                 </div>
 
-                <!-- Admin Navigation -->
                 <AuthorizeView Roles="Admin" Context="adminContext">
-                    <div class="nav-item px-3">
-                        <div class="nav-link">
-                            <i class="bi bi-shield-check me-2"></i>
-                            <span>Yönetici Paneli</span>
-                        </div>
-                        <ul class="nav flex-column ms-4">
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/ogrenciler">
-                                    <i class="bi bi-people me-2"></i> Öğrenci Yönetimi
-                                </NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/ogretmenler">
-                                    <i class="bi bi-person-badge me-2"></i> Öğretmen Yönetimi
-                                </NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/dersler">
-                                    <i class="bi bi-journal-bookmark me-2"></i> Ders Yönetimi
-                                </NavLink>
-                            </li>
-                        </ul>
+                    <div class="nav-section-label px-3 mt-4 mb-2">YÖNETİM</div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogrenciler">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Öğrenciler</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogretmenler">
+                            <i class="bi bi-person-badge-fill"></i>
+                            <span>Öğretmenler</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/dersler">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            <span>Dersler</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/sikayetler">
+                            <i class="bi bi-chat-left-dots-fill"></i>
+                            <span>Şikayetler</span>
+                        </NavLink>
                     </div>
                 </AuthorizeView>
 
-                <!-- Teacher Navigation -->
                 <AuthorizeView Roles="Teacher" Context="teacherContext">
-                    <div class="nav-item px-3">
-                        <div class="nav-link">
-                            <i class="bi bi-mortarboard me-2"></i>
-                            <span>Öğretmen Paneli</span>
-                        </div>
-                        <ul class="nav flex-column ms-4">
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/dersler">
-                                    <i class="bi bi-journal-text me-2"></i> Derslerim
-                                </NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/ogrenciler">
-                                    <i class="bi bi-people me-2"></i> Öğrencilerim
-                                </NavLink>
-                            </li>
-                        </ul>
+                    <div class="nav-section-label px-3 mt-4 mb-2">EĞİTMEN</div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/dersler">
+                            <i class="bi bi-journal-check"></i>
+                            <span>Derslerim</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogrenciler">
+                            <i class="bi bi-people"></i>
+                            <span>Öğrencilerim</span>
+                        </NavLink>
                     </div>
                 </AuthorizeView>
 
-                <!-- Student Navigation -->
                 <AuthorizeView Roles="Student" Context="studentContext">
-                    <div class="nav-item px-3">
-                        <div class="nav-link">
-                            <i class="bi bi-person-video3 me-2"></i>
-                            <span>Öğrenci Paneli</span>
-                        </div>
-                        <ul class="nav flex-column ms-4">
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/dersler">
-                                    <i class="bi bi-journal-text me-2"></i> Derslerim
-                                </NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/dashboard">
-                                    <i class="bi bi-journal-check me-2"></i> Notlarım
-                                </NavLink>
-                            </li>
-                        </ul>
+                    <div class="nav-section-label px-3 mt-4 mb-2">ÖĞRENCİ</div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogrenci/notlar">
+                            <i class="bi bi-journal-text"></i>
+                            <span>Notlarım</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogrenci/devamsizlik">
+                            <i class="bi bi-calendar-check-fill"></i>
+                            <span>Devamsızlık Durumu</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogrenci/belgeler">
+                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                            <span>Karneler & Belgeler</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogrenci/aktiviteler">
+                            <i class="bi bi-stars"></i>
+                            <span>Sosyal Aktiviteler</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogrenci/sikayet">
+                            <i class="bi bi-chat-dots-fill"></i>
+                            <span>Dilek & Şikayet</span>
+                        </NavLink>
                     </div>
                 </AuthorizeView>
             </Authorized>
-            <NotAuthorized>
-                <!-- Navigation for Unauthenticated Users: Hidden as they should use the Landing Page / Login Page main actions -->
-            </NotAuthorized>
-
         </AuthorizeView>
     </nav>
 </div>
 
+<style>
+    .nav-section-label {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+    }
+
+    .modernized-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        padding: 0.625rem 1rem;
+        border-radius: var(--radius-md);
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+        transition: var(--transition);
+        font-size: 0.875rem;
+        line-height: 1.25;
+    }
+
+    .modernized-nav-link:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+    }
+
+    .modernized-nav-link i {
+        font-size: 1.125rem;
+        transition: var(--transition);
+    }
+
+    .modernized-nav-link.active {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    }
+
+    .modernized-nav-link.active i {
+        color: white;
+    }
+</style>
+
 @code {
     private bool collapseNavMenu = true;
-
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+    private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
 }
