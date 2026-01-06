@@ -1,0 +1,141 @@
+@page "/admin/ogretmen-izinleri"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using Microsoft.AspNetCore.Authorization
+@inject ITeacherLeaveService LeaveService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Öğretmen İzin Yönetimi</PageTitle>
+
+<div class="animate-fade-in">
+    <div class="mb-4">
+        <h2 class="h3 fw-bold mb-0">Öğretmen İzin Yönetimi</h2>
+        <p class="text-muted">Öğretmenlerden gelen tüm izin taleplerini görüntüleyin ve yönetin.</p>
+    </div>
+
+    @if (leaves == null)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else if (!leaves.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center">
+            <i class="bi bi-calendar-check text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold">Bekleyen İzin Talebi Yok</h4>
+            <p class="text-muted">Tüm talepler sonuçlandırılmış.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive bg-white rounded-3 shadow-sm">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Öğretmen</th>
+                        <th>Başlangıç</th>
+                        <th>Bitiş</th>
+                        <th>Neden</th>
+                        <th>Durum</th>
+                        <th class="text-end pe-4">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var leave in leaves)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold">@leave.TeacherName</td>
+                            <td>@leave.StartDate.ToString("dd/MM/yyyy")</td>
+                            <td>@leave.EndDate.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <span class="text-truncate d-inline-block" style="max-width: 250px;" title="@leave.Reason">
+                                    @leave.Reason
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge @GetStatusClass(leave.Status) rounded-pill px-3">
+                                    @TranslateStatus(leave.Status)
+                                </span>
+                            </td>
+                            <td class="text-end pe-4">
+                                @if (leave.Status == "Pending")
+                                {
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-success" @onclick='() => UpdateStatus(leave.Id, "Approved")' title="Onayla">
+                                            <i class="bi bi-check-lg"></i>
+                                        </button>
+                                        <button class="btn btn-danger" @onclick='() => UpdateStatus(leave.Id, "Rejected")' title="Reddet">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">İşlem Tamamlandı</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private List<TeacherLeaveVm>? leaves;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadAllLeaves();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadAllLeaves()
+    {
+        try
+        {
+            leaves = await LeaveService.GetAllLeavesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("İzinler yüklenirken hata oluştu: " + ex.Message);
+            leaves = new();
+        }
+    }
+
+    private async Task UpdateStatus(int id, string status)
+    {
+        try
+        {
+            await LeaveService.UpdateLeaveStatusAsync(id, status);
+            Console.WriteLine($"Talep {(status == "Approved" ? "onaylandı" : "reddedildi")}.");
+            await LoadAllLeaves();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("İşlem sırasında bir hata oluştu: " + ex.Message);
+        }
+    }
+
+    private string GetStatusClass(string status) => status switch
+    {
+        "Pending" => "bg-warning-subtle text-warning",
+        "Approved" => "bg-success-subtle text-success",
+        "Rejected" => "bg-danger-subtle text-danger",
+        _ => "bg-secondary-subtle text-secondary"
+    };
+
+    private string TranslateStatus(string status) => status switch
+    {
+        "Pending" => "Beklemede",
+        "Approved" => "Onaylandı",
+        "Rejected" => "Reddedildi",
+        _ => status
+    };
+}

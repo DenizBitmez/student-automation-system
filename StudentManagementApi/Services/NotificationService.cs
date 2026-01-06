@@ -12,6 +12,8 @@ public interface INotificationService
     Task SendAttendanceNotificationAsync(string studentId, string courseName, bool present);
     Task SendCourseUpdateNotificationAsync(string courseId, string message);
     Task SendSystemNotificationAsync(string message, string type = "info");
+    Task SendTeacherLeaveNotificationAsync(string teacherName, DateTime startDate, DateTime endDate);
+    Task SendTeacherLeaveStatusNotificationAsync(string userId, string status, DateTime startDate);
 }
 
 public class NotificationService : INotificationService
@@ -148,6 +150,37 @@ public class NotificationService : INotificationService
 
         // Send to all connected users
         await _hubContext.Clients.All.SendAsync("ReceiveNotification", notification);
+    }
+
+    public async Task SendTeacherLeaveNotificationAsync(string teacherName, DateTime startDate, DateTime endDate)
+    {
+        var message = new NotificationMessage
+        {
+            Title = "Yeni İzin Talebi",
+            Message = $"{teacherName} öğretmenden yeni izin talebi: {startDate:dd/MM/yyyy} - {endDate:dd/MM/yyyy}",
+            Type = "info",
+            Icon = "bi-calendar-event",
+            Timestamp = DateTime.UtcNow,
+            Data = new { Type = "teacher_leave_request", TeacherName = teacherName }
+        };
+
+        await SendNotificationToRoleAsync("Admin", message);
+    }
+
+    public async Task SendTeacherLeaveStatusNotificationAsync(string userId, string status, DateTime startDate)
+    {
+        var isApproved = status.Equals("Approved", StringComparison.OrdinalIgnoreCase);
+        var message = new NotificationMessage
+        {
+            Title = "İzin Talebi Güncellendi",
+            Message = $"{startDate:dd/MM/yyyy} tarihli izin talebiniz {(isApproved ? "onaylandı" : "reddedildi")}.",
+            Type = isApproved ? "success" : "error",
+            Icon = isApproved ? "bi-check-circle" : "bi-x-circle",
+            Timestamp = DateTime.UtcNow,
+            Data = new { Type = "teacher_leave_status", Status = status }
+        };
+
+        await SendNotificationToUserAsync(userId, message);
     }
 }
 

@@ -2,8 +2,8 @@
 {
 	public class AuthDtos
 	{
-		public record RegisterDto(string UserName, string Email, string Password, string FullName, string Role);
+		public record RegisterDto(string Username, string Email, string Password, string FullName, string Role);
 		public record LoginDto(string Username, string Password);
-		public record AuthResponse(string Token, string Email, string FullName, string[] Roles);
+		public record AuthResponse(string Token, string UserId, string Email, string FullName, string[] Roles);
 	}
 }

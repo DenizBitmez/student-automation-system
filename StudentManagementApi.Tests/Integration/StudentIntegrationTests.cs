@@ -25,8 +25,13 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
             builder.ConfigureServices(services =>
             {
                 // Remove the existing DbContext registration
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
-                if (descriptor != null)
+                // Remove all existing DbContext and Options registrations
+                var serviceDescriptors = services.Where(d => 
+                    d.ServiceType == typeof(AppDbContext) || 
+                    d.ServiceType == typeof(DbContextOptions<AppDbContext>) ||
+                    d.ServiceType == typeof(DbContextOptions)).ToList();
+                
+                foreach (var descriptor in serviceDescriptors)
                 {
                     services.Remove(descriptor);
                 }
@@ -46,7 +51,7 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
     public async Task AuthFlow_RegisterAndLogin_ShouldWork()
     {
         // Register a new admin user
-        var registerDto = new RegisterDto("admin@test.com", "Password123!", "Test Admin", "Admin");
+        var registerDto = new RegisterDto("admin@test.com", "admin@test.com", "Password123!", "Test Admin", "Admin");
 
         var registerResponse = await _client.PostAsJsonAsync("/api/auth/register", registerDto);
         registerResponse.Should().BeSuccessful();
@@ -145,7 +150,8 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
     private async Task<string> GetAdminTokenAsync()
     {
         // Register admin
-        var registerDto = new RegisterDto($"admin{Guid.NewGuid()}@test.com", "Password123!", "Test Admin", "Admin");
+        var email = $"admin{Guid.NewGuid()}@test.com";
+        var registerDto = new RegisterDto(email, email, "Password123!", "Test Admin", "Admin");
 
         await _client.PostAsJsonAsync("/api/auth/register", registerDto);
 
@@ -161,7 +167,8 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
     private async Task<string> GetStudentTokenAsync()
     {
         // Register student
-        var registerDto = new RegisterDto($"student{Guid.NewGuid()}@test.com", "Password123!", "Test Student", "Student");
+        var email = $"student{Guid.NewGuid()}@test.com";
+        var registerDto = new RegisterDto(email, email, "Password123!", "Test Student", "Student");
 
         await _client.PostAsJsonAsync("/api/auth/register", registerDto);
 

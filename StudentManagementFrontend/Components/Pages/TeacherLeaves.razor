@@ -1,0 +1,179 @@
+@page "/ogretmen/izinler"
+@using StudentManagementFrontend.Models
+@using StudentManagementFrontend.Services
+@using Microsoft.AspNetCore.Authorization
+@inject ITeacherLeaveService LeaveService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Teacher")]
+
+<PageTitle>İzin Taleplerim</PageTitle>
+
+<div class="animate-fade-in">
+    <div class="row align-items-center mb-4">
+        <div class="col">
+            <h2 class="h3 fw-bold mb-0">İzin Taleplerim</h2>
+            <p class="text-muted mb-0">İzin geçmişinizi görüntüleyin ve yeni talep oluşturun.</p>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary rounded-pill px-4" @onclick="() => showForm = !showForm">
+                <i class="bi bi-plus-lg me-2"></i> Yeni İzin Talebi
+            </button>
+        </div>
+    </div>
+
+    @if (showForm)
+    {
+        <div class="card border-0 shadow-sm mb-4 animate-slide-up">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-4">Yeni İzin Formu</h5>
+                <EditForm Model="createModel" OnValidSubmit="HandleSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Başlangıç Tarihi</label>
+                            <InputDate @bind-Value="createModel.StartDate" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Bitiş Tarihi</label>
+                            <InputDate @bind-Value="createModel.EndDate" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">İzin Nedeni</label>
+                        <InputTextArea @bind-Value="createModel.Reason" class="form-control" rows="3" placeholder="İzin alma gerekçenizi yazınız..." />
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4 rounded-pill" disabled="@isSubmitting">
+                            @if (isSubmitting) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                            Talep Gönder
+                        </button>
+                        <button type="button" class="btn btn-light px-4 rounded-pill" @onclick="() => showForm = false">Vazgeç</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    }
+
+    @if (leaves == null)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else if (!leaves.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center">
+            <i class="bi bi-calendar-x text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold">Henüz İzin Talebiniz Yok</h4>
+            <p class="text-muted">Tüm izin geçmişiniz burada listelenecektir.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive bg-white rounded-3 shadow-sm">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Başlangıç</th>
+                        <th>Bitiş</th>
+                        <th>Neden</th>
+                        <th>Durum</th>
+                        <th class="text-end pe-4">Tarih</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var leave in leaves)
+                    {
+                        <tr>
+                            <td class="ps-4">@leave.StartDate.ToString("dd/MM/yyyy")</td>
+                            <td>@leave.EndDate.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@leave.Reason">
+                                    @leave.Reason
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge @GetStatusClass(leave.Status) rounded-pill px-3">
+                                    @TranslateStatus(leave.Status)
+                                </span>
+                            </td>
+                            <td class="text-end pe-4 text-muted small">@leave.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private List<TeacherLeaveVm>? leaves;
+    private bool showForm = false;
+    private bool isSubmitting = false;
+    private TeacherLeaveCreateVm createModel = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadLeaves();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadLeaves()
+    {
+        try 
+        {
+            leaves = await LeaveService.GetMyLeavesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("İzinler yüklenirken hata oluştu: " + ex.Message);
+            leaves = new();
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (createModel.EndDate < createModel.StartDate)
+        {
+            Console.WriteLine("Bitiş tarihi başlangıç tarihinden önce olamaz.");
+            return;
+        }
+
+        isSubmitting = true;
+        try
+        {
+            await LeaveService.CreateLeaveRequestAsync(createModel);
+            Console.WriteLine("İzin talebi başarıyla gönderildi.");
+            createModel = new();
+            showForm = false;
+            await LoadLeaves();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Talebi gönderirken bir hata oluştu: " + ex.Message);
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private string GetStatusClass(string status) => status switch
+    {
+        "Pending" => "bg-warning-subtle text-warning",
+        "Approved" => "bg-success-subtle text-success",
+        "Rejected" => "bg-danger-subtle text-danger",
+        _ => "bg-secondary-subtle text-secondary"
+    };
+
+    private string TranslateStatus(string status) => status switch
+    {
+        "Pending" => "Beklemede",
+        "Approved" => "Onaylandı",
+        "Rejected" => "Reddedildi",
+        _ => status
+    };
+}

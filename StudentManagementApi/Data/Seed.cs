@@ -10,7 +10,10 @@ namespace StudentManagementApi.Data
 		{
 			using var scope = sp.CreateScope();
 			var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-			await ctx.Database.MigrateAsync();
+			if (ctx.Database.IsRelational())
+			{
+				await ctx.Database.MigrateAsync();
+			}
 
 
 			var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();

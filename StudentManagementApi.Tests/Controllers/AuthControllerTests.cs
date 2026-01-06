@@ -29,7 +29,7 @@ public class AuthControllerTests
     public async Task Register_ValidRequest_ReturnsOk()
     {
         // Arrange
-        var registerDto = new RegisterDto("test@test.com", "Password123!", "Test User", "Student");
+        var registerDto = new RegisterDto("test@test.com", "test@test.com", "Password123!", "Test User", "Student");
 
         _roleManagerMock.Setup(x => x.RoleExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
@@ -51,7 +51,7 @@ public class AuthControllerTests
     public async Task Register_InvalidRole_ReturnsBadRequest()
     {
         // Arrange
-        var registerDto = new RegisterDto("test@test.com", "Password123!", "Test User", "InvalidRole");
+        var registerDto = new RegisterDto("test@test.com", "test@test.com", "Password123!", "Test User", "InvalidRole");
 
         _roleManagerMock.Setup(x => x.RoleExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
@@ -116,8 +116,10 @@ public class AuthControllerTests
     {
         var store = new Mock<IUserStore<TUser>>();
         var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
-        mgr.Object.UserValidators.Add(new UserValidator<TUser>());
-        mgr.Object.PasswordValidators.Add(new PasswordValidator<TUser>());
+        mgr.Setup(x => x.CreateAsync(It.IsAny<TUser>(), It.IsAny<string>()))
+           .ReturnsAsync(IdentityResult.Success);
+        mgr.Setup(x => x.AddToRoleAsync(It.IsAny<TUser>(), It.IsAny<string>()))
+           .ReturnsAsync(IdentityResult.Success);
         return mgr;
     }
 

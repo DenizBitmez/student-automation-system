@@ -61,7 +61,7 @@ public class AuthService : IAuthService
         {
             var registerDto = new 
             { 
-                UserName = registerModel.Username,
+                Username = registerModel.Username,
                 Email = registerModel.Email,
                 Password = registerModel.Password,
                 FullName = $"{registerModel.FirstName} {registerModel.LastName}",

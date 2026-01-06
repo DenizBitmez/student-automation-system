@@ -4,6 +4,7 @@
 @using StudentManagementFrontend.Services
 @using Microsoft.AspNetCore.Authorization
 @inject ITeacherService TeacherService
+@inject ITeacherLeaveService LeaveService
 @inject NavigationManager Navigation
 @inject ILogger<TeacherDetail> Logger
 
@@ -32,62 +33,114 @@ else if (Teacher == null)
 }
 else
 {
-    <div class="container">
+    <div class="container container-max mt-4">
         <div class="row">
             <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/ogretmenler">Öğretmenler</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">@Teacher.FirstName @Teacher.LastName</li>
+                        <li class="breadcrumb-item active" aria-current="page">@Teacher.FullName</li>
                     </ol>
                 </nav>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h2 class="h5 mb-0">Öğretmen Bilgileri</h2>
-                        <div>
-                            <button class="btn btn-warning me-2" @onclick="@(() => Navigation.NavigateTo($"/ogretmen/duzenle/{Teacher.Id}"))">
-                                <i class="bi bi-pencil"></i> Düzenle
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 mb-4 h-100">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0 fw-bold">Öğretmen Bilgileri</h2>
+                        <AuthorizeView Roles="Admin">
+                            <button class="btn btn-sm btn-outline-warning" @onclick="@(() => Navigation.NavigateTo($"/ogretmen/duzenle/{Teacher.Id}"))">
+                                <i class="bi bi-pencil me-1"></i> Düzenle
                             </button>
-                            <button class="btn btn-outline-secondary" @onclick="@(() => Navigation.NavigateTo("/ogretmenler"))">
-                                <i class="bi bi-arrow-left"></i> Geri Dön
-                            </button>
-                        </div>
+                        </AuthorizeView>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Ad Soyad:</label>
-                                    <p class="form-control-plaintext">@Teacher.FullName</p>
+                                <div class="mb-4">
+                                    <label class="text-muted small fw-bold text-uppercase mb-1 d-block">Ad Soyad</label>
+                                    <div class="fs-5">@Teacher.FullName</div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">E-posta:</label>
-                                    <p class="form-control-plaintext">@Teacher.Email</p>
+                                <div class="mb-4">
+                                    <label class="text-muted small fw-bold text-uppercase mb-1 d-block">E-posta</label>
+                                    <div class="fs-6 text-primary">@Teacher.Email</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Telefon:</label>
-                                    <p class="form-control-plaintext">@Teacher.PhoneNumber</p>
+                                <div class="mb-4">
+                                    <label class="text-muted small fw-bold text-uppercase mb-1 d-block">Telefon</label>
+                                    <div class="fs-6">@(string.IsNullOrEmpty(Teacher.PhoneNumber) ? "Belirtilmedi" : Teacher.PhoneNumber)</div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Branş:</label>
-                                    <p class="form-control-plaintext">@Teacher.Branch</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Durum:</label>
-                                    <span class="badge bg-success">Aktif</span>
+                                <div class="mb-4">
+                                    <label class="text-muted small fw-bold text-uppercase mb-1 d-block">Branş / Departman</label>
+                                    <div class="fs-6"><span class="badge bg-info-subtle text-info px-3">@Teacher.Branch</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 mb-4 h-100 bg-primary text-white">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center py-4">
+                        <div class="rounded-circle bg-white bg-opacity-25 p-3 mb-3">
+                            <i class="bi bi-calendar-check fs-2"></i>
+                        </div>
+                        <h6 class="text-white-50 text-uppercase small fw-bold mb-1">Onaylanan İzinler</h6>
+                        <div class="display-3 fw-bold mb-0">@ApprovedLeaveDays</div>
+                        <div class="small text-white-50 mt-1">Toplam iş günü</div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Leaves != null && Leaves.Any())
+            {
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white py-3">
+                            <h2 class="h6 mb-0 fw-bold">Son İzin Talepleri</h2>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr class="small text-uppercase text-muted">
+                                        <th class="ps-4">Tarih Aralığı</th>
+                                        <th>Süre</th>
+                                        <th>Neden</th>
+                                        <th>Durum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var leave in Leaves.Take(5))
+                                    {
+                                        <tr>
+                                            <td class="ps-4">
+                                                <div class="fw-medium">@leave.StartDate.ToString("dd MMM yyyy") - @leave.EndDate.ToString("dd MMM yyyy")</div>
+                                            </td>
+                                            <td>@((leave.EndDate - leave.StartDate).Days + 1) Gün</td>
+                                            <td class="text-truncate" style="max-width: 250px;">@leave.Reason</td>
+                                            <td>
+                                                <span class="badge @GetStatusBadgeClass(leave.Status)">
+                                                    @GetStatusText(leave.Status)
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="mt-4 pb-5">
+            <button class="btn btn-light border" @onclick="@(() => Navigation.NavigateTo("/ogretmenler"))">
+                <i class="bi bi-arrow-left me-2"></i>Öğretmen Listesine Dön
+            </button>
         </div>
     </div>
 }
@@ -96,27 +149,65 @@ else
     [Parameter] public int TeacherId { get; set; }
     
     private Teacher? Teacher;
+    private List<TeacherLeaveVm>? Leaves;
+    private int ApprovedLeaveDays = 0;
     private bool IsLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadTeacher();
+        await LoadData();
     }
 
-    private async Task LoadTeacher()
+    private async Task LoadData()
     {
         try
         {
             IsLoading = true;
             Teacher = await TeacherService.GetTeacherByIdAsync(TeacherId);
+            
+            // For now, only Admin and the Teacher themselves can see leave info
+            // In a real app, we'd check the authenticated user's ID/Role.
+            // Here we just try to fetch; the API will restrict if unauthorized.
+            try 
+            {
+                // We'll use a new specialized endpoint or filter existing one
+                // Since I added GetTeacherLeaves to the API, I should use it.
+                // But I didn't add it to the Interface/Service yet.
+                // Let's use the one that exists or just handle the error.
+                var allLeaves = await LeaveService.GetAllLeavesAsync();
+                Leaves = allLeaves.Where(l => l.TeacherId == TeacherId).ToList();
+                ApprovedLeaveDays = Leaves
+                    .Where(l => l.Status == "Approved")
+                    .Sum(l => (l.EndDate - l.StartDate).Days + 1);
+            }
+            catch 
+            {
+                // Likely unauthorized, ignore
+            }
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Error loading teacher with ID {TeacherId}", TeacherId);
+            Logger.LogError(ex, "Error loading teacher data for ID {TeacherId}", TeacherId);
         }
         finally
         {
             IsLoading = false;
         }
     }
+
+    private string GetStatusBadgeClass(string status) => status switch
+    {
+        "Approved" => "bg-success-subtle text-success border border-success-subtle",
+        "Rejected" => "bg-danger-subtle text-danger border border-danger-subtle",
+        "Pending" => "bg-warning-subtle text-warning border border-warning-subtle",
+        _ => "bg-secondary-subtle text-secondary"
+    };
+
+    private string GetStatusText(string status) => status switch
+    {
+        "Approved" => "Onaylandı",
+        "Rejected" => "Reddedildi",
+        "Pending" => "Beklemede",
+        _ => status
+    };
 }

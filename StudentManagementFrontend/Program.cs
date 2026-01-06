@@ -40,6 +40,7 @@ builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 builder.Services.AddScoped<ComplaintService>();
 builder.Services.AddScoped<ActivityService>();
 builder.Services.AddScoped<DocumentService>();
+builder.Services.AddScoped<ITeacherLeaveService, TeacherLeaveService>();
 
 // Configure authentication
 builder.Services.AddAuthorizationCore();

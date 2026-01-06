@@ -110,14 +110,26 @@
     private ComplaintVm? selectedComplaint;
     private string adminResponse = "";
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await LoadComplaints();
+        if (firstRender)
+        {
+            await LoadComplaints();
+            StateHasChanged();
+        }
     }
 
     private async Task LoadComplaints()
     {
-        complaints = await ComplaintService.GetAllComplaintsAsync();
+        try
+        {
+            complaints = await ComplaintService.GetAllComplaintsAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Şikayetler yüklenirken hata oluştu: " + ex.Message);
+            complaints = new();
+        }
     }
 
     private void SelectComplaint(ComplaintVm c)

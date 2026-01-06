@@ -48,6 +48,12 @@
                             <span>Şikayetler</span>
                         </NavLink>
                     </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/admin/ogretmen-izinleri">
+                            <i class="bi bi-calendar-check-fill"></i>
+                            <span>Öğretmen İzinleri</span>
+                        </NavLink>
+                    </div>
                 </AuthorizeView>
 
                 <AuthorizeView Roles="Teacher" Context="teacherContext">
@@ -62,6 +68,12 @@
                         <NavLink class="nav-link modernized-nav-link" href="/ogrenciler">
                             <i class="bi bi-people"></i>
                             <span>Öğrencilerim</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/ogretmen/izinler">
+                            <i class="bi bi-calendar-plus-fill"></i>
+                            <span>İzin İşlemleri</span>
                         </NavLink>
                     </div>
                 </AuthorizeView>

@@ -14,7 +14,7 @@ namespace StudentManagementApi.Controllers
 		public async Task<IActionResult> Register(RegisterDto dto)
 		{
 			if (!await roleMgr.RoleExistsAsync(dto.Role)) return BadRequest("Invalid role");
-			var user = new ApplicationUser { UserName = dto.UserName, Email = dto.Email, FullName = dto.FullName, EmailConfirmed = true };
+			var user = new ApplicationUser { UserName = dto.Username, Email = dto.Email, FullName = dto.FullName, EmailConfirmed = true };
 			var res = await userMgr.CreateAsync(user, dto.Password);
 			if (!res.Succeeded) return BadRequest(res.Errors);
 			await userMgr.AddToRoleAsync(user, dto.Role);
@@ -35,7 +35,7 @@ namespace StudentManagementApi.Controllers
 			if (!await userMgr.CheckPasswordAsync(user, dto.Password)) return Unauthorized();
 			var token = await jwt.CreateToken(user);
 			var roles = await userMgr.GetRolesAsync(user);
-			return new AuthResponse(token, user.Email!, user.FullName ?? "", roles.ToArray());
+			return new AuthResponse(token, user.Id, user.Email!, user.FullName ?? "", roles.ToArray());
 		}
 	}
 }

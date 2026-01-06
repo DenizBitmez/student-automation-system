@@ -582,6 +582,52 @@ namespace StudentManagementApi.Migrations
                     b.ToTable("teachers", (string)null);
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.TeacherLeave", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("end_date");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("reason");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("start_date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("status");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("integer")
+                        .HasColumnName("teacher_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_teacher_leaves");
+
+                    b.HasIndex("TeacherId")
+                        .HasDatabaseName("ix_teacher_leaves_teacher_id");
+
+                    b.ToTable("teacher_leaves", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -742,6 +788,18 @@ namespace StudentManagementApi.Migrations
                         .HasConstraintName("fk_teachers_users_user_id");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.TeacherLeave", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_teacher_leaves_teachers_teacher_id");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("StudentManagementApi.Domain.Course", b =>

@@ -44,6 +44,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZG1pbkNvbXBsYWludHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/AdminTeacherLeaves.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZG1pblRlYWNoZXJMZWF2ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/AttendanceEntry.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBdHRlbmRhbmNlRW50cnkucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -138,6 +142,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/TeacherDetail.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUZWFjaGVyRGV0YWlsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/TeacherLeaves.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUZWFjaGVyTGVhdmVzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/TeacherList.razor]
