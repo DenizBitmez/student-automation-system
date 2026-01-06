@@ -186,6 +186,44 @@ namespace StudentManagementApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.Announcement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("author_id");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("content");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id")
+                        .HasName("pk_announcements");
+
+                    b.HasIndex("AuthorId")
+                        .HasDatabaseName("ix_announcements_author_id");
+
+                    b.ToTable("announcements", (string)null);
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -269,6 +307,55 @@ namespace StudentManagementApi.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.Assignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("integer")
+                        .HasColumnName("course_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("due_date");
+
+                    b.Property<string>("TeacherId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("teacher_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id")
+                        .HasName("pk_assignments");
+
+                    b.HasIndex("CourseId")
+                        .HasDatabaseName("ix_assignments_course_id");
+
+                    b.HasIndex("TeacherId")
+                        .HasDatabaseName("ix_assignments_teacher_id");
+
+                    b.ToTable("assignments", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementApi.Domain.AttendanceRecord", b =>
@@ -434,6 +521,46 @@ namespace StudentManagementApi.Migrations
                     b.ToTable("enrollments", (string)null);
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.ScheduleItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Classroom")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("classroom");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("integer")
+                        .HasColumnName("course_id");
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("integer")
+                        .HasColumnName("day_of_week");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("interval")
+                        .HasColumnName("end_time");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("interval")
+                        .HasColumnName("start_time");
+
+                    b.HasKey("Id")
+                        .HasName("pk_schedule_items");
+
+                    b.HasIndex("CourseId")
+                        .HasDatabaseName("ix_schedule_items_course_id");
+
+                    b.ToTable("schedule_items", (string)null);
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.SocialActivity", b =>
                 {
                     b.Property<int>("Id")
@@ -553,6 +680,53 @@ namespace StudentManagementApi.Migrations
                         .HasDatabaseName("ix_student_documents_student_id");
 
                     b.ToTable("student_documents", (string)null);
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.Submission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("assignment_id");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("content");
+
+                    b.Property<string>("Feedback")
+                        .HasColumnType("text")
+                        .HasColumnName("feedback");
+
+                    b.Property<int?>("Grade")
+                        .HasColumnType("integer")
+                        .HasColumnName("grade");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("student_id");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("submitted_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_submissions");
+
+                    b.HasIndex("AssignmentId")
+                        .HasDatabaseName("ix_submissions_assignment_id");
+
+                    b.HasIndex("StudentId")
+                        .HasDatabaseName("ix_submissions_student_id");
+
+                    b.ToTable("submissions", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementApi.Domain.Teacher", b =>
@@ -685,6 +859,39 @@ namespace StudentManagementApi.Migrations
                         .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.Announcement", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_announcements_users_author_id");
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.Assignment", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_assignments_courses_course_id");
+
+                    b.HasOne("StudentManagementApi.Domain.ApplicationUser", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_assignments_users_teacher_id");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.AttendanceRecord", b =>
                 {
                     b.HasOne("StudentManagementApi.Domain.Enrollment", "Enrollment")
@@ -742,6 +949,18 @@ namespace StudentManagementApi.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.ScheduleItem", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_schedule_items_courses_course_id");
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.SocialActivity", b =>
                 {
                     b.HasOne("StudentManagementApi.Domain.Student", "Student")
@@ -778,6 +997,27 @@ namespace StudentManagementApi.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.Submission", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.Assignment", "Assignment")
+                        .WithMany("Submissions")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_submissions_assignments_assignment_id");
+
+                    b.HasOne("StudentManagementApi.Domain.ApplicationUser", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_submissions_users_student_id");
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.Teacher", b =>
                 {
                     b.HasOne("StudentManagementApi.Domain.ApplicationUser", "User")
@@ -800,6 +1040,11 @@ namespace StudentManagementApi.Migrations
                         .HasConstraintName("fk_teacher_leaves_teachers_teacher_id");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.Assignment", b =>
+                {
+                    b.Navigation("Submissions");
                 });
 
             modelBuilder.Entity("StudentManagementApi.Domain.Course", b =>

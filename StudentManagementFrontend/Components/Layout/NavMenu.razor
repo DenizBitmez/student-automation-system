@@ -110,8 +110,35 @@
                             <span>Dilek & Şikayet</span>
                         </NavLink>
                     </div>
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="student/certificates">
+                            <i class="bi bi-patch-check"></i>
+                            <span>Belgelerim</span>
+                        </NavLink>
+                    </div>
                 </AuthorizeView>
+                <div class="nav-item">
+                    <NavLink class="nav-link modernized-nav-link" href="program">
+                        <i class="bi bi-calendar3"></i>
+                        <span>Ders Programı</span>
+                    </NavLink>
+                </div>
             </Authorized>
+        </AuthorizeView>
+        <div class="nav-item">
+            <NavLink class="nav-link modernized-nav-link" href="announcements">
+                <i class="bi bi-megaphone"></i>
+                <span>Duyurular</span>
+            </NavLink>
+        </div>
+
+        <AuthorizeView Roles="Admin">
+            <div class="nav-item">
+                <NavLink class="nav-link modernized-nav-link" href="admin/announcements">
+                    <i class="bi bi-megaphone-fill"></i>
+                    <span>Duyuru Yönetimi</span>
+                </NavLink>
+            </div>
         </AuthorizeView>
     </nav>
 </div>

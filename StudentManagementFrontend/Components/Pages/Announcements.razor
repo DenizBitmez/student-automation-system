@@ -1,0 +1,140 @@
+@page "/announcements"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject AnnouncementService AnnouncementService
+@inject NavigationManager Navigation
+
+<PageTitle>Announcements - Student Management System</PageTitle>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold text-primary">
+            <i class="bi bi-megaphone-fill me-2"></i>Announcements
+        </h1>
+        <AuthorizeView Roles="Admin">
+            <a href="/admin/announcements" class="btn btn-outline-primary">
+                <i class="bi bi-gear-fill me-1"></i>Manage
+            </a>
+        </AuthorizeView>
+    </div>
+
+    @if (_announcements == null)
+    {
+        <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else if (!_announcements.Any())
+    {
+        <div class="alert alert-info shadow-sm border-0 rounded-3">
+            <i class="bi bi-info-circle-fill me-2"></i>No announcements found at the moment.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var announcement in _announcements)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 announcement-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="card-title fw-bold text-dark mb-0">@announcement.Title</h5>
+                                <span class="badge bg-light text-muted fw-normal">
+                                    @announcement.CreatedAt.ToString("MMM dd")
+                                </span>
+                            </div>
+                            <p class="card-text text-muted">
+                                @(announcement.Content.Length > 150 ? announcement.Content.Substring(0, 147) + "..." : announcement.Content)
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted italic">Posted by @announcement.AuthorName</small>
+                                <button class="btn btn-link btn-sm text-primary p-0 text-decoration-none fw-bold" 
+                                        @onclick="() => ShowDetail(announcement)">
+                                    Read More <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@if (_selectedAnnouncement != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content shadow-lg border-0 rounded-4">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fs-3 fw-bold text-primary">@_selectedAnnouncement.Title</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <div class="d-flex align-items-center mb-4 text-muted small">
+                        <i class="bi bi-person-fill me-1"></i> @_selectedAnnouncement.AuthorName
+                        <span class="mx-2">•</span>
+                        <i class="bi bi-calendar-event me-1"></i> @_selectedAnnouncement.CreatedAt.ToString("MMMM dd, yyyy HH:mm")
+                    </div>
+                    <div class="announcement-content fs-5 text-dark lh-base">
+                        @((MarkupString)_selectedAnnouncement.Content.Replace("\n", "<br/>"))
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary px-4 rounded-pill" @onclick="CloseModal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .announcement-card {
+        transition: transform 0.2s, shadow 0.2s;
+    }
+    .announcement-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important;
+    }
+    .announcement-content {
+        white-space: pre-wrap;
+    }
+</style>
+
+@code {
+    private List<Announcement>? _announcements;
+    private Announcement? _selectedAnnouncement;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAnnouncements();
+    }
+
+    private async Task LoadAnnouncements()
+    {
+        try
+        {
+            _announcements = await AnnouncementService.GetAnnouncementsAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading announcements: {ex.Message}");
+            _announcements = new();
+        }
+    }
+
+    private void ShowDetail(Announcement announcement)
+    {
+        _selectedAnnouncement = announcement;
+    }
+
+    private void CloseModal()
+    {
+        _selectedAnnouncement = null;
+    }
+}

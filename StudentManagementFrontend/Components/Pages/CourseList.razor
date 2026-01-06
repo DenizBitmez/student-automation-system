@@ -136,6 +136,9 @@
                                         <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewCourse(course.Id)" title="Detay">
                                             <i class="bi bi-eye"></i>
                                         </button>
+                                        <button class="btn btn-sm btn-outline-info" @onclick="() => NavigateToAssignments(course.Id)" title="Ödevler">
+                                            <i class="bi bi-journal-text"></i>
+                                        </button>
                                         <AuthorizeView Roles="Teacher">
                                             <button class="btn btn-sm btn-primary" @onclick="() => NavigateToGrades(course.Id)" title="Not Gir">
                                                 <i class="bi bi-pencil-square"></i>
@@ -339,6 +342,11 @@
     private void NavigateToAttendance(int courseId)
     {
         Navigation.NavigateTo($"/ders/yoklama/{courseId}");
+    }
+
+    private void NavigateToAssignments(int courseId)
+    {
+        Navigation.NavigateTo($"/ders/{courseId}/odevler");
     }
 
     private async Task DeleteCourse(Course course)

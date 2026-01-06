@@ -1,0 +1,199 @@
+@page "/program"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject ScheduleService ScheduleService
+@inject ICourseService CourseService
+@inject IAuthService AuthService
+@attribute [Authorize]
+
+<PageTitle>Class Schedule</PageTitle>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6 fw-bold text-primary">
+            <i class="bi bi-calendar3 me-2"></i>Class Schedule
+        </h1>
+        <AuthorizeView Roles="Admin">
+            <button class="btn btn-primary rounded-pill px-4" @onclick="PrepareAdd">
+                <i class="bi bi-plus-lg me-1"></i> Add Item
+            </button>
+        </AuthorizeView>
+    </div>
+
+    @if (_schedule == null)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive shadow-sm rounded-4 overflow-hidden border">
+            <table class="table table-hover mb-0">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th class="py-3 px-4">Day</th>
+                        <th class="py-3 px-4">Time</th>
+                        <th class="py-3 px-4">Course</th>
+                        <th class="py-3 px-4">Classroom</th>
+                        <th class="py-3 px-4">Instructor</th>
+                        <AuthorizeView Roles="Admin">
+                            <th class="py-3 px-4 text-end">Actions</th>
+                        </AuthorizeView>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var day in Enum.GetValues<DayOfWeek>())
+                    {
+                        var itemsForDay = _schedule.Where(s => s.DayOfWeek == day).OrderBy(s => s.StartTime).ToList();
+                        
+                        if (itemsForDay.Any())
+                        {
+                            @foreach (var (item, index) in itemsForDay.Select((v, i) => (v, i)))
+                            {
+                                <tr>
+                                    @if (index == 0)
+                                    {
+                                        <td class="fw-bold align-middle px-4" rowspan="@itemsForDay.Count">
+                                            <span class="badge bg-light text-primary border px-3 py-2">@day.ToString()</span>
+                                        </td>
+                                    }
+                                    <td class="px-4">@item.StartTime - @item.EndTime</td>
+                                    <td class="px-4">
+                                        <div class="fw-bold">@item.CourseName</div>
+                                        <div class="text-muted small">@item.CourseCode</div>
+                                    </td>
+                                    <td class="px-4">
+                                        <span class="badge bg-info-subtle text-info-emphasis px-2">@item.Classroom</span>
+                                    </td>
+                                    <td class="px-4">@item.TeacherName</td>
+                                    <AuthorizeView Roles="Admin">
+                                        <td class="px-4 text-end">
+                                            <button class="btn btn-sm btn-light text-danger rounded-circle" @onclick="() => DeleteItem(item.Id)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </AuthorizeView>
+                                </tr>
+                            }
+                        }
+                    }
+                    @if (!_schedule.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <i class="bi bi-calendar-x display-4 mb-3 d-block opacity-25"></i>
+                                No classes scheduled.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@if (_showModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0 rounded-4">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-primary">Add Schedule Item</h5>
+                    <button type="button" class="btn-close" @onclick="() => _showModal = false"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Course</label>
+                        <select class="form-select rounded-3" @bind="_newItem.CourseId">
+                            <option value="0">Select Course</option>
+                            @if (_courses != null)
+                            {
+                                @foreach (var c in _courses)
+                                {
+                                    <option value="@c.Id">@c.Name (@c.Code)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Day</label>
+                            <select class="form-select rounded-3" @bind="_newItem.DayOfWeek">
+                                @foreach (var day in Enum.GetValues<DayOfWeek>())
+                                {
+                                    <option value="@day">@day.ToString()</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Classroom</label>
+                            <input type="text" class="form-control rounded-3" @bind="_newItem.Classroom" placeholder="e.g. Lab 101" />
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Start Time</label>
+                            <input type="time" class="form-control rounded-3" value="@_newItem.StartTime" @onchange="@(e => _newItem.StartTime = e.Value?.ToString() ?? "")" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">End Time</label>
+                            <input type="time" class="form-control rounded-3" value="@_newItem.EndTime" @onchange="@(e => _newItem.EndTime = e.Value?.ToString() ?? "")" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4" @onclick="() => _showModal = false">Cancel</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" @onclick="SaveItem">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<ScheduleItem>? _schedule;
+    private List<Course>? _courses;
+    private bool _showModal;
+    private ScheduleItemCreateDto _newItem = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadSchedule();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadSchedule()
+    {
+        _schedule = await ScheduleService.GetMyScheduleAsync();
+    }
+
+    private async Task PrepareAdd()
+    {
+        _courses = (await CourseService.GetAllCoursesAsync()).ToList();
+        _newItem = new ScheduleItemCreateDto { DayOfWeek = DayOfWeek.Monday, StartTime = "09:00", EndTime = "10:00" };
+        _showModal = true;
+    }
+
+    private async Task SaveItem()
+    {
+        if (_newItem.CourseId == 0) return;
+
+        if (await ScheduleService.CreateScheduleItemAsync(_newItem))
+        {
+            await LoadSchedule();
+            _showModal = false;
+        }
+    }
+
+    private async Task DeleteItem(int id)
+    {
+        if (await ScheduleService.DeleteScheduleItemAsync(id))
+        {
+            await LoadSchedule();
+        }
+    }
+}

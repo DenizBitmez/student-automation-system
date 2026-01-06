@@ -315,3 +315,4 @@ C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\r
 C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.pdb
 C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.genruntimeconfig.cache
 C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\ref\StudentManagementApi.dll
+C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\QrCodeGenerator.dll

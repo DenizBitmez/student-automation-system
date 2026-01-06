@@ -1,0 +1,156 @@
+@page "/odev/notlandir/{AssignmentId:int}"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject AssignmentService AssignmentService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin,Teacher")]
+
+<PageTitle>Review Submissions</PageTitle>
+
+<div class="container mt-4">
+    @if (_assignment == null)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="display-6 fw-bold text-primary mb-0">@_assignment.Title</h1>
+                <p class="text-muted">Submissions for @_assignment.CourseName</p>
+            </div>
+            <button class="btn btn-outline-secondary rounded-pill" @onclick="@(() => Navigation.NavigateTo($"/ders/{_assignment.CourseId}/odevler"))">
+                <i class="bi bi-arrow-left me-1"></i> Back
+            </button>
+        </div>
+
+        @if (_submissions == null)
+        {
+            <div class="text-center my-4">
+                <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+            </div>
+        }
+        else if (!_submissions.Any())
+        {
+            <div class="alert alert-light border shadow-sm">
+                No submissions yet for this assignment.
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="list-group shadow-sm border-0 rounded-4 overflow-hidden">
+                        @foreach (var s in _submissions)
+                        {
+                            <button class="list-group-item list-group-item-action border-0 py-3 @(_selectedSubmission?.Id == s.Id ? "active" : "")" 
+                                    @onclick="() => SelectSubmission(s)">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">@s.StudentName</span>
+                                    @if (s.Grade.HasValue)
+                                    {
+                                        <span class="badge @(_selectedSubmission?.Id == s.Id ? "bg-white text-primary" : "bg-success")">@s.Grade</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge @(_selectedSubmission?.Id == s.Id ? "bg-white text-primary" : "bg-info")">New</span>
+                                    }
+                                </div>
+                                <small class="@(_selectedSubmission?.Id == s.Id ? "text-white-50" : "text-muted")">
+                                    @s.SubmittedAt.ToString("g")
+                                </small>
+                            </button>
+                        }
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    @if (_selectedSubmission != null)
+                    {
+                        <div class="card shadow-sm border-0 rounded-4">
+                            <div class="card-body p-4">
+                                <h4 class="fw-bold mb-4">@_selectedSubmission.StudentName's Work</h4>
+                                <div class="bg-light p-4 rounded-3 border mb-4 fs-5" style="white-space: pre-wrap;">
+                                    @_selectedSubmission.Content
+                                </div>
+                                
+                                <hr class="opacity-10 mb-4" />
+                                
+                                <h5 class="fw-bold mb-3">Grading & Feedback</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label small fw-bold">Grade (0-100)</label>
+                                        <input type="number" class="form-control rounded-3" @bind="_gradeModel.Grade" min="0" max="100" />
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label small fw-bold">Feedback</label>
+                                        <textarea class="form-control rounded-3" rows="3" @bind="_gradeModel.Feedback" placeholder="Provide helpful feedback..."></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary rounded-pill px-4 fw-bold" @onclick="SaveGrade">
+                                            Update Grade & Feedback
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="h-100 d-flex flex-column align-items-center justify-content-center text-muted py-5 border rounded-4 border-dashed">
+                            <i class="bi bi-cursor display-1 mb-3 opacity-25"></i>
+                            <p class="fs-5">Select a submission to review</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<style>
+    .border-dashed { border-style: dashed !important; }
+</style>
+
+@code {
+    [Parameter] public int AssignmentId { get; set; }
+
+    private Assignment? _assignment;
+    private List<Submission>? _submissions;
+    private Submission? _selectedSubmission;
+    private SubmissionGradeDto _gradeModel = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _assignment = await AssignmentService.GetAssignmentByIdAsync(AssignmentId);
+            await LoadSubmissions();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadSubmissions()
+    {
+        _submissions = await AssignmentService.GetSubmissionsByAssignmentAsync(AssignmentId);
+    }
+
+    private void SelectSubmission(Submission s)
+    {
+        _selectedSubmission = s;
+        _gradeModel = new SubmissionGradeDto { Grade = s.Grade ?? 0, Feedback = s.Feedback };
+    }
+
+    private async Task SaveGrade()
+    {
+        if (_selectedSubmission == null) return;
+
+        if (await AssignmentService.GradeSubmissionAsync(_selectedSubmission.Id, _gradeModel))
+        {
+            await LoadSubmissions();
+            _selectedSubmission = _submissions?.FirstOrDefault(x => x.Id == _selectedSubmission.Id);
+        }
+    }
+}

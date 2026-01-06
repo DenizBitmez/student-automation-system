@@ -1,0 +1,134 @@
+@page "/odev/teslim/{AssignmentId:int}"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject AssignmentService AssignmentService
+@inject NavigationManager Navigation
+
+<PageTitle>Submit Assignment</PageTitle>
+
+<div class="container mt-4">
+    @if (_assignment == null)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h2 class="fw-bold text-primary mb-0">@_assignment.Title</h2>
+                            <span class="badge @(_assignment.DueDate < DateTime.Now ? "bg-danger" : "bg-warning text-dark")">
+                                Due: @_assignment.DueDate.ToString("MMM dd, yyyy HH:mm")
+                            </span>
+                        </div>
+                        <p class="text-muted mb-4 fs-5">@_assignment.Description</p>
+                        
+                        <hr class="text-muted opacity-25" />
+
+                        <h4 class="fw-bold text-dark mt-4 mb-3">Your Submission</h4>
+                        
+                        @if (_mySubmission != null)
+                        {
+                            <div class="alert alert-light border shadow-sm p-4 rounded-3">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="text-muted small">Submitted on @_mySubmission.SubmittedAt.ToString("g")</span>
+                                    @if (_mySubmission.Grade.HasValue)
+                                    {
+                                        <span class="badge bg-success fs-6">Score: @_mySubmission.Grade/100</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info text-white">Pending Review</span>
+                                    }
+                                </div>
+                                <div class="bg-white p-3 rounded border mb-3">
+                                    @((MarkupString)_mySubmission.Content.Replace("\n", "<br/>"))
+                                </div>
+                                
+                                @if (!string.IsNullOrEmpty(_mySubmission.Feedback))
+                                {
+                                    <div class="mt-3 p-3 bg-light rounded border-start border-4 border-info">
+                                        <div class="fw-bold text-info mb-1"><i class="bi bi-chat-left-text me-2"></i>Teacher's Feedback</div>
+                                        <p class="mb-0 text-muted">@_mySubmission.Feedback</p>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else if (_assignment.DueDate < DateTime.Now)
+                        {
+                            <div class="alert alert-danger border-0">
+                                <i class="bi bi-exclamation-octagon-fill me-2"></i>This assignment is past its due date and cannot be submitted.
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3">
+                                <textarea class="form-control rounded-3" rows="10" 
+                                          @bind="_submissionModel.Content" 
+                                          placeholder="Type or paste your submission here..."></textarea>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-primary rounded-pill px-5 py-2 fw-bold" @onclick="Submit">
+                                    Submit Assignment
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 rounded-4 mb-4 bg-primary text-white">
+                    <div class="card-body p-4 text-center">
+                        <i class="bi bi-info-circle display-4 mb-3"></i>
+                        <h4 class="fw-bold">Course Info</h4>
+                        <p class="mb-0">@_assignment.CourseName</p>
+                        <p class="mb-0 small opacity-75">Instructor: @_assignment.TeacherName</p>
+                        <button class="btn btn-light btn-sm rounded-pill mt-3 px-4" 
+                                @onclick="@(() => Navigation.NavigateTo($"/ders/{_assignment.CourseId}/odevler"))">
+                            Back to Course
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int AssignmentId { get; set; }
+
+    private Assignment? _assignment;
+    private Submission? _mySubmission;
+    private SubmissionCreateDto _submissionModel = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _assignment = await AssignmentService.GetAssignmentByIdAsync(AssignmentId);
+            _submissionModel.AssignmentId = AssignmentId;
+            
+            var submissions = await AssignmentService.GetMySubmissionsAsync();
+            _mySubmission = submissions.FirstOrDefault(s => s.AssignmentId == AssignmentId);
+            
+            StateHasChanged();
+        }
+    }
+
+    private async Task Submit()
+    {
+        if (string.IsNullOrWhiteSpace(_submissionModel.Content)) return;
+
+        if (await AssignmentService.SubmitAssignmentAsync(_submissionModel))
+        {
+            var submissions = await AssignmentService.GetMySubmissionsAsync();
+            _mySubmission = submissions.FirstOrDefault(s => s.AssignmentId == AssignmentId);
+            StateHasChanged();
+        }
+    }
+}

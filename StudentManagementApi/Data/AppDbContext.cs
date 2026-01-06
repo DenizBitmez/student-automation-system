@@ -15,6 +15,10 @@ namespace StudentManagementApi.Data
 		public DbSet<SocialActivity> SocialActivities => Set<SocialActivity>();
 		public DbSet<StudentDocument> StudentDocuments => Set<StudentDocument>();
 		public DbSet<TeacherLeave> TeacherLeaves => Set<TeacherLeave>();
+		public DbSet<Announcement> Announcements => Set<Announcement>();
+		public DbSet<Assignment> Assignments => Set<Assignment>();
+		public DbSet<Submission> Submissions => Set<Submission>();
+		public DbSet<ScheduleItem> ScheduleItems => Set<ScheduleItem>();
 
 
 		protected override void OnModelCreating(ModelBuilder b)

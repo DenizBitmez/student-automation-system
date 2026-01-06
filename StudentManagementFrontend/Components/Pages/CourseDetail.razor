@@ -57,6 +57,9 @@ else
                                     <i class="bi bi-pencil"></i> Düzenle
                                 </button>
                              </AuthorizeView>
+                             <button class="btn btn-outline-primary me-2" @onclick="@(() => Navigation.NavigateTo($"/ders/{Course.Id}/odevler"))">
+                                <i class="bi bi-journal-text me-1"></i> Ödevler
+                            </button>
                             <button class="btn btn-outline-secondary" @onclick="@(() => Navigation.NavigateTo(ReturnUrl))">
                                 <i class="bi bi-arrow-left"></i> Geri Dön
                             </button>

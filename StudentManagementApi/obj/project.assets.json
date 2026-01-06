@@ -1414,6 +1414,19 @@
           "buildTransitive/Mono.TextTemplating.targets": {}
         }
       },
+      "Net.Codecrete.QrCodeGenerator/2.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/QrCodeGenerator.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/QrCodeGenerator.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Newtonsoft.Json/11.0.2": {
         "type": "package",
         "compile": {
@@ -4509,6 +4522,23 @@
         "readme.md"
       ]
     },
+    "Net.Codecrete.QrCodeGenerator/2.1.0": {
+      "sha512": "xqjXmZzBAytqpm+ONG+Y8ojM9GBE22lSc7jQrki40W14EutNmDoLSOd2i2hCOTaGvRAvQLbEN2vH/HDU+95wxw==",
+      "type": "package",
+      "path": "net.codecrete.qrcodegenerator/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net6.0/QrCodeGenerator.dll",
+        "lib/net6.0/QrCodeGenerator.xml",
+        "lib/netstandard2.0/QrCodeGenerator.dll",
+        "lib/netstandard2.0/QrCodeGenerator.xml",
+        "logo.png",
+        "net.codecrete.qrcodegenerator.2.1.0.nupkg.sha512",
+        "net.codecrete.qrcodegenerator.nuspec"
+      ]
+    },
     "Newtonsoft.Json/11.0.2": {
       "sha512": "IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
       "type": "package",
@@ -5858,6 +5888,7 @@
       "Microsoft.EntityFrameworkCore.InMemory >= 9.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.9",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.21.0",
+      "Net.Codecrete.QrCodeGenerator >= 2.1.0",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 9.0.4",
       "Swashbuckle.AspNetCore >= 9.0.4",
       "iTextSharp.LGPLv2.Core >= 3.4.23"
@@ -5946,6 +5977,10 @@
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
             "target": "Package",
             "version": "[1.21.0, )"
+          },
+          "Net.Codecrete.QrCodeGenerator": {
+            "target": "Package",
+            "version": "[2.1.0, )"
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",

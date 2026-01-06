@@ -41,6 +41,9 @@ builder.Services.AddScoped<ComplaintService>();
 builder.Services.AddScoped<ActivityService>();
 builder.Services.AddScoped<DocumentService>();
 builder.Services.AddScoped<ITeacherLeaveService, TeacherLeaveService>();
+builder.Services.AddScoped<AnnouncementService>();
+builder.Services.AddScoped<AssignmentService>();
+builder.Services.AddScoped<ScheduleService>();
 
 // Configure authentication
 builder.Services.AddAuthorizationCore();

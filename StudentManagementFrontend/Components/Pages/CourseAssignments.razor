@@ -1,0 +1,214 @@
+@page "/ders/{CourseId:int}/odevler"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject AssignmentService AssignmentService
+@inject ICourseService CourseService
+@inject NavigationManager Navigation
+@inject ILogger<CourseAssignments> Logger
+
+<PageTitle>Assignments - @(_course?.Name ?? "Course")</PageTitle>
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/dersler">Courses</a></li>
+            <li class="breadcrumb-item"><a href="/ders/@CourseId">@(_course?.Name ?? "Course")</a></li>
+            <li class="breadcrumb-item active">Assignments</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6 fw-bold text-primary">
+            <i class="bi bi-journal-text me-2"></i>Assignments
+        </h1>
+        <AuthorizeView Roles="Admin,Teacher">
+            <button class="btn btn-primary rounded-pill px-4" @onclick="PrepareCreate">
+                <i class="bi bi-plus-lg me-1"></i> New Assignment
+            </button>
+        </AuthorizeView>
+    </div>
+
+    @if (_assignments == null)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else if (!_assignments.Any())
+    {
+        <div class="alert alert-info border-0 shadow-sm">
+            <i class="bi bi-info-circle-fill me-2"></i>No assignments found for this course.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var a in _assignments)
+            {
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm border-0 assignment-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <h5 class="fw-bold text-dark mb-0">@a.Title</h5>
+                                <span class="badge @(a.DueDate < DateTime.Now ? "bg-danger" : "bg-warning text-dark")">
+                                    Due: @a.DueDate.ToString("MMM dd, yyyy")
+                                </span>
+                            </div>
+                            <p class="text-muted small mb-3">
+                                @(a.Description.Length > 200 ? a.Description.Substring(0, 197) + "..." : a.Description)
+                            </p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <AuthorizeView Roles="Student">
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" 
+                                            @onclick='() => Navigation.NavigateTo($"/odev/teslim/{a.Id}")'>
+                                        View & Submit
+                                    </button>
+                                </AuthorizeView>
+                                <AuthorizeView Roles="Admin,Teacher">
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-outline-info rounded-pill px-3 me-2" 
+                                                @onclick='() => Navigation.NavigateTo($"/odev/notlandir/{a.Id}")'>
+                                            Submissions
+                                        </button>
+                                        <button class="btn btn-sm btn-light rounded-circle me-1" @onclick="() => PrepareEdit(a)">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-light text-danger rounded-circle" @onclick="() => DeleteAssignment(a.Id)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </AuthorizeView>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@if (_showModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0 rounded-4">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-primary">@(_isEditMode ? "Edit Assignment" : "New Assignment")</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">Title</label>
+                        <input type="text" class="form-control rounded-3" @bind="_editModel.Title" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">Description</label>
+                        <textarea class="form-control rounded-3" rows="4" @bind="_editModel.Description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">Due Date</label>
+                        <input type="datetime-local" class="form-control rounded-3" 
+                               @bind="_editModel.DueDate" 
+                               @bind:format="yyyy-MM-ddTHH:mm" />
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4" @onclick="CloseModal">Cancel</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" @onclick="SaveAssignment">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .assignment-card {
+        transition: transform 0.2s;
+    }
+    .assignment-card:hover {
+        transform: translateY(-3px);
+    }
+</style>
+
+@code {
+    [Parameter] public int CourseId { get; set; }
+
+    private List<Assignment>? _assignments;
+    private Course? _course;
+    private bool _showModal;
+    private bool _isEditMode;
+    private Assignment? _selectedAssignment;
+    private AssignmentCreateDto _editModel = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _course = await CourseService.GetCourseByIdAsync(CourseId);
+            await LoadAssignments();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadAssignments()
+    {
+        _assignments = await AssignmentService.GetAssignmentsByCourseAsync(CourseId);
+    }
+
+    private void PrepareCreate()
+    {
+        _isEditMode = false;
+        _editModel = new AssignmentCreateDto { CourseId = CourseId, DueDate = DateTime.Now.AddDays(7) };
+        _showModal = true;
+    }
+
+    private void PrepareEdit(Assignment a)
+    {
+        _isEditMode = true;
+        _selectedAssignment = a;
+        _editModel = new AssignmentCreateDto { 
+            Title = a.Title, 
+            Description = a.Description, 
+            DueDate = a.DueDate,
+            CourseId = CourseId 
+        };
+        _showModal = true;
+    }
+
+    private async Task SaveAssignment()
+    {
+        if (string.IsNullOrWhiteSpace(_editModel.Title)) return;
+
+        bool success;
+        if (_isEditMode && _selectedAssignment != null)
+        {
+            success = await AssignmentService.UpdateAssignmentAsync(_selectedAssignment.Id, 
+                new AssignmentUpdateDto { Title = _editModel.Title, Description = _editModel.Description, DueDate = _editModel.DueDate });
+        }
+        else
+        {
+            success = await AssignmentService.CreateAssignmentAsync(_editModel);
+        }
+
+        if (success)
+        {
+            await LoadAssignments();
+            CloseModal();
+        }
+    }
+
+    private async Task DeleteAssignment(int id)
+    {
+        if (await AssignmentService.DeleteAssignmentAsync(id))
+        {
+            await LoadAssignments();
+        }
+    }
+
+    private void CloseModal()
+    {
+        _showModal = false;
+        _selectedAssignment = null;
+    }
+}

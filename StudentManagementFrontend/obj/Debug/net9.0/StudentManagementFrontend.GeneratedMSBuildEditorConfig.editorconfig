@@ -40,6 +40,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZGRUZWFjaGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/AdminAnnouncements.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZG1pbkFubm91bmNlbWVudHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/AdminComplaints.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZG1pbkNvbXBsYWludHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -48,8 +52,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZG1pblRlYWNoZXJMZWF2ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/Announcements.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBbm5vdW5jZW1lbnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/AttendanceEntry.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBdHRlbmRhbmNlRW50cnkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/Certificates.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDZXJ0aWZpY2F0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/ClassSchedule.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGFzc1NjaGVkdWxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/CourseAssignments.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3Vyc2VBc3NpZ25tZW50cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/CourseDetail.razor]
@@ -82,6 +102,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/GradeEntry.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xHcmFkZUVudHJ5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/GradeSubmissions.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xHcmFkZVN1Ym1pc3Npb25zLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/Home.razor]
@@ -138,6 +162,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/StudentListEnhanced.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdHVkZW50TGlzdEVuaGFuY2VkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/SubmitAssignment.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdWJtaXRBc3NpZ25tZW50LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/deniz/student-automation-system/StudentManagementFrontend/Components/Pages/TeacherDetail.razor]

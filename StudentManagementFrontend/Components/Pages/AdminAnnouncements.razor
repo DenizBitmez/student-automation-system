@@ -1,0 +1,162 @@
+@page "/admin/announcements"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject AnnouncementService AnnouncementService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Manage Announcements - Admin</PageTitle>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6 fw-bold text-dark">
+            <i class="bi bi-gear-fill me-2 text-primary"></i>Manage Announcements
+        </h1>
+        <button class="btn btn-primary rounded-pill px-4" @onclick="PrepareCreate">
+            <i class="bi bi-plus-lg me-1"></i> New Announcement
+        </button>
+    </div>
+
+    @if (_announcements == null)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Title</th>
+                            <th>Author</th>
+                            <th>Date</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in _announcements)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold">@a.Title</td>
+                                <td>@a.AuthorName</td>
+                                <td class="text-muted small">@a.CreatedAt.ToString("g")</td>
+                                <td class="text-end pe-4">
+                                    <button class="btn btn-sm btn-outline-info me-2 rounded-pill" @onclick="() => PrepareEdit(a)">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-pill" @onclick="() => DeleteAnnouncement(a.Id)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@if (_isModalVisible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0 rounded-4">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-primary">@(_isEditMode ? "Edit Announcement" : "New Announcement")</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Title</label>
+                        <input type="text" class="form-control rounded-3" @bind="_editModel.Title" placeholder="Enter title..." />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Content</label>
+                        <textarea class="form-control rounded-3" rows="5" @bind="_editModel.Content" placeholder="Enter content..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4" @onclick="CloseModal">Cancel</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" @onclick="SaveAnnouncement">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<Announcement>? _announcements;
+    private bool _isModalVisible;
+    private bool _isEditMode;
+    private Announcement? _editingAnnouncement;
+    private AnnouncementCreateDto _editModel = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadAnnouncements();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadAnnouncements()
+    {
+        _announcements = await AnnouncementService.GetAnnouncementsAsync();
+    }
+
+    private void PrepareCreate()
+    {
+        _isEditMode = false;
+        _editModel = new();
+        _isModalVisible = true;
+    }
+
+    private void PrepareEdit(Announcement a)
+    {
+        _isEditMode = true;
+        _editingAnnouncement = a;
+        _editModel = new AnnouncementCreateDto { Title = a.Title, Content = a.Content };
+        _isModalVisible = true;
+    }
+
+    private async Task SaveAnnouncement()
+    {
+        if (string.IsNullOrWhiteSpace(_editModel.Title) || string.IsNullOrWhiteSpace(_editModel.Content)) return;
+
+        bool success;
+        if (_isEditMode && _editingAnnouncement != null)
+        {
+            success = await AnnouncementService.UpdateAnnouncementAsync(_editingAnnouncement.Id, 
+                new AnnouncementUpdateDto { Title = _editModel.Title, Content = _editModel.Content });
+        }
+        else
+        {
+            success = await AnnouncementService.CreateAnnouncementAsync(_editModel);
+        }
+
+        if (success)
+        {
+            await LoadAnnouncements();
+            CloseModal();
+        }
+    }
+
+    private async Task DeleteAnnouncement(int id)
+    {
+        if (await AnnouncementService.DeleteAnnouncementAsync(id))
+        {
+            await LoadAnnouncements();
+        }
+    }
+
+    private void CloseModal()
+    {
+        _isModalVisible = false;
+        _editingAnnouncement = null;
+    }
+}

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yXh4LVU3Eco=",
+  "dgSpecHash": "+TpgtLKzMnE=",
   "success": true,
   "projectFilePath": "C:\\Users\\deniz\\student-automation-system\\StudentManagementApi\\StudentManagementApi.csproj",
   "expectedPackageFiles": [
@@ -77,6 +77,7 @@
     "C:\\Users\\deniz\\.nuget\\packages\\microsoft.openapi\\1.6.25\\microsoft.openapi.1.6.25.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
+    "C:\\Users\\deniz\\.nuget\\packages\\net.codecrete.qrcodegenerator\\2.1.0\\net.codecrete.qrcodegenerator.2.1.0.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\npgsql\\9.0.3\\npgsql.9.0.3.nupkg.sha512",
     "C:\\Users\\deniz\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\9.0.4\\npgsql.entityframeworkcore.postgresql.9.0.4.nupkg.sha512",

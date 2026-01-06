@@ -22,5 +22,18 @@ namespace StudentManagementFrontend.Services
         {
             return await _httpClient.GetFromJsonAsync<List<DocumentVm>>($"{BaseUrl}/student/{studentId}") ?? new List<DocumentVm>();
         }
+        public async Task<byte[]> GetStudentCertificateAsync()
+        {
+            var response = await _httpClient.GetAsync("api/certificate/student-certificate");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsByteArrayAsync();
+        }
+
+        public async Task<byte[]> GetTranscriptAsync()
+        {
+            var response = await _httpClient.GetAsync("api/certificate/transcript");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsByteArrayAsync();
+        }
     }
 }
