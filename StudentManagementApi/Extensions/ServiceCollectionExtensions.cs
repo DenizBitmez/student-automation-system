@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,9 +14,21 @@ namespace StudentManagementApi.Extensions
 	{
 		public static IServiceCollection AddAppServices(this IServiceCollection services, IConfiguration cfg)
 		{
-			services.AddDbContext<AppDbContext>(opt =>
-			opt.UseNpgsql(cfg.GetConnectionString("Default"))
-			.UseSnakeCaseNamingConvention());
+			if (!services.Any(x => x.ServiceType == typeof(DbContextOptions<AppDbContext>)))
+			{
+				services.AddDbContext<AppDbContext>(opt =>
+				{
+					if (cfg["DbProvider"] == "InMemory")
+					{
+						opt.UseInMemoryDatabase("TestDb");
+					}
+					else
+					{
+						opt.UseNpgsql(cfg.GetConnectionString("Default"))
+						.UseSnakeCaseNamingConvention();
+					}
+				});
+			}
 
 
 			services.AddIdentityCore<ApplicationUser>(opt =>
@@ -29,7 +42,7 @@ namespace StudentManagementApi.Extensions
 
 
 			services.Configure<JwtOptions>(cfg.GetSection("Jwt"));
-			services.AddScoped<JwtTokenService>();
+			services.AddScoped<IJwtTokenService, JwtTokenService>();
 			services.AddScoped<IEmailService, EmailService>();
 			services.AddScoped<IPdfExportService, PdfExportService>();
 			services.AddScoped<INotificationService, NotificationService>();

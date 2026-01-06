@@ -8,7 +8,12 @@ using System.Text;
 
 namespace StudentManagementApi.Services
 {
-	public class JwtTokenService(IOptions<JwtOptions> options, UserManager<ApplicationUser> userManager)
+	public interface IJwtTokenService
+	{
+		Task<string> CreateToken(ApplicationUser user);
+	}
+
+	public class JwtTokenService(IOptions<JwtOptions> options, UserManager<ApplicationUser> userManager) : IJwtTokenService
 	{
 		private readonly JwtOptions _opt = options.Value;
 		private readonly UserManager<ApplicationUser> _userManager = userManager;

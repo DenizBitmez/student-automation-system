@@ -13,6 +13,7 @@
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.9",
           "Microsoft.AspNetCore.OpenApi": "9.0.3",
           "Microsoft.AspNetCore.SignalR": "1.1.0",
+          "Microsoft.EntityFrameworkCore.InMemory": "9.0.0",
           "Microsoft.EntityFrameworkCore.Tools": "9.0.9",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.21.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4",
@@ -601,6 +602,19 @@
           "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll": {
             "assemblyVersion": "9.0.9.0",
             "fileVersion": "9.0.925.41909"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.InMemory/9.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "9.0.9",
+          "Microsoft.Extensions.Caching.Memory": "9.0.9",
+          "Microsoft.Extensions.Logging": "9.0.9"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52902"
           }
         }
       },
@@ -1449,6 +1463,13 @@
       "sha512": "sha512-cFxH70tohWe3ugCjLhZB01mR7WHpg5dEK6zHsbkDFfpLxWT+HoZQKgchTJgF4bPWBPTyrlYlqfPY212fFtmJjg==",
       "path": "microsoft.entityframeworkcore.design/9.0.9",
       "hashPath": "microsoft.entityframeworkcore.design.9.0.9.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Pm4NBnv3aB8O5bBNwWRkL4a/H+3WdgKRKYD93FkR9TrUNb0jfns9JVN5w9WEUsQCm0C69Eg2Y85i8pdmSfaNnQ==",
+      "path": "microsoft.entityframeworkcore.inmemory/9.0.0",
+      "hashPath": "microsoft.entityframeworkcore.inmemory.9.0.0.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Relational/9.0.9": {
       "type": "package",

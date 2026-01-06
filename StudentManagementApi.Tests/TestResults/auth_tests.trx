@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d37916cf-caad-441f-bd62-1f35fa4a92cd" name="deniz@DENIZBITMEZ 2026-01-07 00:30:13" runUser="DENIZBITMEZ\deniz" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-01-07T00:30:13.0818973+03:00" queuing="2026-01-07T00:30:13.0818976+03:00" start="2026-01-07T00:30:12.3403442+03:00" finish="2026-01-07T00:30:13.0970544+03:00" />
+  <TestSettings name="default" id="88bfb66f-9323-4b3a-b82b-acfe5cbe3f99">
+    <Deployment runDeploymentRoot="deniz_DENIZBITMEZ_2026-01-07_00_30_13" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="38c7ad9b-442a-4124-96f6-853c92676236" testId="d8f82844-3efa-0eb7-3531-438bc7196803" testName="StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_InvalidRole_ReturnsBadRequest" computerName="DENIZBITMEZ" duration="00:00:00.0010000" startTime="2026-01-07T00:30:12.9968625+03:00" endTime="2026-01-07T00:30:12.9968626+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="38c7ad9b-442a-4124-96f6-853c92676236">
+      <Output>
+        <ErrorInfo>
+          <Message>System.ArgumentException : Can not instantiate proxy of class: StudentManagementApi.Services.JwtTokenService.&#xD;
+Could not find a parameterless constructor. (Parameter 'constructorArguments')&#xD;
+---- System.MissingMethodException : Constructor on type 'Castle.Proxies.JwtTokenServiceProxy' not found.</Message>
+          <StackTrace>   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxy(Type classToProxy, Type[] additionalInterfacesToProxy, ProxyGenerationOptions options, Object[] constructorArguments, IInterceptor[] interceptors)&#xD;
+   at Moq.CastleProxyFactory.CreateProxy(Type mockType, IInterceptor interceptor, Type[] interfaces, Object[] arguments) in /_/src/Moq/Interception/CastleProxyFactory.cs:line 62&#xD;
+   at Moq.Mock`1.InitializeInstance() in /_/src/Moq/Mock`1.cs:line 309&#xD;
+   at Moq.Mock`1.OnGetObject() in /_/src/Moq/Mock`1.cs:line 323&#xD;
+   at Moq.Mock.get_Object() in /_/src/Moq/Mock.cs:line 181&#xD;
+   at Moq.Mock`1.get_Object() in /_/src/Moq/Mock`1.cs:line 281&#xD;
+   at StudentManagementApi.Tests.Controllers.AuthControllerTests..ctor() in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\AuthControllerTests.cs:line 25&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture)&#xD;
+   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4fcd2975-a956-4d0a-8064-ba51a1afaddb" testId="a561a042-3c0d-cb6a-0881-cf69201768a4" testName="StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_ValidRequest_ReturnsOk" computerName="DENIZBITMEZ" duration="00:00:00.0010000" startTime="2026-01-07T00:30:12.9976026+03:00" endTime="2026-01-07T00:30:12.9976026+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4fcd2975-a956-4d0a-8064-ba51a1afaddb">
+      <Output>
+        <ErrorInfo>
+          <Message>System.ArgumentException : Can not instantiate proxy of class: StudentManagementApi.Services.JwtTokenService.&#xD;
+Could not find a parameterless constructor. (Parameter 'constructorArguments')&#xD;
+---- System.MissingMethodException : Constructor on type 'Castle.Proxies.JwtTokenServiceProxy' not found.</Message>
+          <StackTrace>   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxy(Type classToProxy, Type[] additionalInterfacesToProxy, ProxyGenerationOptions options, Object[] constructorArguments, IInterceptor[] interceptors)&#xD;
+   at Moq.CastleProxyFactory.CreateProxy(Type mockType, IInterceptor interceptor, Type[] interfaces, Object[] arguments) in /_/src/Moq/Interception/CastleProxyFactory.cs:line 62&#xD;
+   at Moq.Mock`1.InitializeInstance() in /_/src/Moq/Mock`1.cs:line 309&#xD;
+   at Moq.Mock`1.OnGetObject() in /_/src/Moq/Mock`1.cs:line 323&#xD;
+   at Moq.Mock.get_Object() in /_/src/Moq/Mock.cs:line 181&#xD;
+   at Moq.Mock`1.get_Object() in /_/src/Moq/Mock`1.cs:line 281&#xD;
+   at StudentManagementApi.Tests.Controllers.AuthControllerTests..ctor() in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\AuthControllerTests.cs:line 25&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture)&#xD;
+   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ef2e4384-8631-4281-ab84-ee545c88aa54" testId="5a47edea-f6ca-1832-15eb-bd5bc468c2ca" testName="StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_InvalidCredentials_ReturnsUnauthorized" computerName="DENIZBITMEZ" duration="00:00:00.0010000" startTime="2026-01-07T00:30:12.9956231+03:00" endTime="2026-01-07T00:30:12.9956232+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef2e4384-8631-4281-ab84-ee545c88aa54">
+      <Output>
+        <ErrorInfo>
+          <Message>System.ArgumentException : Can not instantiate proxy of class: StudentManagementApi.Services.JwtTokenService.&#xD;
+Could not find a parameterless constructor. (Parameter 'constructorArguments')&#xD;
+---- System.MissingMethodException : Constructor on type 'Castle.Proxies.JwtTokenServiceProxy' not found.</Message>
+          <StackTrace>   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxy(Type classToProxy, Type[] additionalInterfacesToProxy, ProxyGenerationOptions options, Object[] constructorArguments, IInterceptor[] interceptors)&#xD;
+   at Moq.CastleProxyFactory.CreateProxy(Type mockType, IInterceptor interceptor, Type[] interfaces, Object[] arguments) in /_/src/Moq/Interception/CastleProxyFactory.cs:line 62&#xD;
+   at Moq.Mock`1.InitializeInstance() in /_/src/Moq/Mock`1.cs:line 309&#xD;
+   at Moq.Mock`1.OnGetObject() in /_/src/Moq/Mock`1.cs:line 323&#xD;
+   at Moq.Mock.get_Object() in /_/src/Moq/Mock.cs:line 181&#xD;
+   at Moq.Mock`1.get_Object() in /_/src/Moq/Mock`1.cs:line 281&#xD;
+   at StudentManagementApi.Tests.Controllers.AuthControllerTests..ctor() in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\AuthControllerTests.cs:line 25&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture)&#xD;
+   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e3b34464-c9c4-4f2e-beed-98b322c65d7b" testId="c9dbd1ba-816c-f4d3-ceff-da44567bc7ab" testName="StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_ValidCredentials_ReturnsAuthResponse" computerName="DENIZBITMEZ" duration="00:00:00.0010000" startTime="2026-01-07T00:30:12.9912704+03:00" endTime="2026-01-07T00:30:12.9912872+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e3b34464-c9c4-4f2e-beed-98b322c65d7b">
+      <Output>
+        <ErrorInfo>
+          <Message>System.ArgumentException : Can not instantiate proxy of class: StudentManagementApi.Services.JwtTokenService.&#xD;
+Could not find a parameterless constructor. (Parameter 'constructorArguments')&#xD;
+---- System.MissingMethodException : Constructor on type 'Castle.Proxies.JwtTokenServiceProxy' not found.</Message>
+          <StackTrace>   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxy(Type classToProxy, Type[] additionalInterfacesToProxy, ProxyGenerationOptions options, Object[] constructorArguments, IInterceptor[] interceptors)&#xD;
+   at Moq.CastleProxyFactory.CreateProxy(Type mockType, IInterceptor interceptor, Type[] interfaces, Object[] arguments) in /_/src/Moq/Interception/CastleProxyFactory.cs:line 62&#xD;
+   at Moq.Mock`1.InitializeInstance() in /_/src/Moq/Mock`1.cs:line 309&#xD;
+   at Moq.Mock`1.OnGetObject() in /_/src/Moq/Mock`1.cs:line 323&#xD;
+   at Moq.Mock.get_Object() in /_/src/Moq/Mock.cs:line 181&#xD;
+   at Moq.Mock`1.get_Object() in /_/src/Moq/Mock`1.cs:line 281&#xD;
+   at StudentManagementApi.Tests.Controllers.AuthControllerTests..ctor() in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\AuthControllerTests.cs:line 25&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture)&#xD;
+   at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_InvalidCredentials_ReturnsUnauthorized" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="5a47edea-f6ca-1832-15eb-bd5bc468c2ca">
+      <Execution id="ef2e4384-8631-4281-ab84-ee545c88aa54" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.AuthControllerTests" name="Login_InvalidCredentials_ReturnsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_InvalidRole_ReturnsBadRequest" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="d8f82844-3efa-0eb7-3531-438bc7196803">
+      <Execution id="38c7ad9b-442a-4124-96f6-853c92676236" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.AuthControllerTests" name="Register_InvalidRole_ReturnsBadRequest" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_ValidCredentials_ReturnsAuthResponse" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="c9dbd1ba-816c-f4d3-ceff-da44567bc7ab">
+      <Execution id="e3b34464-c9c4-4f2e-beed-98b322c65d7b" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.AuthControllerTests" name="Login_ValidCredentials_ReturnsAuthResponse" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_ValidRequest_ReturnsOk" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="a561a042-3c0d-cb6a-0881-cf69201768a4">
+      <Execution id="4fcd2975-a956-4d0a-8064-ba51a1afaddb" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.AuthControllerTests" name="Register_ValidRequest_ReturnsOk" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d8f82844-3efa-0eb7-3531-438bc7196803" executionId="38c7ad9b-442a-4124-96f6-853c92676236" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a561a042-3c0d-cb6a-0881-cf69201768a4" executionId="4fcd2975-a956-4d0a-8064-ba51a1afaddb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5a47edea-f6ca-1832-15eb-bd5bc468c2ca" executionId="ef2e4384-8631-4281-ab84-ee545c88aa54" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9dbd1ba-816c-f4d3-ceff-da44567bc7ab" executionId="e3b34464-c9c4-4f2e-beed-98b322c65d7b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Bir Listede Olmayan Sonuçlar" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Yüklenen Tüm Sonuçlar" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="4" executed="4" passed="0" failed="4" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.3)&#xD;
+[xUnit.net 00:00:00.08]   Discovering: StudentManagementApi.Tests&#xD;
+[xUnit.net 00:00:00.11]   Discovered:  StudentManagementApi.Tests&#xD;
+[xUnit.net 00:00:00.11]   Starting:    StudentManagementApi.Tests&#xD;
+[xUnit.net 00:00:00.25]       System.ArgumentException : Can not instantiate proxy of class: StudentManagementApi.Services.JwtTokenService.&#xD;
+[xUnit.net 00:00:00.25]       Could not find a parameterless constructor. (Parameter 'constructorArguments')&#xD;
+[xUnit.net 00:00:00.25]       ---- System.MissingMethodException : Constructor on type 'Castle.Proxies.JwtTokenServiceProxy' not found.&#xD;
+[xUnit.net 00:00:00.25]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.25]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+[xUnit.net 00:00:00.25]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxy(Type classToProxy, Type[] additionalInterfacesToProxy, ProxyGenerationOptions options, Object[] constructorArguments, IInterceptor[] interceptors)&#xD;
+[xUnit.net 00:00:00.25]         /_/src/Moq/Interception/CastleProxyFactory.cs(62,0): at Moq.CastleProxyFactory.CreateProxy(Type mockType, IInterceptor interceptor, Type[] interfaces, Object[] arguments)&#xD;
+[xUnit.net 00:00:00.25]         /_/src/Moq/Mock`1.cs(309,0): at Moq.Mock`1.InitializeInstance()&#xD;
+[xUnit.net 00:00:00.25]         /_/src/Moq/Mock`1.cs(323,0): at Moq.Mock`1.OnGetObject()&#xD;
+[xUnit.net 00:00:00.25]         /_/src/Moq/Mock.cs(181,0): at Moq.Mock.get_Object()&#xD;
+[xUnit.net 00:00:00.25]         /_/src/Moq/Mock`1.cs(281,0): at Moq.Mock`1.get_Object()&#xD;
+[xUnit.net 00:00:00.25]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\AuthControllerTests.cs(25,0): at StudentManagementApi.Tests.Controllers.AuthControllerTests..ctor()&#xD;
+[xUnit.net 00:00:00.25]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.25]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:00.25]            at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.25]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+[xUnit.net 00:00:00.26]       System.ArgumentException : Can not instantiate proxy of class: StudentManagementApi.Services.JwtTokenService.&#xD;
+[xUnit.net 00:00:00.26]       Could not find a parameterless constructor. (Parameter 'constructorArguments')&#xD;
+[xUnit.net 00:00:00.26]       ---- System.MissingMethodException : Constructor on type 'Castle.Proxies.JwtTokenServiceProxy' not found.&#xD;
+[xUnit.net 00:00:00.26]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxy(Type classToProxy, Type[] additionalInterfacesToProxy, ProxyGenerationOptions options, Object[] constructorArguments, IInterceptor[] interceptors)&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Interception/CastleProxyFactory.cs(62,0): at Moq.CastleProxyFactory.CreateProxy(Type mockType, IInterceptor interceptor, Type[] interfaces, Object[] arguments)&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(309,0): at Moq.Mock`1.InitializeInstance()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(323,0): at Moq.Mock`1.OnGetObject()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock.cs(181,0): at Moq.Mock.get_Object()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(281,0): at Moq.Mock`1.get_Object()&#xD;
+[xUnit.net 00:00:00.26]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\AuthControllerTests.cs(25,0): at StudentManagementApi.Tests.Controllers.AuthControllerTests..ctor()&#xD;
+[xUnit.net 00:00:00.26]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.26]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:00.26]            at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+[xUnit.net 00:00:00.26]       System.ArgumentException : Can not instantiate proxy of class: StudentManagementApi.Services.JwtTokenService.&#xD;
+[xUnit.net 00:00:00.26]       Could not find a parameterless constructor. (Parameter 'constructorArguments')&#xD;
+[xUnit.net 00:00:00.26]       ---- System.MissingMethodException : Constructor on type 'Castle.Proxies.JwtTokenServiceProxy' not found.&#xD;
+[xUnit.net 00:00:00.26]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxy(Type classToProxy, Type[] additionalInterfacesToProxy, ProxyGenerationOptions options, Object[] constructorArguments, IInterceptor[] interceptors)&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Interception/CastleProxyFactory.cs(62,0): at Moq.CastleProxyFactory.CreateProxy(Type mockType, IInterceptor interceptor, Type[] interfaces, Object[] arguments)&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(309,0): at Moq.Mock`1.InitializeInstance()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(323,0): at Moq.Mock`1.OnGetObject()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock.cs(181,0): at Moq.Mock.get_Object()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(281,0): at Moq.Mock`1.get_Object()&#xD;
+[xUnit.net 00:00:00.26]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\AuthControllerTests.cs(25,0): at StudentManagementApi.Tests.Controllers.AuthControllerTests..ctor()&#xD;
+[xUnit.net 00:00:00.26]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.26]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:00.26]            at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+[xUnit.net 00:00:00.26]       System.ArgumentException : Can not instantiate proxy of class: StudentManagementApi.Services.JwtTokenService.&#xD;
+[xUnit.net 00:00:00.26]       Could not find a parameterless constructor. (Parameter 'constructorArguments')&#xD;
+[xUnit.net 00:00:00.26]       ---- System.MissingMethodException : Constructor on type 'Castle.Proxies.JwtTokenServiceProxy' not found.&#xD;
+[xUnit.net 00:00:00.26]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxy(Type classToProxy, Type[] additionalInterfacesToProxy, ProxyGenerationOptions options, Object[] constructorArguments, IInterceptor[] interceptors)&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Interception/CastleProxyFactory.cs(62,0): at Moq.CastleProxyFactory.CreateProxy(Type mockType, IInterceptor interceptor, Type[] interfaces, Object[] arguments)&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(309,0): at Moq.Mock`1.InitializeInstance()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(323,0): at Moq.Mock`1.OnGetObject()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock.cs(181,0): at Moq.Mock.get_Object()&#xD;
+[xUnit.net 00:00:00.26]         /_/src/Moq/Mock`1.cs(281,0): at Moq.Mock`1.get_Object()&#xD;
+[xUnit.net 00:00:00.26]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\AuthControllerTests.cs(25,0): at StudentManagementApi.Tests.Controllers.AuthControllerTests..ctor()&#xD;
+[xUnit.net 00:00:00.26]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.26]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:00.26]            at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.26]            at Castle.DynamicProxy.ProxyGenerator.CreateClassProxyInstance(Type proxyType, List`1 proxyArguments, Type classToProxy, Object[] constructorArguments)&#xD;
+[xUnit.net 00:00:00.26]   Finished:    StudentManagementApi.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:30:12.9888707+03:00">
+        <Text>[xUnit.net 00:00:00.25]     StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_ValidCredentials_ReturnsAuthResponse [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:30:12.9944547+03:00">
+        <Text>[xUnit.net 00:00:00.26]     StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_InvalidCredentials_ReturnsUnauthorized [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:30:12.9962268+03:00">
+        <Text>[xUnit.net 00:00:00.26]     StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_InvalidRole_ReturnsBadRequest [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:30:12.9971018+03:00">
+        <Text>[xUnit.net 00:00:00.26]     StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_ValidRequest_ReturnsOk [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

@@ -122,6 +122,7 @@ C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementFrontend\ob
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\web.config
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\appsettings.json
+C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\package-lock.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\appsettings.Development.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\appsettings.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\publish\StudentManagementFrontend.deps.json
@@ -184,6 +185,7 @@ C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\mpzswgcqbu-49ox6r4gbs.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\sxct8pnmfx-49ox6r4gbs.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\ld9hglfdkx-c170hrfpsz.gz
+C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\9nluhscr3m-nbr077sxlc.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\a2cjwaoy8f-i09bwfq87a.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\fzzgrsf61r-t1cqhe9u97.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\m83l8jjk1q-c2jlpeoesf.gz
@@ -231,6 +233,8 @@ C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\0q6cq5inkd-0j3bgjxly4.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\ek9trmrrjg-edzdsatxp7.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\xhpyu0m31y-60plgt3s4k.gz
+C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\yo2yx5pfh7-v85mr6t8a0.gz
+C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\e4dw11la5p-v85mr6t8a0.gz
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\staticwebassets.build.endpoints.json
@@ -246,7 +250,3 @@ C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.pdb
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.genruntimeconfig.cache
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\ref\StudentManagementFrontend.dll
-C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\yo2yx5pfh7-v85mr6t8a0.gz
-C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\e4dw11la5p-v85mr6t8a0.gz
-C:\Users\deniz\student-automation-system\StudentManagementFrontend\bin\Debug\net9.0\package-lock.json
-C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\9nluhscr3m-nbr077sxlc.gz

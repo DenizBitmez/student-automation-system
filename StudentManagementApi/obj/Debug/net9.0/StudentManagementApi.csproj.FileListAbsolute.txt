@@ -156,6 +156,14 @@ C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementApi\obj\Deb
 C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.pdb
 C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.genruntimeconfig.cache
 C:\Users\deniz\source\repos\OgrenciOtomasyonSistemi\StudentManagementApi\obj\Debug\net9.0\ref\StudentManagementApi.dll
+C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.csproj.AssemblyReference.cache
+C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.AssemblyInfoInputs.cache
+C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.AssemblyInfo.cs
+C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.csproj.CoreCompileInputs.cache
+C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.sourcelink.json
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\appsettings.json
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\StudentManagementApi.staticwebassets.endpoints.json
@@ -184,6 +192,7 @@ C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\M
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
@@ -290,14 +299,6 @@ C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\r
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\runtimes\win-arm64\native\libSkiaSharp.dll
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\runtimes\win-x64\native\libSkiaSharp.dll
 C:\Users\deniz\student-automation-system\StudentManagementApi\bin\Debug\net9.0\runtimes\win-x86\native\libSkiaSharp.dll
-C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.csproj.AssemblyReference.cache
-C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.AssemblyInfoInputs.cache
-C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.AssemblyInfo.cs
-C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.csproj.CoreCompileInputs.cache
-C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\StudentManagementApi.sourcelink.json
 C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\scopedcss\bundle\StudentManagementApi.styles.css
 C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\deniz\student-automation-system\StudentManagementApi\obj\Debug\net9.0\staticwebassets.development.json

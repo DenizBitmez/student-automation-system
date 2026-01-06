@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="164620b2-05b7-44dd-a63c-3ca6598c7a9d" name="deniz@DENIZBITMEZ 2026-01-07 00:35:50" runUser="DENIZBITMEZ\deniz" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-01-07T00:35:50.2392198+03:00" queuing="2026-01-07T00:35:50.2392216+03:00" start="2026-01-07T00:35:48.7347332+03:00" finish="2026-01-07T00:35:50.3700644+03:00" />
+  <TestSettings name="default" id="9dab78de-b144-4b3c-87a4-cf5bea4eabc8">
+    <Deployment runDeploymentRoot="deniz_DENIZBITMEZ_2026-01-07_00_35_50" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="b5c4d134-4956-47fb-be48-9e73ba588092" testId="d8f82844-3efa-0eb7-3531-438bc7196803" testName="StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_InvalidRole_ReturnsBadRequest" computerName="DENIZBITMEZ" duration="00:00:00.0046531" startTime="2026-01-07T00:35:50.2086461+03:00" endTime="2026-01-07T00:35:50.2086462+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b5c4d134-4956-47fb-be48-9e73ba588092" />
+    <UnitTestResult executionId="14495f41-3003-42a0-8146-e7687a095df5" testId="476e886c-a7eb-4ca0-b69b-56be297a7c8b" testName="StudentManagementApi.Tests.Controllers.StudentControllerTests.Update_ExistingStudent_ReturnsNoContent" computerName="DENIZBITMEZ" duration="00:00:00.0049028" startTime="2026-01-07T00:35:50.2899454+03:00" endTime="2026-01-07T00:35:50.2899455+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="14495f41-3003-42a0-8146-e7687a095df5" />
+    <UnitTestResult executionId="c1ac3d55-e407-4fe2-b653-9383af3ea56f" testId="a561a042-3c0d-cb6a-0881-cf69201768a4" testName="StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_ValidRequest_ReturnsOk" computerName="DENIZBITMEZ" duration="00:00:00.0711658" startTime="2026-01-07T00:35:50.2584286+03:00" endTime="2026-01-07T00:35:50.2584288+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c1ac3d55-e407-4fe2-b653-9383af3ea56f" />
+    <UnitTestResult executionId="dc608d36-de59-40c8-ac2d-b06d392bfeea" testId="e6768d4d-4173-d8f4-f0d9-338bc015e2e0" testName="StudentManagementApi.Tests.Controllers.StudentControllerTests.Create_ValidStudent_ReturnsCreatedStudent" computerName="DENIZBITMEZ" duration="00:00:00.0746362" startTime="2026-01-07T00:35:50.2602152+03:00" endTime="2026-01-07T00:35:50.2602154+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dc608d36-de59-40c8-ac2d-b06d392bfeea" />
+    <UnitTestResult executionId="5d16d050-3998-42fe-8c16-9e84bae30832" testId="d9656c6b-5fbe-afc4-6be4-d70f5d7f1ffe" testName="StudentManagementApi.Tests.Controllers.StudentControllerTests.GetById_NonExistingStudent_ReturnsNotFound" computerName="DENIZBITMEZ" duration="00:00:00.0026454" startTime="2026-01-07T00:35:50.2084861+03:00" endTime="2026-01-07T00:35:50.2084863+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5d16d050-3998-42fe-8c16-9e84bae30832" />
+    <UnitTestResult executionId="1e2ffeb5-fbf6-4cf3-af17-42e7acadbde4" testId="5a47edea-f6ca-1832-15eb-bd5bc468c2ca" testName="StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_InvalidCredentials_ReturnsUnauthorized" computerName="DENIZBITMEZ" duration="00:00:00.0120052" startTime="2026-01-07T00:35:50.1824475+03:00" endTime="2026-01-07T00:35:50.1824479+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1e2ffeb5-fbf6-4cf3-af17-42e7acadbde4" />
+    <UnitTestResult executionId="512d5163-99cf-4937-8cea-aad9f47bb0c0" testId="43a7190b-950b-78ab-7801-651ed4385540" testName="StudentManagementApi.Tests.Controllers.StudentControllerTests.Delete_ExistingStudent_ReturnsNoContent" computerName="DENIZBITMEZ" duration="00:00:00.0246476" startTime="2026-01-07T00:35:50.2849582+03:00" endTime="2026-01-07T00:35:50.2849583+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="512d5163-99cf-4937-8cea-aad9f47bb0c0" />
+    <UnitTestResult executionId="75caff37-29f5-4986-aa37-1b1d48a6c1a4" testId="08707758-d616-a559-40ce-8fe69acddf30" testName="StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentCreate_WithInvalidRole_ShouldReturnForbidden" computerName="DENIZBITMEZ" duration="00:00:00.0010000" startTime="2026-01-07T00:35:49.5434616+03:00" endTime="2026-01-07T00:35:49.5434617+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="75caff37-29f5-4986-aa37-1b1d48a6c1a4">
+      <Output>
+        <ErrorInfo>
+          <Message>System.InvalidOperationException : Services for database providers 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Microsoft.EntityFrameworkCore.InMemory' have been registered in the service provider. Only a single database provider can be registered in a service provider. If possible, ensure that Entity Framework is managing its service provider by removing the call to 'UseInternalServiceProvider'. Otherwise, consider conditionally registering the database provider, or maintaining one service provider per database provider.</Message>
+          <StackTrace>   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.Initialize(IServiceProvider scopedProvider, DbContextOptions contextOptions, DbContext context)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.Microsoft.EntityFrameworkCore.Infrastructure.IInfrastructure&lt;System.IServiceProvider&gt;.get_Instance()&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService(IInfrastructure`1 accessor, Type serviceType)&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.IsRelational(DatabaseFacade databaseFacade)&#xD;
+   at Program.&lt;Main&gt;$(String[] args) in C:\Users\deniz\student-automation-system\StudentManagementApi\Program.cs:line 38&#xD;
+   at Program.&lt;Main&gt;(String[] args)&#xD;
+   at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()&#xD;
+   at StudentManagementApi.Tests.Integration.StudentIntegrationTests..ctor(WebApplicationFactory`1 factory) in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Integration\StudentIntegrationTests.cs:line 43&#xD;
+   at InvokeStub_StudentIntegrationTests..ctor(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1775f040-6f85-4020-a823-1b00da3b4bed" testId="74d35b74-7315-5789-e7cc-f56d9e4df5fe" testName="StudentManagementApi.Tests.Controllers.StudentControllerTests.GetById_ExistingStudent_ReturnsStudent" computerName="DENIZBITMEZ" duration="00:00:00.0442958" startTime="2026-01-07T00:35:50.1833186+03:00" endTime="2026-01-07T00:35:50.1833189+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1775f040-6f85-4020-a823-1b00da3b4bed">
+      <Output>
+        <ErrorInfo>
+          <Message>Expected result.Result to be Microsoft.AspNetCore.Mvc.OkObjectResult, but found &lt;null&gt;.</Message>
+          <StackTrace>   at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)&#xD;
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)&#xD;
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)&#xD;
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)&#xD;
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)&#xD;
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)&#xD;
+   at FluentAssertions.Primitives.ReferenceTypeAssertions`2.BeOfType(Type expectedType, String because, Object[] becauseArgs)&#xD;
+   at FluentAssertions.Primitives.ReferenceTypeAssertions`2.BeOfType[T](String because, Object[] becauseArgs)&#xD;
+   at StudentManagementApi.Tests.Controllers.StudentControllerTests.GetById_ExistingStudent_ReturnsStudent() in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\StudentControllerTests.cs:line 110&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="892f516e-7cfd-4646-9ead-b1835b6e92e8" testId="3249a0eb-c112-4008-0190-119622906ee0" testName="StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentCrud_WithAuthenticatedUser_ShouldWork" computerName="DENIZBITMEZ" duration="00:00:00.0010000" startTime="2026-01-07T00:35:49.6292364+03:00" endTime="2026-01-07T00:35:49.6292366+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="892f516e-7cfd-4646-9ead-b1835b6e92e8">
+      <Output>
+        <ErrorInfo>
+          <Message>System.InvalidOperationException : Services for database providers 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Microsoft.EntityFrameworkCore.InMemory' have been registered in the service provider. Only a single database provider can be registered in a service provider. If possible, ensure that Entity Framework is managing its service provider by removing the call to 'UseInternalServiceProvider'. Otherwise, consider conditionally registering the database provider, or maintaining one service provider per database provider.</Message>
+          <StackTrace>   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.Initialize(IServiceProvider scopedProvider, DbContextOptions contextOptions, DbContext context)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.Microsoft.EntityFrameworkCore.Infrastructure.IInfrastructure&lt;System.IServiceProvider&gt;.get_Instance()&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService(IInfrastructure`1 accessor, Type serviceType)&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.IsRelational(DatabaseFacade databaseFacade)&#xD;
+   at Program.&lt;Main&gt;$(String[] args) in C:\Users\deniz\student-automation-system\StudentManagementApi\Program.cs:line 38&#xD;
+   at Program.&lt;Main&gt;(String[] args)&#xD;
+   at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()&#xD;
+   at StudentManagementApi.Tests.Integration.StudentIntegrationTests..ctor(WebApplicationFactory`1 factory) in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Integration\StudentIntegrationTests.cs:line 43&#xD;
+   at InvokeStub_StudentIntegrationTests..ctor(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7f9a60d6-6c9a-4410-8a3f-e5b1b37dc3cf" testId="e048c5d9-6598-f13c-b117-03cf0d03bdb2" testName="StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentEndpoints_WithoutAuthentication_ShouldReturnUnauthorized" computerName="DENIZBITMEZ" duration="00:00:00.0010000" startTime="2026-01-07T00:35:49.5732156+03:00" endTime="2026-01-07T00:35:49.5732158+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7f9a60d6-6c9a-4410-8a3f-e5b1b37dc3cf">
+      <Output>
+        <ErrorInfo>
+          <Message>System.InvalidOperationException : Services for database providers 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Microsoft.EntityFrameworkCore.InMemory' have been registered in the service provider. Only a single database provider can be registered in a service provider. If possible, ensure that Entity Framework is managing its service provider by removing the call to 'UseInternalServiceProvider'. Otherwise, consider conditionally registering the database provider, or maintaining one service provider per database provider.</Message>
+          <StackTrace>   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.Initialize(IServiceProvider scopedProvider, DbContextOptions contextOptions, DbContext context)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.Microsoft.EntityFrameworkCore.Infrastructure.IInfrastructure&lt;System.IServiceProvider&gt;.get_Instance()&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService(IInfrastructure`1 accessor, Type serviceType)&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.IsRelational(DatabaseFacade databaseFacade)&#xD;
+   at Program.&lt;Main&gt;$(String[] args) in C:\Users\deniz\student-automation-system\StudentManagementApi\Program.cs:line 38&#xD;
+   at Program.&lt;Main&gt;(String[] args)&#xD;
+   at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()&#xD;
+   at StudentManagementApi.Tests.Integration.StudentIntegrationTests..ctor(WebApplicationFactory`1 factory) in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Integration\StudentIntegrationTests.cs:line 43&#xD;
+   at InvokeStub_StudentIntegrationTests..ctor(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="aea4bbbd-54c9-4f3d-9bcc-43d5252f0701" testId="c9dbd1ba-816c-f4d3-ceff-da44567bc7ab" testName="StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_ValidCredentials_ReturnsAuthResponse" computerName="DENIZBITMEZ" duration="00:00:00.9940944" startTime="2026-01-07T00:35:50.1710860+03:00" endTime="2026-01-07T00:35:50.1710861+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aea4bbbd-54c9-4f3d-9bcc-43d5252f0701" />
+    <UnitTestResult executionId="24b5025c-1807-4265-9bb1-321b70a4f805" testId="2b918044-5bbb-22d7-ca6f-0f3640f20254" testName="StudentManagementApi.Tests.Controllers.StudentControllerTests.Get_ReturnsAllStudents" computerName="DENIZBITMEZ" duration="00:00:00.9588546" startTime="2026-01-07T00:35:50.1388656+03:00" endTime="2026-01-07T00:35:50.1388658+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24b5025c-1807-4265-9bb1-321b70a4f805">
+      <Output>
+        <ErrorInfo>
+          <Message>Expected result.Result to be Microsoft.AspNetCore.Mvc.OkObjectResult, but found &lt;null&gt;.</Message>
+          <StackTrace>   at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)&#xD;
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)&#xD;
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)&#xD;
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)&#xD;
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)&#xD;
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)&#xD;
+   at FluentAssertions.Primitives.ReferenceTypeAssertions`2.BeOfType(Type expectedType, String because, Object[] becauseArgs)&#xD;
+   at FluentAssertions.Primitives.ReferenceTypeAssertions`2.BeOfType[T](String because, Object[] becauseArgs)&#xD;
+   at StudentManagementApi.Tests.Controllers.StudentControllerTests.Get_ReturnsAllStudents() in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\StudentControllerTests.cs:line 73&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ed0b2be3-480b-4bc7-9038-6176abc7d266" testId="5e95d9cf-5f08-99b4-7a9e-c0b05e1be1a3" testName="StudentManagementApi.Tests.Integration.StudentIntegrationTests.AuthFlow_RegisterAndLogin_ShouldWork" computerName="DENIZBITMEZ" duration="00:00:00.0010000" startTime="2026-01-07T00:35:49.5041103+03:00" endTime="2026-01-07T00:35:49.5041284+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ed0b2be3-480b-4bc7-9038-6176abc7d266">
+      <Output>
+        <ErrorInfo>
+          <Message>System.InvalidOperationException : Services for database providers 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Microsoft.EntityFrameworkCore.InMemory' have been registered in the service provider. Only a single database provider can be registered in a service provider. If possible, ensure that Entity Framework is managing its service provider by removing the call to 'UseInternalServiceProvider'. Otherwise, consider conditionally registering the database provider, or maintaining one service provider per database provider.</Message>
+          <StackTrace>   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.Initialize(IServiceProvider scopedProvider, DbContextOptions contextOptions, DbContext context)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.Microsoft.EntityFrameworkCore.Infrastructure.IInfrastructure&lt;System.IServiceProvider&gt;.get_Instance()&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService(IInfrastructure`1 accessor, Type serviceType)&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+   at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.IsRelational(DatabaseFacade databaseFacade)&#xD;
+   at Program.&lt;Main&gt;$(String[] args) in C:\Users\deniz\student-automation-system\StudentManagementApi\Program.cs:line 38&#xD;
+   at Program.&lt;Main&gt;(String[] args)&#xD;
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)&#xD;
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()&#xD;
+   at StudentManagementApi.Tests.Integration.StudentIntegrationTests..ctor(WebApplicationFactory`1 factory) in C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Integration\StudentIntegrationTests.cs:line 43&#xD;
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_InvalidCredentials_ReturnsUnauthorized" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="5a47edea-f6ca-1832-15eb-bd5bc468c2ca">
+      <Execution id="1e2ffeb5-fbf6-4cf3-af17-42e7acadbde4" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.AuthControllerTests" name="Login_InvalidCredentials_ReturnsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentEndpoints_WithoutAuthentication_ShouldReturnUnauthorized" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="e048c5d9-6598-f13c-b117-03cf0d03bdb2">
+      <Execution id="7f9a60d6-6c9a-4410-8a3f-e5b1b37dc3cf" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Integration.StudentIntegrationTests" name="StudentEndpoints_WithoutAuthentication_ShouldReturnUnauthorized" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_ValidRequest_ReturnsOk" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="a561a042-3c0d-cb6a-0881-cf69201768a4">
+      <Execution id="c1ac3d55-e407-4fe2-b653-9383af3ea56f" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.AuthControllerTests" name="Register_ValidRequest_ReturnsOk" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.AuthControllerTests.Register_InvalidRole_ReturnsBadRequest" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="d8f82844-3efa-0eb7-3531-438bc7196803">
+      <Execution id="b5c4d134-4956-47fb-be48-9e73ba588092" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.AuthControllerTests" name="Register_InvalidRole_ReturnsBadRequest" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.StudentControllerTests.Get_ReturnsAllStudents" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="2b918044-5bbb-22d7-ca6f-0f3640f20254">
+      <Execution id="24b5025c-1807-4265-9bb1-321b70a4f805" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.StudentControllerTests" name="Get_ReturnsAllStudents" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.StudentControllerTests.Update_ExistingStudent_ReturnsNoContent" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="476e886c-a7eb-4ca0-b69b-56be297a7c8b">
+      <Execution id="14495f41-3003-42a0-8146-e7687a095df5" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.StudentControllerTests" name="Update_ExistingStudent_ReturnsNoContent" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.StudentControllerTests.GetById_NonExistingStudent_ReturnsNotFound" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="d9656c6b-5fbe-afc4-6be4-d70f5d7f1ffe">
+      <Execution id="5d16d050-3998-42fe-8c16-9e84bae30832" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.StudentControllerTests" name="GetById_NonExistingStudent_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.StudentControllerTests.GetById_ExistingStudent_ReturnsStudent" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="74d35b74-7315-5789-e7cc-f56d9e4df5fe">
+      <Execution id="1775f040-6f85-4020-a823-1b00da3b4bed" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.StudentControllerTests" name="GetById_ExistingStudent_ReturnsStudent" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.AuthControllerTests.Login_ValidCredentials_ReturnsAuthResponse" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="c9dbd1ba-816c-f4d3-ceff-da44567bc7ab">
+      <Execution id="aea4bbbd-54c9-4f3d-9bcc-43d5252f0701" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.AuthControllerTests" name="Login_ValidCredentials_ReturnsAuthResponse" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.StudentControllerTests.Delete_ExistingStudent_ReturnsNoContent" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="43a7190b-950b-78ab-7801-651ed4385540">
+      <Execution id="512d5163-99cf-4937-8cea-aad9f47bb0c0" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.StudentControllerTests" name="Delete_ExistingStudent_ReturnsNoContent" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentCreate_WithInvalidRole_ShouldReturnForbidden" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="08707758-d616-a559-40ce-8fe69acddf30">
+      <Execution id="75caff37-29f5-4986-aa37-1b1d48a6c1a4" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Integration.StudentIntegrationTests" name="StudentCreate_WithInvalidRole_ShouldReturnForbidden" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Integration.StudentIntegrationTests.AuthFlow_RegisterAndLogin_ShouldWork" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="5e95d9cf-5f08-99b4-7a9e-c0b05e1be1a3">
+      <Execution id="ed0b2be3-480b-4bc7-9038-6176abc7d266" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Integration.StudentIntegrationTests" name="AuthFlow_RegisterAndLogin_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Controllers.StudentControllerTests.Create_ValidStudent_ReturnsCreatedStudent" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="e6768d4d-4173-d8f4-f0d9-338bc015e2e0">
+      <Execution id="dc608d36-de59-40c8-ac2d-b06d392bfeea" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Controllers.StudentControllerTests" name="Create_ValidStudent_ReturnsCreatedStudent" />
+    </UnitTest>
+    <UnitTest name="StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentCrud_WithAuthenticatedUser_ShouldWork" storage="c:\users\deniz\student-automation-system\studentmanagementapi.tests\bin\debug\net9.0\studentmanagementapi.tests.dll" id="3249a0eb-c112-4008-0190-119622906ee0">
+      <Execution id="892f516e-7cfd-4646-9ead-b1835b6e92e8" />
+      <TestMethod codeBase="C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\StudentManagementApi.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="StudentManagementApi.Tests.Integration.StudentIntegrationTests" name="StudentCrud_WithAuthenticatedUser_ShouldWork" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d8f82844-3efa-0eb7-3531-438bc7196803" executionId="b5c4d134-4956-47fb-be48-9e73ba588092" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="476e886c-a7eb-4ca0-b69b-56be297a7c8b" executionId="14495f41-3003-42a0-8146-e7687a095df5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a561a042-3c0d-cb6a-0881-cf69201768a4" executionId="c1ac3d55-e407-4fe2-b653-9383af3ea56f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6768d4d-4173-d8f4-f0d9-338bc015e2e0" executionId="dc608d36-de59-40c8-ac2d-b06d392bfeea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d9656c6b-5fbe-afc4-6be4-d70f5d7f1ffe" executionId="5d16d050-3998-42fe-8c16-9e84bae30832" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5a47edea-f6ca-1832-15eb-bd5bc468c2ca" executionId="1e2ffeb5-fbf6-4cf3-af17-42e7acadbde4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="43a7190b-950b-78ab-7801-651ed4385540" executionId="512d5163-99cf-4937-8cea-aad9f47bb0c0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="08707758-d616-a559-40ce-8fe69acddf30" executionId="75caff37-29f5-4986-aa37-1b1d48a6c1a4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74d35b74-7315-5789-e7cc-f56d9e4df5fe" executionId="1775f040-6f85-4020-a823-1b00da3b4bed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3249a0eb-c112-4008-0190-119622906ee0" executionId="892f516e-7cfd-4646-9ead-b1835b6e92e8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e048c5d9-6598-f13c-b117-03cf0d03bdb2" executionId="7f9a60d6-6c9a-4410-8a3f-e5b1b37dc3cf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9dbd1ba-816c-f4d3-ceff-da44567bc7ab" executionId="aea4bbbd-54c9-4f3d-9bcc-43d5252f0701" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2b918044-5bbb-22d7-ca6f-0f3640f20254" executionId="24b5025c-1807-4265-9bb1-321b70a4f805" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5e95d9cf-5f08-99b4-7a9e-c0b05e1be1a3" executionId="ed0b2be3-480b-4bc7-9038-6176abc7d266" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Bir Listede Olmayan Sonuçlar" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Yüklenen Tüm Sonuçlar" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="14" executed="14" passed="8" failed="6" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.3)&#xD;
+[xUnit.net 00:00:00.07]   Discovering: StudentManagementApi.Tests&#xD;
+[xUnit.net 00:00:00.10]   Discovered:  StudentManagementApi.Tests&#xD;
+[xUnit.net 00:00:00.10]   Starting:    StudentManagementApi.Tests&#xD;
+[xUnit.net 00:00:00.44]       System.InvalidOperationException : Services for database providers 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Microsoft.EntityFrameworkCore.InMemory' have been registered in the service provider. Only a single database provider can be registered in a service provider. If possible, ensure that Entity Framework is managing its service provider by removing the call to 'UseInternalServiceProvider'. Otherwise, consider conditionally registering the database provider, or maintaining one service provider per database provider.&#xD;
+[xUnit.net 00:00:00.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.EntityFrameworkCore.Internal.DbContextServices.Initialize(IServiceProvider scopedProvider, DbContextOptions contextOptions, DbContext context)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.EntityFrameworkCore.DbContext.Microsoft.EntityFrameworkCore.Infrastructure.IInfrastructure&lt;System.IServiceProvider&gt;.get_Instance()&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService(IInfrastructure`1 accessor, Type serviceType)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.IsRelational(DatabaseFacade databaseFacade)&#xD;
+[xUnit.net 00:00:00.46]         C:\Users\deniz\student-automation-system\StudentManagementApi\Program.cs(38,0): at Program.&lt;Main&gt;$(String[] args)&#xD;
+[xUnit.net 00:00:00.46]            at Program.&lt;Main&gt;(String[] args)&#xD;
+[xUnit.net 00:00:00.46]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.46]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)&#xD;
+[xUnit.net 00:00:00.46]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()&#xD;
+[xUnit.net 00:00:00.46]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Integration\StudentIntegrationTests.cs(43,0): at StudentManagementApi.Tests.Integration.StudentIntegrationTests..ctor(WebApplicationFactory`1 factory)&#xD;
+[xUnit.net 00:00:00.46]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.50]       System.InvalidOperationException : Services for database providers 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Microsoft.EntityFrameworkCore.InMemory' have been registered in the service provider. Only a single database provider can be registered in a service provider. If possible, ensure that Entity Framework is managing its service provider by removing the call to 'UseInternalServiceProvider'. Otherwise, consider conditionally registering the database provider, or maintaining one service provider per database provider.&#xD;
+[xUnit.net 00:00:00.50]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.EntityFrameworkCore.Internal.DbContextServices.Initialize(IServiceProvider scopedProvider, DbContextOptions contextOptions, DbContext context)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.EntityFrameworkCore.DbContext.Microsoft.EntityFrameworkCore.Infrastructure.IInfrastructure&lt;System.IServiceProvider&gt;.get_Instance()&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService(IInfrastructure`1 accessor, Type serviceType)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.IsRelational(DatabaseFacade databaseFacade)&#xD;
+[xUnit.net 00:00:00.50]         C:\Users\deniz\student-automation-system\StudentManagementApi\Program.cs(38,0): at Program.&lt;Main&gt;$(String[] args)&#xD;
+[xUnit.net 00:00:00.50]            at Program.&lt;Main&gt;(String[] args)&#xD;
+[xUnit.net 00:00:00.50]            at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.50]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.50]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)&#xD;
+[xUnit.net 00:00:00.50]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()&#xD;
+[xUnit.net 00:00:00.50]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Integration\StudentIntegrationTests.cs(43,0): at StudentManagementApi.Tests.Integration.StudentIntegrationTests..ctor(WebApplicationFactory`1 factory)&#xD;
+[xUnit.net 00:00:00.50]            at InvokeStub_StudentIntegrationTests..ctor(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.50]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.53]       System.InvalidOperationException : Services for database providers 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Microsoft.EntityFrameworkCore.InMemory' have been registered in the service provider. Only a single database provider can be registered in a service provider. If possible, ensure that Entity Framework is managing its service provider by removing the call to 'UseInternalServiceProvider'. Otherwise, consider conditionally registering the database provider, or maintaining one service provider per database provider.&#xD;
+[xUnit.net 00:00:00.53]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.EntityFrameworkCore.Internal.DbContextServices.Initialize(IServiceProvider scopedProvider, DbContextOptions contextOptions, DbContext context)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.EntityFrameworkCore.DbContext.Microsoft.EntityFrameworkCore.Infrastructure.IInfrastructure&lt;System.IServiceProvider&gt;.get_Instance()&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService(IInfrastructure`1 accessor, Type serviceType)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.IsRelational(DatabaseFacade databaseFacade)&#xD;
+[xUnit.net 00:00:00.53]         C:\Users\deniz\student-automation-system\StudentManagementApi\Program.cs(38,0): at Program.&lt;Main&gt;$(String[] args)&#xD;
+[xUnit.net 00:00:00.53]            at Program.&lt;Main&gt;(String[] args)&#xD;
+[xUnit.net 00:00:00.53]            at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.53]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.53]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)&#xD;
+[xUnit.net 00:00:00.53]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()&#xD;
+[xUnit.net 00:00:00.53]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Integration\StudentIntegrationTests.cs(43,0): at StudentManagementApi.Tests.Integration.StudentIntegrationTests..ctor(WebApplicationFactory`1 factory)&#xD;
+[xUnit.net 00:00:00.53]            at InvokeStub_StudentIntegrationTests..ctor(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.53]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.59]       System.InvalidOperationException : Services for database providers 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Microsoft.EntityFrameworkCore.InMemory' have been registered in the service provider. Only a single database provider can be registered in a service provider. If possible, ensure that Entity Framework is managing its service provider by removing the call to 'UseInternalServiceProvider'. Otherwise, consider conditionally registering the database provider, or maintaining one service provider per database provider.&#xD;
+[xUnit.net 00:00:00.59]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.EntityFrameworkCore.Internal.DbContextServices.Initialize(IServiceProvider scopedProvider, DbContextOptions contextOptions, DbContext context)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.EntityFrameworkCore.DbContext.Microsoft.EntityFrameworkCore.Infrastructure.IInfrastructure&lt;System.IServiceProvider&gt;.get_Instance()&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService(IInfrastructure`1 accessor, Type serviceType)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.InfrastructureExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.IsRelational(DatabaseFacade databaseFacade)&#xD;
+[xUnit.net 00:00:00.59]         C:\Users\deniz\student-automation-system\StudentManagementApi\Program.cs(38,0): at Program.&lt;Main&gt;$(String[] args)&#xD;
+[xUnit.net 00:00:00.59]            at Program.&lt;Main&gt;(String[] args)&#xD;
+[xUnit.net 00:00:00.59]            at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.59]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.59]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)&#xD;
+[xUnit.net 00:00:00.59]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()&#xD;
+[xUnit.net 00:00:00.59]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Integration\StudentIntegrationTests.cs(43,0): at StudentManagementApi.Tests.Integration.StudentIntegrationTests..ctor(WebApplicationFactory`1 factory)&#xD;
+[xUnit.net 00:00:00.59]            at InvokeStub_StudentIntegrationTests..ctor(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.59]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:01.10]       Expected result.Result to be Microsoft.AspNetCore.Mvc.OkObjectResult, but found &lt;null&gt;.&#xD;
+[xUnit.net 00:00:01.10]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.10]            at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)&#xD;
+[xUnit.net 00:00:01.10]            at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)&#xD;
+[xUnit.net 00:00:01.10]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)&#xD;
+[xUnit.net 00:00:01.10]            at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)&#xD;
+[xUnit.net 00:00:01.10]            at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)&#xD;
+[xUnit.net 00:00:01.10]            at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)&#xD;
+[xUnit.net 00:00:01.10]            at FluentAssertions.Primitives.ReferenceTypeAssertions`2.BeOfType(Type expectedType, String because, Object[] becauseArgs)&#xD;
+[xUnit.net 00:00:01.10]            at FluentAssertions.Primitives.ReferenceTypeAssertions`2.BeOfType[T](String because, Object[] becauseArgs)&#xD;
+[xUnit.net 00:00:01.10]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\StudentControllerTests.cs(73,0): at StudentManagementApi.Tests.Controllers.StudentControllerTests.Get_ReturnsAllStudents()&#xD;
+[xUnit.net 00:00:01.10]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.14]       Expected result.Result to be Microsoft.AspNetCore.Mvc.OkObjectResult, but found &lt;null&gt;.&#xD;
+[xUnit.net 00:00:01.14]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.14]            at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)&#xD;
+[xUnit.net 00:00:01.14]            at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)&#xD;
+[xUnit.net 00:00:01.14]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)&#xD;
+[xUnit.net 00:00:01.14]            at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)&#xD;
+[xUnit.net 00:00:01.14]            at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)&#xD;
+[xUnit.net 00:00:01.14]            at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)&#xD;
+[xUnit.net 00:00:01.14]            at FluentAssertions.Primitives.ReferenceTypeAssertions`2.BeOfType(Type expectedType, String because, Object[] becauseArgs)&#xD;
+[xUnit.net 00:00:01.14]            at FluentAssertions.Primitives.ReferenceTypeAssertions`2.BeOfType[T](String because, Object[] becauseArgs)&#xD;
+[xUnit.net 00:00:01.14]         C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\Controllers\StudentControllerTests.cs(110,0): at StudentManagementApi.Tests.Controllers.StudentControllerTests.GetById_ExistingStudent_ReturnsStudent()&#xD;
+[xUnit.net 00:00:01.14]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.26]   Finished:    StudentManagementApi.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:35:49.4792876+03:00">
+        <Text>[xUnit.net 00:00:00.44]     StudentManagementApi.Tests.Integration.StudentIntegrationTests.AuthFlow_RegisterAndLogin_ShouldWork [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:35:49.5429628+03:00">
+        <Text>[xUnit.net 00:00:00.50]     StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentCreate_WithInvalidRole_ShouldReturnForbidden [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:35:49.5724750+03:00">
+        <Text>[xUnit.net 00:00:00.53]     StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentEndpoints_WithoutAuthentication_ShouldReturnUnauthorized [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:35:49.6284101+03:00">
+        <Text>[xUnit.net 00:00:00.59]     StudentManagementApi.Tests.Integration.StudentIntegrationTests.StudentCrud_WithAuthenticatedUser_ShouldWork [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:35:50.1386184+03:00">
+        <Text>[xUnit.net 00:00:01.10]     StudentManagementApi.Tests.Controllers.StudentControllerTests.Get_ReturnsAllStudents [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DENIZBITMEZ" outcome="Error" timestamp="2026-01-07T00:35:50.1833216+03:00">
+        <Text>[xUnit.net 00:00:01.14]     StudentManagementApi.Tests.Controllers.StudentControllerTests.GetById_ExistingStudent_ReturnsStudent [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

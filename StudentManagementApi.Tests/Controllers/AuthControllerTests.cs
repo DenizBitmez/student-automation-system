@@ -1,7 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using StudentManagementApi.Controllers;
+using StudentManagementApi.Data;
 using StudentManagementApi.Domain;
 using StudentManagementApi.Services;
 using Xunit;
@@ -10,79 +15,96 @@ using static StudentManagementApi.Dtos.AuthDtos;
 
 namespace StudentManagementApi.Tests.Controllers;
 
-public class AuthControllerTests
+public class AuthControllerTests : IDisposable
 {
-    private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
-    private readonly Mock<RoleManager<IdentityRole>> _roleManagerMock;
-    private readonly Mock<JwtTokenService> _jwtServiceMock;
+    private readonly AppDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly Mock<IJwtTokenService> _jwtServiceMock;
     private readonly AuthController _controller;
+    private readonly ServiceProvider _serviceProvider;
 
     public AuthControllerTests()
     {
-        _userManagerMock = MockUserManager<ApplicationUser>();
-        _roleManagerMock = MockRoleManager();
-        _jwtServiceMock = new Mock<JwtTokenService>();
-        _controller = new AuthController(_userManagerMock.Object, _roleManagerMock.Object, _jwtServiceMock.Object);
+        var services = new ServiceCollection();
+
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
+
+        services.AddLogging();
+
+        _serviceProvider = services.BuildServiceProvider();
+        _context = _serviceProvider.GetRequiredService<AppDbContext>();
+        _userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        _roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        _jwtServiceMock = new Mock<IJwtTokenService>();
+        _controller = new AuthController(_userManager, _roleManager, _jwtServiceMock.Object);
+        
+        // Ensure roles exist for tests
+        _roleManager.CreateAsync(new IdentityRole("Student")).Wait();
+        _roleManager.CreateAsync(new IdentityRole("Admin")).Wait();
+    }
+
+    public void Dispose()
+    {
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
+        _serviceProvider.Dispose();
     }
 
     [Fact]
     public async Task Register_ValidRequest_ReturnsOk()
     {
         // Arrange
-        var registerDto = new RegisterDto("test@test.com", "test@test.com", "Password123!", "Test User", "Student");
-
-        _roleManagerMock.Setup(x => x.RoleExistsAsync(It.IsAny<string>()))
-            .ReturnsAsync(true);
-
-        _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
-            .ReturnsAsync(IdentityResult.Success);
-
-        _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
-            .ReturnsAsync(IdentityResult.Success);
+        var registerDto = new RegisterDto("testuser", "test@test.com", "Passw0rd1!", "Test User", "Student");
 
         // Act
         var result = await _controller.Register(registerDto);
 
         // Assert
         result.Should().BeOfType<OkResult>();
+        
+        var user = await _userManager.FindByNameAsync("testuser");
+        user.Should().NotBeNull();
+        var roles = await _userManager.GetRolesAsync(user!);
+        roles.Should().Contain("Student");
     }
 
     [Fact]
     public async Task Register_InvalidRole_ReturnsBadRequest()
     {
         // Arrange
-        var registerDto = new RegisterDto("test@test.com", "test@test.com", "Password123!", "Test User", "InvalidRole");
-
-        _roleManagerMock.Setup(x => x.RoleExistsAsync(It.IsAny<string>()))
-            .ReturnsAsync(false);
+        var registerDto = new RegisterDto("testuser", "test@test.com", "Passw0rd1!", "Test User", "InvalidRole");
 
         // Act
         var result = await _controller.Register(registerDto);
 
         // Assert
         result.Should().BeOfType<BadRequestObjectResult>();
+        var badRequest = result as BadRequestObjectResult;
+        badRequest!.Value.Should().Be("Invalid role");
     }
 
     [Fact]
     public async Task Login_ValidCredentials_ReturnsAuthResponse()
     {
         // Arrange
-        var loginDto = new LoginDto("test@test.com", "Password123!");
-
+        var password = "Passw0rd1!";
         var user = new ApplicationUser
         {
+            UserName = "testuser",
             Email = "test@test.com",
             FullName = "Test User"
         };
+        await _userManager.CreateAsync(user, password);
+        await _userManager.AddToRoleAsync(user, "Student");
 
-        _userManagerMock.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
-            .ReturnsAsync(user);
-
-        _userManagerMock.Setup(x => x.CheckPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
-            .ReturnsAsync(true);
-
-        _userManagerMock.Setup(x => x.GetRolesAsync(It.IsAny<ApplicationUser>()))
-            .ReturnsAsync(new List<string> { "Student" });
+        var loginDto = new LoginDto("testuser", password);
 
         _jwtServiceMock.Setup(x => x.CreateToken(It.IsAny<ApplicationUser>()))
             .ReturnsAsync("fake-jwt-token");
@@ -93,39 +115,22 @@ public class AuthControllerTests
         // Assert
         result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
-        okResult.Value.Should().BeOfType<AuthResponse>();
+        var response = okResult!.Value as AuthResponse;
+        response.Should().NotBeNull();
+        response!.Token.Should().Be("fake-jwt-token");
+        response.Roles.Should().Contain("Student");
     }
 
     [Fact]
     public async Task Login_InvalidCredentials_ReturnsUnauthorized()
     {
         // Arrange
-        var loginDto = new LoginDto("test@test.com", "WrongPassword");
-
-        _userManagerMock.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
-            .ReturnsAsync((ApplicationUser)null);
+        var loginDto = new LoginDto("nonexistent", "wrongpassword");
 
         // Act
         var result = await _controller.Login(loginDto);
 
         // Assert
         result.Result.Should().BeOfType<UnauthorizedResult>();
-    }
-
-    private static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
-    {
-        var store = new Mock<IUserStore<TUser>>();
-        var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
-        mgr.Setup(x => x.CreateAsync(It.IsAny<TUser>(), It.IsAny<string>()))
-           .ReturnsAsync(IdentityResult.Success);
-        mgr.Setup(x => x.AddToRoleAsync(It.IsAny<TUser>(), It.IsAny<string>()))
-           .ReturnsAsync(IdentityResult.Success);
-        return mgr;
-    }
-
-    private static Mock<RoleManager<IdentityRole>> MockRoleManager()
-    {
-        var store = new Mock<IRoleStore<IdentityRole>>();
-        return new Mock<RoleManager<IdentityRole>>(store.Object, null, null, null, null);
     }
 }

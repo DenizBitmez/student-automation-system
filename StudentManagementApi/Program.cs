@@ -30,18 +30,21 @@ app.MapControllers();
 app.MapHub<StudentManagementApi.Hubs.NotificationHub>("/notificationHub");
 
 // Ensure database is created and migrated
-using (var scope = app.Services.CreateScope())
+if (app.Environment.EnvironmentName != "Testing")
 {
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    
-    // Only run migrations for relational databases (skips for InMemory during tests)
-    if (context.Database.IsRelational())
+    using (var scope = app.Services.CreateScope())
     {
-        await context.Database.MigrateAsync();
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        
+        // Only run migrations for relational databases (skips for InMemory during tests)
+        if (context.Database.IsRelational())
+        {
+            await context.Database.MigrateAsync();
+        }
     }
-}
 
-await Seed.InitializeAsync(app.Services);
+    await Seed.InitializeAsync(app.Services);
+}
 
 app.Run();
 
