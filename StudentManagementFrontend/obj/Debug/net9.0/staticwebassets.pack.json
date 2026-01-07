@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
+      "Id": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\responsive-sidebar.css",
+      "PackagePath": "staticwebassets\\css\\responsive-sidebar.css"
+    },
+    {
       "Id": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },

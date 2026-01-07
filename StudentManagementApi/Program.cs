@@ -12,6 +12,7 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddControllers();
 builder.Services.AddAppServices(builder.Configuration);
+builder.Services.AddScoped<StudentManagementApi.Services.AiPredictionService>();
 
 
 var app = builder.Build();

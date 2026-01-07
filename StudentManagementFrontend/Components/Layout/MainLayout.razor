@@ -6,17 +6,32 @@
 @inject IAuthService AuthService
 @inject NavigationManager Navigation
 @inject ILocalStorageService LocalStorage
+<link href="css/responsive-sidebar.css" rel="stylesheet" />
 
 <div class="page">
-    <div class="sidebar d-none d-lg-block">
+    <!-- Mobile Sidebar Backdrop -->
+    @if (sidebarOpen)
+    {
+        <div class="sidebar-backdrop d-lg-none" @onclick="CloseSidebar"></div>
+    }
+
+    <!-- Sidebar -->
+    <div class="sidebar @(sidebarOpen ? "mobile-open" : "")">
         <NavMenu />
     </div>
 
     <main>
         <header class="top-bar px-4 py-3 d-flex align-items-center justify-content-between bg-white border-bottom">
-            <div class="search-trigger d-flex align-items-center gap-2 text-muted d-none d-md-flex">
-                <i class="bi bi-search"></i>
-                <span class="small">Hızlı arama...</span>
+            <div class="d-flex align-items-center gap-3">
+                <!-- Mobile Toggle Button -->
+                <button class="btn btn-icon btn-light d-lg-none" @onclick="ToggleSidebar">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+
+                <div class="search-trigger d-flex align-items-center gap-2 text-muted d-none d-md-flex">
+                    <i class="bi bi-search"></i>
+                    <span class="small">Hızlı arama...</span>
+                </div>
             </div>
 
             <div class="user-actions d-flex align-items-center gap-4">
@@ -60,6 +75,41 @@
         z-index: 40;
         height: 72px;
     }
+    
+    .sidebar.mobile-open {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1050;
+        width: 280px; /* Adjust based on app.css sidebar width if slightly different */
+        overflow-y: auto;
+        animation: slideInLeft 0.3s ease-out;
+    }
+
+    .sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: 1040;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Override app.css sidebar width if needed or ensure mobile width matches */
+    @@media (max-width: 991.98px) {
+        .sidebar {
+            width: 280px; 
+            max-width: 80vw;
+        }
+    }
+
+    @@keyframes slideInLeft {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(0); }
+    }
 
     .avatar {
         transition: var(--transition);
@@ -70,6 +120,16 @@
         transform: scale(1.05);
         box-shadow: var(--shadow-md);
     }
+    
+    .btn-icon {
+        padding: 0.5rem;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+    }
 </style>
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -79,6 +139,8 @@
 </div>
 
 @code {
+    private bool sidebarOpen = false;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -100,10 +162,37 @@
             }
         }
     }
+    
+    protected override void OnInitialized()
+    {
+        // Subscribe to navigation events to close sidebar on route change
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        CloseSidebar();
+        StateHasChanged();
+    }
+
+    private void ToggleSidebar()
+    {
+        sidebarOpen = !sidebarOpen;
+    }
+
+    private void CloseSidebar()
+    {
+        sidebarOpen = false;
+    }
 
     private async Task Logout()
     {
         await AuthService.LogoutAsync();
         Navigation.NavigateTo("/giris");
+    }
+    
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
     }
 }

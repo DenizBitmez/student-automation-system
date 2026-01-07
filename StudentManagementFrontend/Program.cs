@@ -43,7 +43,11 @@ builder.Services.AddScoped<DocumentService>();
 builder.Services.AddScoped<ITeacherLeaveService, TeacherLeaveService>();
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<AssignmentService>();
+builder.Services.AddScoped<AssignmentService>();
 builder.Services.AddScoped<ScheduleService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<AnalyticsService>();
+builder.Services.AddScoped<ParentService>();
 
 // Configure authentication
 builder.Services.AddAuthorizationCore();

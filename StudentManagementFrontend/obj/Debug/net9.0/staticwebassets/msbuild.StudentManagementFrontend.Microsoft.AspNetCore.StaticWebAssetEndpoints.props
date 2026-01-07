@@ -36,6 +36,18 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"nbr077sxlc"},{"Name":"integrity","Value":"sha256-U22fkCY4P2gUp1EupemMf9wl6t0hbSPuZuPaY\u002BFcLMc="},{"Name":"label","Value":"_content/StudentManagementFrontend/css/app.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"7867"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022U22fkCY4P2gUp1EupemMf9wl6t0hbSPuZuPaY\u002BFcLMc=\u0022"},{"Name":"Last-Modified","Value":"Tue, 06 Jan 2026 15:28:55 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/StudentManagementFrontend/css/responsive-sidebar.19wxje6z27.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\responsive-sidebar.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"19wxje6z27"},{"Name":"integrity","Value":"sha256-hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY="},{"Name":"label","Value":"_content/StudentManagementFrontend/css/responsive-sidebar.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1204"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY=\u0022"},{"Name":"Last-Modified","Value":"Wed, 07 Jan 2026 09:12:50 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/StudentManagementFrontend/css/responsive-sidebar.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\responsive-sidebar.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1204"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY=\u0022"},{"Name":"Last-Modified","Value":"Wed, 07 Jan 2026 09:12:50 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/StudentManagementFrontend/favicon.ifv42okdf2.png">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.png'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>

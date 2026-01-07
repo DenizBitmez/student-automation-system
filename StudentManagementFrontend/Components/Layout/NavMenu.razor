@@ -54,7 +54,15 @@
                             <span>Öğretmen İzinleri</span>
                         </NavLink>
                     </div>
+
                 </AuthorizeView>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link modernized-nav-link" href="/messages">
+                        <i class="bi bi-chat-text-fill"></i>
+                        <span>Mesajlar</span>
+                    </NavLink>
+                </div>
 
                 <AuthorizeView Roles="Teacher" Context="teacherContext">
                     <div class="nav-section-label px-3 mt-4 mb-2">EĞİTMEN</div>
@@ -89,13 +97,13 @@
                     <div class="nav-item">
                         <NavLink class="nav-link modernized-nav-link" href="/ogrenci/devamsizlik">
                             <i class="bi bi-calendar-check-fill"></i>
-                            <span>Devamsızlık Durumu</span>
+                            <span>Devamsızlık</span>
                         </NavLink>
                     </div>
                     <div class="nav-item">
                         <NavLink class="nav-link modernized-nav-link" href="/ogrenci/belgeler">
                             <i class="bi bi-file-earmark-pdf-fill"></i>
-                            <span>Karneler & Belgeler</span>
+                            <span>Karneler</span>
                         </NavLink>
                     </div>
                     <div class="nav-item">
@@ -125,6 +133,16 @@
                 </div>
             </Authorized>
         </AuthorizeView>
+        <AuthorizeView Roles="Parent">
+            <div class="nav-section-label px-3 mt-4 mb-2">VELİ</div>
+            <div class="nav-item">
+                <NavLink class="nav-link modernized-nav-link" href="/parent/dashboard">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Çocuklarım</span>
+                </NavLink>
+            </div>
+        </AuthorizeView>
+
         <div class="nav-item">
             <NavLink class="nav-link modernized-nav-link" href="announcements">
                 <i class="bi bi-megaphone"></i>

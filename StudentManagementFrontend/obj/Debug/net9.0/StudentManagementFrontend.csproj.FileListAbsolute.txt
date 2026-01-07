@@ -250,3 +250,4 @@ C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.pdb
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\StudentManagementFrontend.genruntimeconfig.cache
 C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\ref\StudentManagementFrontend.dll
+C:\Users\deniz\student-automation-system\StudentManagementFrontend\obj\Debug\net9.0\compressed\1n1avetqxk-19wxje6z27.gz

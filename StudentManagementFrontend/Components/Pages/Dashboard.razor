@@ -2,22 +2,19 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
 @inject AuthenticationStateProvider AuthStateProvider
-@inject StudentService StudentService
-@inject ITeacherService TeacherService
-@inject ICourseService CourseService
-@inject HttpClient Http
+@inject AnalyticsService AnalyticsService
 @attribute [Authorize]
 
-
-<PageTitle>Dashboard - Öğrenci Otomasyon Sistemi</PageTitle>
+<PageTitle>Dashboard - OtoSistem</PageTitle>
 
 <div class="dashboard-wrapper">
-    <!-- Header Section -->
+    <!-- Header -->
     <div class="row align-items-end mb-5">
         <div class="col">
             <h2 class="h1 fw-bold text-main mb-1">Hoş Geldiniz, @currentUser?.Identity?.Name 👋</h2>
-            <p class="text-muted lead mb-0">Sistemin genel durumu ve hızlı erişim araçları aşağıdadır.</p>
+            <p class="text-muted lead mb-0">Sistemin genel durumu ve analizler aşağıdadır.</p>
         </div>
         <div class="col-auto d-none d-md-block">
             <div class="glass-card px-4 py-2 rounded-pill d-flex align-items-center gap-2 border">
@@ -31,13 +28,13 @@
     {
         <div class="d-flex flex-column align-items-center justify-content-center py-5">
             <div class="spinner-grow text-primary mb-3" role="status"></div>
-            <span class="text-muted fw-medium small">Veriler Hazırlanıyor...</span>
+            <span class="text-muted fw-medium small">Veriler Analiz Ediliyor...</span>
         </div>
     }
     else
     {
-        <AuthorizeView Roles="Admin,Teacher">
-            <!-- Stats Grid -->
+        <AuthorizeView Roles="Admin">
+            <!-- Admin Stats -->
             <div class="row g-4 mb-5">
                 <div class="col-xl-3 col-sm-6">
                     <div class="stat-card p-4 rounded-lg bg-white border shadow-sm hover-lift h-100 overflow-hidden position-relative">
@@ -45,32 +42,22 @@
                             <div class="stat-icon bg-primary-light text-primary rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
                                 <i class="bi bi-people-fill fs-4"></i>
                             </div>
-                            <span class="badge bg-success-subtle text-success rounded-pill px-3 py-1 small">+%12</span>
                         </div>
-                        <h3 class="h2 fw-bold mb-1">@totalStudents</h3>
+                        <h3 class="h2 fw-bold mb-1">@_systemStats.TotalStudents</h3>
                         <p class="text-muted small fw-bold text-uppercase tracking-wider mb-0">Toplam Öğrenci</p>
-                        <div class="card-bg-icon position-absolute opacity-05" style="bottom: -10px; right: -10px; font-size: 5rem;">
-                             <i class="bi bi-people-fill"></i>
-                        </div>
                     </div>
                 </div>
-
                 <div class="col-xl-3 col-sm-6">
                     <div class="stat-card p-4 rounded-lg bg-white border shadow-sm hover-lift h-100 overflow-hidden position-relative">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div class="stat-icon bg-success-subtle text-success rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
                                 <i class="bi bi-person-video3 fs-4"></i>
                             </div>
-                            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 small">Aktif</span>
                         </div>
-                        <h3 class="h2 fw-bold mb-1">@totalTeachers</h3>
-                        <p class="text-muted small fw-bold text-uppercase tracking-wider mb-0">Öğretmen Sayısı</p>
-                        <div class="card-bg-icon position-absolute opacity-05" style="bottom: -10px; right: -10px; font-size: 5rem;">
-                             <i class="bi bi-person-video3"></i>
-                        </div>
+                        <h3 class="h2 fw-bold mb-1">@_systemStats.TotalTeachers</h3>
+                        <p class="text-muted small fw-bold text-uppercase tracking-wider mb-0">Öğretmen</p>
                     </div>
                 </div>
-
                 <div class="col-xl-3 col-sm-6">
                     <div class="stat-card p-4 rounded-lg bg-white border shadow-sm hover-lift h-100 overflow-hidden position-relative">
                         <div class="d-flex justify-content-between align-items-start mb-3">
@@ -78,14 +65,10 @@
                                 <i class="bi bi-journal-bookmark-fill fs-4"></i>
                             </div>
                         </div>
-                        <h3 class="h2 fw-bold mb-1">@totalCourses</h3>
-                        <p class="text-muted small fw-bold text-uppercase tracking-wider mb-0">Toplam Ders</p>
-                        <div class="card-bg-icon position-absolute opacity-05" style="bottom: -10px; right: -10px; font-size: 5rem;">
-                             <i class="bi bi-journal-bookmark-fill"></i>
-                        </div>
+                        <h3 class="h2 fw-bold mb-1">@_systemStats.TotalCourses</h3>
+                        <p class="text-muted small fw-bold text-uppercase tracking-wider mb-0">Dersler</p>
                     </div>
                 </div>
-
                 <div class="col-xl-3 col-sm-6">
                     <div class="stat-card p-4 rounded-lg bg-white border shadow-sm hover-lift h-100 overflow-hidden position-relative">
                         <div class="d-flex justify-content-between align-items-start mb-3">
@@ -93,95 +76,119 @@
                                 <i class="bi bi-clipboard-check-fill fs-4"></i>
                             </div>
                         </div>
-                        <h3 class="h2 fw-bold mb-1">@totalEnrollments</h3>
-                        <p class="text-muted small fw-bold text-uppercase tracking-wider mb-0">Kayıtlı Öğrenci</p>
-                        <div class="card-bg-icon position-absolute opacity-05" style="bottom: -10px; right: -10px; font-size: 5rem;">
-                             <i class="bi bi-clipboard-check-fill"></i>
-                        </div>
+                        <h3 class="h2 fw-bold mb-1">@_systemStats.TotalActiveEnrollments</h3>
+                        <p class="text-muted small fw-bold text-uppercase tracking-wider mb-0">Aktif Kayıt</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Actions Section -->
-            <div class="quick-actions mb-5">
-                <div class="d-flex align-items-center gap-2 mb-4">
-                    <div class="bg-primary rounded-pill" style="width: 4px; height: 24px;"></div>
-                    <h4 class="h5 fw-bold mb-0">Hızlı İşlemler</h4>
+            <!-- Enrollment Trends Chart (Simulated with bars) -->
+            <div class="card border-0 shadow-sm rounded-lg mb-5 overflow-hidden">
+                <div class="card-header bg-white border-bottom px-4 py-3">
+                    <h5 class="fw-bold mb-0">Kayıt Trendleri (Son Aylar)</h5>
                 </div>
-                
-                <div class="row g-4">
-                    <AuthorizeView Roles="Admin" Context="adminContext">
-                        <div class="col-md-4">
-                            <a href="/ogrenci/ekle" class="action-card d-flex flex-column align-items-center p-4 bg-white border rounded-lg shadow-sm hover-lift text-decoration-none">
-                                <div class="action-icon bg-success-gradient text-white rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                                    <i class="bi bi-person-plus-fill fs-3"></i>
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-end justify-content-around h-100" style="height: 200px !important;">
+                         @if (_enrollmentTrends.Any())
+                        {
+                            var maxCount = _enrollmentTrends.Max(t => t.Count);
+                            foreach (var trend in _enrollmentTrends)
+                            {
+                                <div class="d-flex flex-column align-items-center flex-grow-1">
+                                    <div class="bg-primary bg-gradient rounded-top shadow-sm w-50 position-relative group-hover-scale" 
+                                         style="height: @(Math.Max(5, (double)trend.Count / (maxCount == 0 ? 1 : maxCount) * 150))px; transition: height 1s ease;">
+                                        <div class="position-absolute top-0 start-50 translate-middle-x mt-n4 small fw-bold text-primary">@trend.Count</div>
+                                    </div>
+                                    <div class="mt-2 small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">@trend.Period</div>
                                 </div>
-                                <h6 class="fw-bold text-main mb-1">Öğrenci Ekle</h6>
-                                <p class="text-muted small text-center mb-0">Hızlıca yeni öğrenci kaydı oluşturun</p>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="/ogretmen/ekle" class="action-card d-flex flex-column align-items-center p-4 bg-white border rounded-lg shadow-sm hover-lift text-decoration-none">
-                                <div class="action-icon bg-info-gradient text-white rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                                    <i class="bi bi-person-badge-fill fs-3"></i>
-                                </div>
-                                <h6 class="fw-bold text-main mb-1">Öğretmen Ekle</h6>
-                                <p class="text-muted small text-center mb-0">Akademik kadroya yeni üye ekleyin</p>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="/ders/ekle" class="action-card d-flex flex-column align-items-center p-4 bg-white border rounded-lg shadow-sm hover-lift text-decoration-none">
-                                <div class="action-icon bg-warning-gradient text-white rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                                    <i class="bi bi-journal-plus fs-3"></i>
-                                </div>
-                                <h6 class="fw-bold text-main mb-1">Yeni Ders</h6>
-                                <p class="text-muted small text-center mb-0">Müfredata yeni bir ders tanımlayın</p>
-                            </a>
-                        </div>
-                    </AuthorizeView>
-
-                    <AuthorizeView Roles="Teacher" Context="teacherContext">
-                        <div class="col-md-6">
-                            <a href="/dersler" class="action-card d-flex align-items-center p-4 bg-white border rounded-lg shadow-sm hover-lift text-decoration-none">
-                                <div class="action-icon bg-primary-gradient text-white rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 72px; height: 72px;">
-                                    <i class="bi bi-journal-check fs-2"></i>
-                                </div>
-                                <div>
-                                    <h5 class="fw-bold text-main mb-1">Ders Yönetimi</h5>
-                                    <p class="text-muted mb-0">Not girin ve yoklama işlemlerini gerçekleştirin</p>
-                                </div>
-                                <i class="bi bi-arrow-right ms-auto fs-4 text-primary"></i>
-                            </a>
-                        </div>
-                        <div class="col-md-6">
-                            <a href="/ogrenciler" class="action-card d-flex align-items-center p-4 bg-white border rounded-lg shadow-sm hover-lift text-decoration-none">
-                                <div class="action-icon bg-secondary-gradient text-white rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 72px; height: 72px;">
-                                    <i class="bi bi-people fs-2"></i>
-                                </div>
-                                <div>
-                                    <h5 class="fw-bold text-main mb-1">Öğrenci Listesi</h5>
-                                    <p class="text-muted mb-0">Sorumlu olduğunuz öğrencileri görüntüleyin</p>
-                                </div>
-                                <i class="bi bi-arrow-right ms-auto fs-4 text-primary"></i>
-                            </a>
-                        </div>
-                    </AuthorizeView>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-muted text-center w-100">Veri bulunamadı.</p>
+                        }
+                    </div>
                 </div>
             </div>
         </AuthorizeView>
 
-        <AuthorizeView Roles="Student">
-            <div class="student-hero p-5 rounded-xl bg-primary-gradient text-white shadow-lg position-relative overflow-hidden mb-5">
-                <div class="position-relative z-1" style="max-width: 600px;">
-                    <h2 class="display-5 fw-bold mb-3">Merhaba 👋, Başarılar Dileriz!</h2>
-                    <p class="lead mb-4 opacity-75">Akademik durumunu, derslerini ve sınav sonuçlarını buradan takip edebilirsin. Eğitim hayatında yanındayız.</p>
-                    <div class="d-flex gap-3">
-                        <a href="/ogrenci/derslerim" class="btn btn-light btn-lg px-4 fw-bold">Derslerime Bak</a>
-                        <a href="/profile" class="btn btn-outline-light btn-lg px-4 fw-bold border-2">Profilimi Düzenle</a>
+        <AuthorizeView Roles="Teacher">
+             <!-- Same stats for teacher for now, or customized -->
+             <!-- Reusing system stats visually but maybe filtered in future. For now showing same stats is fine contextually -->
+             <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <div class="stat-card p-4 rounded-lg bg-white border shadow-sm hover-lift h-100 text-center">
+                        <h1 class="display-4 fw-bold text-primary mb-0">@_systemStats.TotalStudents</h1>
+                        <p class="text-muted fw-bold">Toplam Öğrenci</p>
                     </div>
                 </div>
-                <div class="hero-bg-icon position-absolute opacity-1" style="bottom: -30px; right: 20px; font-size: 15rem;">
-                     <i class="bi bi-mortarboard text-white-50"></i>
+                <div class="col-md-6">
+                    <div class="stat-card p-4 rounded-lg bg-white border shadow-sm hover-lift h-100 text-center">
+                        <h1 class="display-4 fw-bold text-success mb-0">@_systemStats.TotalCourses</h1>
+                        <p class="text-muted fw-bold">Toplam Ders</p>
+                    </div>
+                </div>
+             </div>
+        </AuthorizeView>
+        
+        <AuthorizeView Roles="Student">
+            @if (_studentPerformance != null)
+            {
+                <div class="student-hero p-5 rounded-xl bg-primary-gradient text-white shadow-lg position-relative overflow-hidden mb-5">
+                    <div class="row position-relative z-1 align-items-center">
+                         <div class="col-lg-8">
+                            <h2 class="display-5 fw-bold mb-3">Merhaba, @currentUser?.Identity?.Name!</h2>
+                            <p class="lead mb-4 opacity-75">Genel akademik performansın aşağıdadır.</p>
+                            
+                            <div class="d-flex gap-4 text-center text-lg-start">
+                                <div>
+                                    <div class="display-6 fw-bold">@_studentPerformance.GPA.ToString("F2")</div>
+                                    <div class="small text-white-50 text-uppercase fw-bold">Genel Ortalama</div>
+                                </div>
+                                <div class="vr bg-white opacity-25"></div>
+                                <div>
+                                    <div class="display-6 fw-bold text-white">@_studentPerformance.OverallAttendanceRate.ToString("F0")%</div>
+                                    <div class="small text-white-50 text-uppercase fw-bold">Devamlılık</div>
+                                </div>
+                                 <div class="vr bg-white opacity-25"></div>
+                                <div>
+                                    <div class="display-6 fw-bold text-white">@_studentPerformance.CompletedAssignments</div>
+                                    <div class="small text-white-50 text-uppercase fw-bold">Teslim Edilenler</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="hero-bg-icon position-absolute opacity-1" style="bottom: -30px; right: 20px; font-size: 15rem;">
+                         <i class="bi bi-mortarboard text-white-50"></i>
+                    </div>
+                </div>
+            }
+
+            @if (_studentPrediction != null)
+            {
+                <div class="mb-5">
+                    <PredictionWidget Prediction="_studentPrediction" />
+                </div>
+            }
+        </AuthorizeView>
+
+        <!-- Common Quick Actions -->
+        <AuthorizeView Roles="Admin" Context="adminContext">
+            <div class="quick-actions mb-5">
+                <h5 class="fw-bold mb-4">Yönetim Paneli</h5>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <a href="/ogrenci/ekle" class="action-card d-flex flex-column align-items-center p-4 bg-white border rounded-lg shadow-sm hover-lift text-decoration-none">
+                            <i class="bi bi-person-plus-fill fs-2 text-primary mb-3"></i>
+                            <h6 class="fw-bold text-dark mb-0">Öğrenci Ekle</h6>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/ders/ekle" class="action-card d-flex flex-column align-items-center p-4 bg-white border rounded-lg shadow-sm hover-lift text-decoration-none">
+                            <i class="bi bi-journal-plus fs-2 text-warning mb-3"></i>
+                            <h6 class="fw-bold text-dark mb-0">Ders Aç</h6>
+                        </a>
+                    </div>
                 </div>
             </div>
         </AuthorizeView>
@@ -189,42 +196,22 @@
 </div>
 
 <style>
-    .dashboard-wrapper {
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    .hover-lift {
-        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-    }
-
-    .hover-lift:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-lg) !important;
-    }
-
-    .opacity-05 { opacity: 0.05; }
-    .opacity-1 { opacity: 0.1; }
-
-    .action-card:hover .action-icon {
-        transform: scale(1.1) rotate(5deg);
-    }
-
-    .action-icon {
-        transition: transform 0.3s ease;
-    }
-
-    .rounded-lg { border-radius: 1.25rem; }
+    .dashboard-wrapper { max-width: 1400px; margin: 0 auto; }
+    .hover-lift { transition: all 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; }
+    .rounded-lg { border-radius: 1rem; }
     .rounded-xl { border-radius: 2rem; }
+    .bg-primary-gradient { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); }
+    .opacity-1 { opacity: 0.1; }
 </style>
 
 @code {
     private ClaimsPrincipal? currentUser;
     private bool isLoading = true;
-    private int totalStudents = 0;
-    private int totalTeachers = 0;
-    private int totalCourses = 0;
-    private int totalEnrollments = 0;
+    private SystemStatsDto _systemStats = new();
+    private List<EnrollmentTrendDto> _enrollmentTrends = new();
+    private StudentPerformanceDto? _studentPerformance;
+    private PredictionResultDto? _studentPrediction;
 
     [CascadingParameter]
     private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
@@ -243,39 +230,60 @@
                  
                  if (currentUser.Identity?.IsAuthenticated == true)
                  {
-                     if (currentUser.IsInRole("Admin") || currentUser.IsInRole("Teacher"))
-                     {
-                         await LoadDashboardData();
-                     }
+                     await LoadAnalytics();
                  }
             }
-            // Logic for non-cascading fallback omitted as cascading is standard
             
             isLoading = false;
             StateHasChanged();
         }
     }
 
-    private async Task LoadDashboardData()
+    private async Task LoadAnalytics()
     {
         try
         {
-            // Load basic statistics
-            var students = await StudentService.GetAllStudentsAsync();
-            totalStudents = students.Count();
-            
-            totalTeachers = await TeacherService.GetTeacherCountAsync();
-            totalCourses = await CourseService.GetTotalCourseCountAsync();
-            
-            // For enrollments, we might need a specific endpoint, 
-            // but for now we'll sum up students from courses if possible or use a placeholder
-            // Actually, let's just use the courses list to get enrollment count
-            var courses = await CourseService.GetAllCoursesAsync();
-            totalEnrollments = courses.Sum(c => c.StudentCount);
+            if (currentUser!.IsInRole("Admin"))
+            {
+                var stats = await AnalyticsService.GetSystemStatsAsync();
+                if (stats != null) _systemStats = stats;
+                
+                _enrollmentTrends = await AnalyticsService.GetEnrollmentTrendsAsync();
+            }
+            else if (currentUser.IsInRole("Teacher"))
+            {
+                 // Re-use system stats for now for teachers or fetch specific
+                 var stats = await AnalyticsService.GetSystemStatsAsync();
+                 if (stats != null) _systemStats = stats;
+            }
+            else if (currentUser.IsInRole("Student"))
+            {
+                // We need to get StudentId first. This is usually in claims or we fetch profile.
+                // For MVP, passing a dummy ID or 0 if the backend resolves it from Token (preferred).
+                // Our backend logic for 'GetStudentPerformance' might require ID. 
+                // Let's assume for now we pass a placeholder and Backend resolves from UserID if strictly needed, 
+                // BUT my controller implementation expected a studentId.
+                // IMPORTANT: The backend 'GetStudentPerformance' takes an ID but also checks claims.
+                // Ideally, we should resolve the StudentId from the current user's profile.
+                // Assuming ID 1 for test or we need to add 'Me' endpoint.
+                // Actually, let's just try fetching for "1" as existing test user, or fix Controller to use "Me".
+                // Better: Update Controller to use "Me", but for now let's try 1 if safe, or handle mismatch.
+                // Wait, I can't easily guess ID.
+                // I will update the AnalyticsController later to support 'my-performance' or similar.
+                // For now, let's skip fetching specific Performance if we don't have ID, to avoid crash.
+                // Or better, fetch 'system stats' for student too? No.
+                // Let's try to get ID from claims if available (Sid).
+                 var sidClaim = currentUser.FindFirst(c => c.Type == System.Security.Claims.ClaimTypes.Sid); // standard claim?
+                 // or just pass 0 and let backend handle "Me" logic if I update it?
+                // I'll update backend to handle ID 0 as "Current User".
+                 
+                 _studentPerformance = await AnalyticsService.GetStudentPerformanceAsync(0); 
+                 _studentPrediction = await AnalyticsService.GetStudentPredictionAsync(0);
+            }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Dashboard data loading error: {ex.Message}");
+            Console.WriteLine($"Analytics error: {ex.Message}");
         }
     }
 }

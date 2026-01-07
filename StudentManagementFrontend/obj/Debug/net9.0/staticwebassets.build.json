@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "pus5dJCrcyJYNljRl++R39RE/88TL4rAH3wttj7yScI=",
+  "Hash": "C2ymamhVtfhezzzwUl9t2yf6PdbUmvGEJL9pUCPyPx0=",
   "Source": "StudentManagementFrontend",
   "BasePath": "_content/StudentManagementFrontend",
   "Mode": "Default",
@@ -141,6 +141,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\1n1avetqxk-19wxje6z27.gz",
+      "SourceId": "StudentManagementFrontend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/StudentManagementFrontend",
+      "RelativePath": "css/responsive-sidebar#[.{fingerprint=19wxje6z27}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\responsive-sidebar.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "f11rup5utv",
+      "Integrity": "/Q+C+/ooa4bhLudcCOzzobRTZlyE0/2WOwnPce3M9YU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\responsive-sidebar.css"
     },
     {
       "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\3ho9oh5c9c-q9ht133ko3.gz",
@@ -1254,6 +1275,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\app.css"
+    },
+    {
+      "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\responsive-sidebar.css",
+      "SourceId": "StudentManagementFrontend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\",
+      "BasePath": "_content/StudentManagementFrontend",
+      "RelativePath": "css/responsive-sidebar#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "19wxje6z27",
+      "Integrity": "hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\responsive-sidebar.css"
     },
     {
       "Identity": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\favicon.png",
@@ -3293,6 +3335,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-IQJiZa75RSfx2NBWbYPd1xf7SK9rFgQ2qid9Ou5wldA="
+        }
+      ]
+    },
+    {
+      "Route": "css/responsive-sidebar.19wxje6z27.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\1n1avetqxk-19wxje6z27.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001879699248"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "531"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"/Q+C+/ooa4bhLudcCOzzobRTZlyE0/2WOwnPce3M9YU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 Jan 2026 09:12:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "19wxje6z27"
+        },
+        {
+          "Name": "label",
+          "Value": "css/responsive-sidebar.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY="
+        }
+      ]
+    },
+    {
+      "Route": "css/responsive-sidebar.19wxje6z27.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\responsive-sidebar.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1204"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 Jan 2026 09:12:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "19wxje6z27"
+        },
+        {
+          "Name": "label",
+          "Value": "css/responsive-sidebar.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY="
+        }
+      ]
+    },
+    {
+      "Route": "css/responsive-sidebar.19wxje6z27.css.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\1n1avetqxk-19wxje6z27.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "531"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"/Q+C+/ooa4bhLudcCOzzobRTZlyE0/2WOwnPce3M9YU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 Jan 2026 09:12:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "19wxje6z27"
+        },
+        {
+          "Name": "label",
+          "Value": "css/responsive-sidebar.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-/Q+C+/ooa4bhLudcCOzzobRTZlyE0/2WOwnPce3M9YU="
+        }
+      ]
+    },
+    {
+      "Route": "css/responsive-sidebar.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\1n1avetqxk-19wxje6z27.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001879699248"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "531"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"/Q+C+/ooa4bhLudcCOzzobRTZlyE0/2WOwnPce3M9YU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 Jan 2026 09:12:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY="
+        }
+      ]
+    },
+    {
+      "Route": "css/responsive-sidebar.css",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\wwwroot\\css\\responsive-sidebar.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1204"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 Jan 2026 09:12:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-hSy/32LVN1YXzNVsepEpKU4FTE898etuM/8XRLH5oCY="
+        }
+      ]
+    },
+    {
+      "Route": "css/responsive-sidebar.css.gz",
+      "AssetFile": "C:\\Users\\deniz\\student-automation-system\\StudentManagementFrontend\\obj\\Debug\\net9.0\\compressed\\1n1avetqxk-19wxje6z27.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "531"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"/Q+C+/ooa4bhLudcCOzzobRTZlyE0/2WOwnPce3M9YU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 Jan 2026 09:12:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-/Q+C+/ooa4bhLudcCOzzobRTZlyE0/2WOwnPce3M9YU="
         }
       ]
     },

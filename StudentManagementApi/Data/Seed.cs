@@ -20,7 +20,7 @@ namespace StudentManagementApi.Data
 			var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
 
-			foreach (var role in new[] { "Admin", "Teacher", "Student" })
+			foreach (var role in new[] { "Admin", "Teacher", "Student", "Parent" })
 				if (!await roleMgr.RoleExistsAsync(role))
 					await roleMgr.CreateAsync(new IdentityRole(role));
 
@@ -41,6 +41,7 @@ namespace StudentManagementApi.Data
 			var admin = await EnsureUser("admin@test.com", "Admin");
 			var tUser = await EnsureUser("teacher@test.com", "Teacher");
 			var sUser = await EnsureUser("student@test.com", "Student");
+			var pUser = await EnsureUser("parent@test.com", "Parent");
 
 
 			if (!ctx.Teachers.Any())
@@ -51,6 +52,22 @@ namespace StudentManagementApi.Data
 			{
 				ctx.Students.Add(new Student { UserId = sUser.Id });
 			}
+            
+            // Seed Parent
+            if (!ctx.Parents.Any())
+            {
+                var parent = new Parent { UserId = pUser.Id };
+                ctx.Parents.Add(parent);
+                await ctx.SaveChangesAsync(); // Save to get Id
+
+                // Link default student to parent
+                var student = await ctx.Students.FirstOrDefaultAsync(s => s.UserId == sUser.Id);
+                if (student != null)
+                {
+                    student.ParentId = parent.Id;
+                }
+            }
+
 			await ctx.SaveChangesAsync();
 
 
@@ -60,6 +77,22 @@ namespace StudentManagementApi.Data
 				ctx.Courses.Add(new Course { Code = "CS101", Name = "Intro to CS", TeacherId = teacher.Id });
 				await ctx.SaveChangesAsync();
 			}
+
+            if (!ctx.Announcements.Any())
+            {
+                var adminUser = await userMgr.FindByEmailAsync("admin@test.com");
+                if (adminUser != null)
+                {
+                    ctx.Announcements.Add(new Announcement
+                    {
+                        Title = "Hoş Geldiniz!",
+                        Content = "Öğrenci Yönetim Sistemine hoş geldiniz. Ebeveyn portalımız artık yayında!",
+                        CreatedAt = DateTime.UtcNow,
+                        AuthorId = adminUser.Id
+                    });
+                    await ctx.SaveChangesAsync();
+                }
+            }
 
 			if (!ctx.Complaints.Any())
 			{
@@ -82,6 +115,34 @@ namespace StudentManagementApi.Data
 					CreatedAt = DateTime.UtcNow.AddDays(-1)
 				});
 			}
+
+
+
+            if (!ctx.ScheduleItems.Any())
+            {
+                var course = await ctx.Courses.FirstOrDefaultAsync();
+                if (course != null)
+                {
+                    ctx.ScheduleItems.Add(new ScheduleItem
+                    {
+                        CourseId = course.Id,
+                        DayOfWeek = DayOfWeek.Monday,
+                        StartTime = new TimeSpan(9, 0, 0),
+                        EndTime = new TimeSpan(10, 30, 0),
+                        Classroom = "B-204"
+                    });
+                    
+                    ctx.ScheduleItems.Add(new ScheduleItem
+                    {
+                        CourseId = course.Id,
+                        DayOfWeek = DayOfWeek.Wednesday,
+                        StartTime = new TimeSpan(13, 0, 0),
+                        EndTime = new TimeSpan(14, 30, 0),
+                        Classroom = "Lab-1"
+                    });
+                    await ctx.SaveChangesAsync();
+                }
+            }
 
 			if (!ctx.SocialActivities.Any())
 			{

@@ -45,6 +45,22 @@ namespace StudentManagementApi.Controllers
 
                 query = query.Where(s => s.Course.TeacherId == teacher.Id);
             }
+            else if (User.IsInRole("Parent"))
+            {
+                var parent = await db.Parents
+                    .Include(p => p.Students)
+                    .ThenInclude(s => s.Enrollments)
+                    .FirstOrDefaultAsync(p => p.UserId == userId);
+                    
+                if (parent == null) return NotFound("Parent profile not found");
+                
+                var childCourseIds = parent.Students
+                    .SelectMany(s => s.Enrollments)
+                    .Select(e => e.CourseId)
+                    .ToList();
+
+                query = query.Where(s => childCourseIds.Contains(s.CourseId));
+            }
 
             return await query
                 .OrderBy(s => s.DayOfWeek)
@@ -54,7 +70,7 @@ namespace StudentManagementApi.Controllers
                     s.CourseId,
                     s.Course.Name,
                     s.Course.Code,
-                    s.Course.Teacher.User.FullName ?? "Teacher",
+                    s.Course.Teacher != null && s.Course.Teacher.User != null ? (s.Course.Teacher.User.FullName ?? "Teacher") : "Unknown",
                     s.DayOfWeek,
                     s.StartTime.ToString(@"hh\:mm"),
                     s.EndTime.ToString(@"hh\:mm"),

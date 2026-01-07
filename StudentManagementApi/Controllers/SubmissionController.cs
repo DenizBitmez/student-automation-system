@@ -27,9 +27,9 @@ namespace StudentManagementApi.Controllers
                 .Select(s => new SubmissionVm(
                     s.Id,
                     s.AssignmentId,
-                    s.Assignment.Title,
+                    s.Assignment != null ? s.Assignment.Title : "Unknown Assignment",
                     s.StudentId,
-                    s.Student.FullName ?? "Student",
+                    s.Student != null ? (s.Student.FullName ?? "Student") : "Unknown Student",
                     s.Content,
                     s.SubmittedAt,
                     s.Grade,
@@ -52,7 +52,7 @@ namespace StudentManagementApi.Controllers
                 .Select(s => new SubmissionVm(
                     s.Id,
                     s.AssignmentId,
-                    s.Assignment.Title,
+                    s.Assignment != null ? s.Assignment.Title : "Unknown Assignment",
                     s.StudentId,
                     "Me",
                     s.Content,

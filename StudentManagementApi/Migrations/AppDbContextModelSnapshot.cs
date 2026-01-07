@@ -521,6 +521,73 @@ namespace StudentManagementApi.Migrations
                     b.ToTable("enrollments", (string)null);
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("content");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_read");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("receiver_id");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("sender_id");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("timestamp");
+
+                    b.HasKey("Id")
+                        .HasName("pk_messages");
+
+                    b.HasIndex("ReceiverId")
+                        .HasDatabaseName("ix_messages_receiver_id");
+
+                    b.HasIndex("SenderId")
+                        .HasDatabaseName("ix_messages_sender_id");
+
+                    b.ToTable("messages", (string)null);
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.Parent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_parents");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_parents_user_id");
+
+                    b.ToTable("parents", (string)null);
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.ScheduleItem", b =>
                 {
                     b.Property<int>("Id")
@@ -621,6 +688,10 @@ namespace StudentManagementApi.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("enrolled_at");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("parent_id");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text")
@@ -628,6 +699,9 @@ namespace StudentManagementApi.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_students");
+
+                    b.HasIndex("ParentId")
+                        .HasDatabaseName("ix_students_parent_id");
 
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_students_user_id");
@@ -949,6 +1023,39 @@ namespace StudentManagementApi.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("StudentManagementApi.Domain.Message", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.ApplicationUser", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_messages_users_receiver_id");
+
+                    b.HasOne("StudentManagementApi.Domain.ApplicationUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_messages_users_sender_id");
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.Parent", b =>
+                {
+                    b.HasOne("StudentManagementApi.Domain.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_parents_users_user_id");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("StudentManagementApi.Domain.ScheduleItem", b =>
                 {
                     b.HasOne("StudentManagementApi.Domain.Course", "Course")
@@ -975,12 +1082,19 @@ namespace StudentManagementApi.Migrations
 
             modelBuilder.Entity("StudentManagementApi.Domain.Student", b =>
                 {
+                    b.HasOne("StudentManagementApi.Domain.Parent", "Parent")
+                        .WithMany("Students")
+                        .HasForeignKey("ParentId")
+                        .HasConstraintName("fk_students_parents_parent_id");
+
                     b.HasOne("StudentManagementApi.Domain.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_students_users_user_id");
+
+                    b.Navigation("Parent");
 
                     b.Navigation("User");
                 });
@@ -1050,6 +1164,11 @@ namespace StudentManagementApi.Migrations
             modelBuilder.Entity("StudentManagementApi.Domain.Course", b =>
                 {
                     b.Navigation("Enrollments");
+                });
+
+            modelBuilder.Entity("StudentManagementApi.Domain.Parent", b =>
+                {
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("StudentManagementApi.Domain.Student", b =>

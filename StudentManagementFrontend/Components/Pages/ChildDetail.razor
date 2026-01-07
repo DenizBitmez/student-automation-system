@@ -1,0 +1,149 @@
+@page "/parent/child/{StudentId:int}"
+@using StudentManagementFrontend.Services
+@using static StudentManagementFrontend.Models.ParentDtos
+@inject ParentService ParentService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Parent")]
+
+@if (isLoading)
+{
+    <div class="container mt-5 text-center">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+}
+else if (overview == null)
+{
+    <div class="container mt-5">
+        <div class="alert alert-danger">Child not found or access denied.</div>
+        <button class="btn btn-outline-secondary" @onclick="GoBack">Back</button>
+    </div>
+}
+else
+{
+    <div class="container-fluid animate-fade-in">
+        <!-- Header -->
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <button class="btn btn-icon btn-light" @onclick="GoBack">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+                <h1 class="h3 fw-bold mb-0">@overview.FullName</h1>
+                <span class="text-muted">Academic Overview</span>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+            <!-- GPA -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <div class="icon-box bg-soft-primary text-primary rounded-3 p-2">
+                                <i class="bi bi-mortarboard fs-4"></i>
+                            </div>
+                            <h6 class="text-muted mb-0 uppercase-xs">GPA</h6>
+                        </div>
+                        <h2 class="display-5 fw-bold mb-0 text-primary">@overview.GPA.ToString("0.00")</h2>
+                        <span class="text-muted small">Average Grade</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <div class="icon-box bg-soft-success text-success rounded-3 p-2">
+                                <i class="bi bi-calendar-check fs-4"></i>
+                            </div>
+                            <h6 class="text-muted mb-0 uppercase-xs">Attendance</h6>
+                        </div>
+                        <h2 class="display-5 fw-bold mb-0 text-success">@overview.AttendanceRate%</h2>
+                        <span class="text-muted small">Participation Rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <div class="icon-box bg-soft-warning text-warning rounded-3 p-2">
+                                <i class="bi bi-journal-text fs-4"></i>
+                            </div>
+                            <h6 class="text-muted mb-0 uppercase-xs">Assignments</h6>
+                        </div>
+                        <h2 class="display-5 fw-bold mb-0 text-warning">@overview.CompletedAssignments</h2>
+                        <span class="text-muted small">Completed Tasks</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity / Grades -->
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-header bg-white border-bottom-0 pt-4 px-4 pb-0">
+                <h5 class="fw-bold">Recent Grades Distribution</h5>
+            </div>
+            <div class="card-body p-4">
+                @if (overview.RecentGrades != null && overview.RecentGrades.Any())
+                {
+                    <div class="d-flex align-items-end gap-2" style="height: 200px;">
+                        @foreach (var g in overview.RecentGrades)
+                        {
+                            <div class="d-flex flex-column align-items-center justify-content-end h-100 flex-grow-1">
+                                <div class="w-100 bg-primary opacity-75 rounded-top" 
+                                     style="height: @(g.Count * 10 + 5)%; min-height: 4px; max-height: 100%;"></div>
+                                <span class="small mt-2 text-muted">@g.Label</span>
+                                <strong class="small">@g.Count</strong>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No grade data available yet.</p>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .bg-soft-primary { background-color: rgba(99, 102, 241, 0.1); }
+    .bg-soft-success { background-color: rgba(16, 185, 129, 0.1); }
+    .bg-soft-warning { background-color: rgba(245, 158, 11, 0.1); }
+    .uppercase-xs {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+    }
+</style>
+
+@code {
+    [Parameter] public int StudentId { get; set; }
+
+    private ChildOverviewDto? overview;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            overview = await ParentService.GetChildOverviewAsync(StudentId);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/parent/dashboard");
+    }
+}
