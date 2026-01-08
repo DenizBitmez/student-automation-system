@@ -1,0 +1,167 @@
+@page "/exams"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject ExamService ExamService
+@inject NavigationManager Navigation
+@attribute [Authorize]
+
+<PageTitle>Online Exams</PageTitle>
+
+<div class="container animate-fade-in mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="display-6 fw-bold text-primary">
+                <i class="bi bi-stopwatch-fill me-2"></i>Online Exams
+            </h1>
+            <p class="text-muted">View and take upcoming exams.</p>
+        </div>
+        
+        <AuthorizeView Roles="Teacher,Admin">
+            <a href="/exams/create" class="btn btn-primary rounded-pill px-4">
+                <i class="bi bi-plus-lg me-1"></i> Create Exam
+            </a>
+        </AuthorizeView>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="text-muted mt-2">Loading exams...</p>
+        </div>
+    }
+    else if (exams == null || !exams.Any())
+    {
+        <div class="alert alert-info border-0 shadow-sm rounded-4 text-center py-5">
+            <i class="bi bi-info-circle display-4 mb-3 d-block text-primary"></i>
+            <h4 class="alert-heading">No Exams Available</h4>
+            <p class="mb-0">There are no upcoming exams scheduled for you at this time.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var exam in exams)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+                            <span class="badge bg-light text-primary border mb-2">@exam.CourseName</span>
+                            <h4 class="card-title fw-bold">@exam.Title</h4>
+                        </div>
+                        <div class="card-body px-4">
+                            <div class="d-flex align-items-center mb-2 text-muted">
+                                <i class="bi bi-calendar-event me-2"></i>
+                                <span>@exam.StartTime.ToLocalTime().ToString("MMM dd, HH:mm")</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3 text-muted">
+                                <i class="bi bi-hourglass-split me-2"></i>
+                                <span>@exam.DurationMinutes mins</span>
+                            </div>
+
+                            @if (exam.Score.HasValue)
+                            {
+                                <div class="alert alert-success border-0 py-2 d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <div>
+                                        <strong>Completed</strong>
+                                        <div class="small">Score: @exam.Score / ?</div> 
+                                        <!-- Note: Max score not in basic DTO, but usually 100 or sum of points -->
+                                    </div>
+                                </div>
+                            }
+                            else if (!exam.CanTake && DateTime.UtcNow < exam.StartTime)
+                            {
+                                <div class="alert alert-secondary border-0 py-2">
+                                    <i class="bi bi-clock me-1"></i> Not started yet
+                                </div>
+                            }
+                            else if (!exam.CanTake && DateTime.UtcNow > exam.EndTime)
+                            {
+                                <div class="alert alert-danger border-0 py-2">
+                                    <i class="bi bi-x-circle me-1"></i> Expired
+                                </div>
+                            }
+                        </div>
+                        <div class="card-footer bg-white border-top-0 px-4 pb-4">
+                            <AuthorizeView Roles="Student">
+                                @if (exam.CanTake)
+                                {
+                                    <button class="btn btn-primary w-100 rounded-pill" @onclick="() => TakeExam(exam.Id)">
+                                        Start Exam <i class="bi bi-arrow-right ms-1"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-light w-100 rounded-pill text-muted" disabled>
+                                        @if (exam.Score.HasValue)
+                                        {
+                                            <span>Completed (@exam.Score points)</span>
+                                        }
+                                        else if (DateTime.UtcNow < exam.StartTime)
+                                        {
+                                            <span>Starts in @((exam.StartTime - DateTime.UtcNow).ToString(@"hh\:mm"))</span>
+                                        }
+                                        else if (DateTime.UtcNow > exam.EndTime)
+                                        {
+                                            <span>Expired</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Unavailable (Check Time)</span>
+                                        }
+                                    </button>
+                                }
+                            </AuthorizeView>
+                            <AuthorizeView Roles="Teacher,Admin">
+                                <a href="/exams/@exam.Id/results" class="btn btn-outline-secondary w-100 rounded-pill">
+                                    <i class="bi bi-eye me-2"></i> View Results
+                                </a>
+                            </AuthorizeView>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+</div>
+
+@code {
+    private List<ExamDto>? exams;
+    private bool isLoading = true;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthStateTask { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var authState = await AuthStateTask;
+            var user = authState.User;
+
+            if (user.IsInRole("Student"))
+            {
+                exams = await ExamService.GetAvailableExamsAsync();
+            }
+            else if (user.IsInRole("Teacher") || user.IsInRole("Admin"))
+            {
+                exams = await ExamService.GetCreatedExamsAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void TakeExam(int id)
+    {
+        Navigation.NavigateTo($"/exams/{id}/take");
+    }
+}

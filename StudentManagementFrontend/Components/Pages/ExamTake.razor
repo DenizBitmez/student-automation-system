@@ -1,0 +1,164 @@
+@page "/exams/{Id:int}/take"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject ExamService ExamService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Student")]
+
+@if (exam == null)
+{
+    @if (isLoading)
+    {
+        <div class="text-center mt-5"><div class="spinner-border text-primary"></div></div>
+    }
+    else
+    {
+        <div class="alert alert-danger m-4">Exam not found or you cannot take it right now.</div>
+    }
+}
+else
+{
+    <div class="container-fluid vh-100 d-flex flex-column p-0">
+        <!-- Header with Timer -->
+        <header class="bg-white border-bottom px-4 py-3 d-flex justify-content-between align-items-center sticky-top shadow-sm">
+            <div>
+                <h4 class="mb-0 fw-bold">@exam.Title</h4>
+                <small class="text-muted">@answers.Count answered / @exam.Questions.Count total</small>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="timer-badge @(timeRemaining.TotalMinutes < 5 ? "bg-danger text-white" : "bg-light text-dark") px-3 py-2 rounded-pill fw-bold font-monospace fs-5 border">
+                    <i class="bi bi-clock me-2"></i>
+                    @timeRemaining.ToString(@"hh\:mm\:ss")
+                </div>
+                <button class="btn btn-success px-4 rounded-pill" @onclick="SubmitExam">
+                    Submit Exam
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="flex-grow-1 bg-light overflow-auto p-4">
+            <div class="container" style="max-width: 800px;">
+                @foreach (var (q, idx) in exam.Questions.Select((x, i) => (x, i)))
+                {
+                    <div class="card border-0 shadow-sm rounded-4 mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-3">
+                                <span class="badge bg-primary me-2">Q@(idx + 1)</span>
+                                @q.Text
+                            </h5>
+                            
+                            @if (q.Type == QuestionType.MultipleChoice || q.Type == QuestionType.TrueFalse)
+                            {
+                                <div class="d-flex flex-column gap-2">
+                                    @foreach (var opt in q.Options)
+                                    {
+                                        var isSelected = answers[q.Id].SelectedOptionId == opt.Id;
+                                        <div class="form-check p-0">
+                                            <input type="radio" class="btn-check" name="q_@q.Id" id="opt_@opt.Id" 
+                                                   checked="@isSelected" 
+                                                   @onchange="() => SelectOption(q.Id, opt.Id)" />
+                                            <label class="btn btn-outline-secondary w-100 text-start border-0 bg-light-hover rounded-3 px-3 py-3 @(isSelected ? "border-primary bg-primary-subtle text-primary fw-bold" : "")" 
+                                                   for="opt_@opt.Id">
+                                                @opt.Text
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <textarea class="form-control" rows="4" 
+                                          value="@answers[q.Id].TextAnswer" 
+                                          @onchange="@(e => SetTextAnswer(q.Id, e.Value?.ToString()))"
+                                          placeholder="Type your answer here..."></textarea>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .bg-light-hover:hover { background-color: #f8f9fa; }
+        .bg-primary-subtle { background-color: rgba(13, 110, 253, 0.1) !important; }
+    </style>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private ExamTakeDto? exam;
+    private Dictionary<int, StudentAnswerDto> answers = new();
+    private bool isLoading = true;
+    private TimeSpan timeRemaining;
+    private System.Threading.Timer? timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            exam = await ExamService.GetExamForTakingAsync(Id);
+            if (exam != null)
+            {
+                // Init answers
+                foreach (var q in exam.Questions)
+                {
+                    answers[q.Id] = new StudentAnswerDto { QuestionId = q.Id };
+                }
+
+                timeRemaining = TimeSpan.FromMinutes(exam.DurationMinutes);
+                timer = new System.Threading.Timer(Tick, null, 1000, 1000);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async void Tick(object? state)
+    {
+        if (timeRemaining.TotalSeconds > 0)
+        {
+            timeRemaining = timeRemaining.Subtract(TimeSpan.FromSeconds(1));
+            await InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            timer?.Dispose();
+            await SubmitExam();
+        }
+    }
+
+    private void SelectOption(int qId, int optId)
+    {
+        answers[qId].SelectedOptionId = optId;
+    }
+
+    private void SetTextAnswer(int qId, string? text)
+    {
+        answers[qId].TextAnswer = text;
+    }
+
+    private async Task SubmitExam()
+    {
+        if (exam == null) return;
+        timer?.Dispose();
+
+        var submitDto = new ExamSubmitDto
+        {
+            ExamId = exam.Id,
+            Answers = answers.Values.ToList()
+        };
+
+        await ExamService.SubmitExamAsync(submitDto);
+        Navigation.NavigateTo("/exams");
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}

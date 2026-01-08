@@ -1,0 +1,192 @@
+@page "/exams/create"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject ExamService ExamService
+@inject ICourseService CourseService
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Teacher,Admin")]
+
+<div class="container mt-4 pb-5">
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <a href="/exams" class="btn btn-light rounded-circle"><i class="bi bi-arrow-left"></i></a>
+        <h1 class="h3 fw-bold mb-0">Create New Exam</h1>
+    </div>
+
+    <div class="row">
+        <!-- Exam Details -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm border-0 rounded-4 sticky-top" style="top: 20px; z-index: 10;">
+                <div class="card-header bg-white pt-4 px-4 pb-0 border-0">
+                    <h5 class="fw-bold">Exam Settings</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Title</label>
+                        <input type="text" class="form-control" @bind="exam.Title" placeholder="e.g. Midterm Exam" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Course</label>
+                        <select class="form-select" @bind="exam.CourseId">
+                            <option value="0">Select Course</option>
+                            @if (courses != null)
+                            {
+                                @foreach (var c in courses)
+                                {
+                                    <option value="@c.Id">@c.Name (@c.Code)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Duration (Minutes)</label>
+                        <input type="number" class="form-control" @bind="exam.DurationMinutes" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Start Time</label>
+                        <input type="datetime-local" class="form-control" @bind="exam.StartTime" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">End Time</label>
+                        <input type="datetime-local" class="form-control" @bind="exam.EndTime" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Description</label>
+                        <textarea class="form-control" rows="3" @bind="exam.Description"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions -->
+        <div class="col-lg-8">
+            @foreach (var (q, index) in exam.Questions.Select((x, i) => (x, i)))
+            {
+                <div class="card shadow-sm border-0 rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-light text-primary border">Question @(index + 1)</span>
+                            <button class="btn btn-sm btn-light text-danger" @onclick="() => RemoveQuestion(q)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <input type="text" class="form-control fw-bold border-0 bg-light" @bind="q.Text" placeholder="Enter question text..." />
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="small text-muted">Points</label>
+                                <input type="number" class="form-control form-control-sm" @bind="q.Points" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small text-muted">Type</label>
+                                <select class="form-select form-select-sm" @bind="q.Type">
+                                    <option value="@QuestionType.MultipleChoice">Multiple Choice</option>
+                                    <option value="@QuestionType.TrueFalse">True / False</option>
+                                    <option value="@QuestionType.OpenEnded">Open Ended</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Options -->
+                        @if (q.Type == QuestionType.MultipleChoice || q.Type == QuestionType.TrueFalse)
+                        {
+                            <div class="ps-3 border-start border-3 border-primary-subtle">
+                                <label class="small text-muted mb-2 d-block">Options (Check Correct Answer)</label>
+                                @foreach (var opt in q.Options)
+                                {
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text bg-white">
+                                            <input class="form-check-input mt-0" type="checkbox" @bind="opt.IsCorrect" />
+                                        </div>
+                                        <input type="text" class="form-control" @bind="opt.Text" placeholder="Option text" />
+                                        <button class="btn btn-outline-secondary" @onclick="() => q.Options.Remove(opt)">
+                                            <i class="bi bi-x"></i>
+                                        </button>
+                                    </div>
+                                }
+                                <button class="btn btn-sm btn-link text-decoration-none px-0" @onclick="() => AddOption(q)">
+                                    <i class="bi bi-plus"></i> Add Option
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary rounded-pill w-100 py-3 border-2 border-dashed" @onclick="AddQuestion">
+                    <i class="bi bi-plus-circle fs-5 me-2"></i> Add New Question
+                </button>
+            </div>
+            
+            <div class="mt-4 pt-4 border-top">
+                <button class="btn btn-primary btn-lg rounded-pill w-100" @onclick="SaveExam" disabled="@isSaving">
+                    @if (isSaving)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                    }
+                    Publish Exam
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ExamCreateDto exam = new();
+    private List<Course>? courses;
+    private bool isSaving = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        courses = (await CourseService.GetAllCoursesAsync()).ToList();
+        
+        // Add one empty question by default
+        AddQuestion();
+    }
+
+    private void AddQuestion()
+    {
+        exam.Questions.Add(new QuestionCreateDto 
+        { 
+            Type = QuestionType.MultipleChoice, 
+            Points = 10,
+            Options = new List<QuestionOptionCreateDto> 
+            {
+                new() { Text = "Option A" },
+                new() { Text = "Option B" }
+            }
+        });
+    }
+
+    private void RemoveQuestion(QuestionCreateDto q)
+    {
+        exam.Questions.Remove(q);
+    }
+
+    private void AddOption(QuestionCreateDto q)
+    {
+        q.Options.Add(new QuestionOptionCreateDto());
+    }
+
+    private async Task SaveExam()
+    {
+        if (exam.CourseId == 0) return; // Add better validation
+
+        isSaving = true;
+        try
+        {
+            var id = await ExamService.CreateAsync(exam);
+            if (id > 0)
+            {
+                Navigation.NavigateTo("/exams");
+            }
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+}

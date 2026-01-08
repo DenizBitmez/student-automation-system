@@ -48,6 +48,7 @@ builder.Services.AddScoped<ScheduleService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<AnalyticsService>();
 builder.Services.AddScoped<ParentService>();
+builder.Services.AddScoped<ExamService>();
 
 // Configure authentication
 builder.Services.AddAuthorizationCore();

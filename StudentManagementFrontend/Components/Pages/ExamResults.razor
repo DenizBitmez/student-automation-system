@@ -1,0 +1,81 @@
+@page "/exams/{Id:int}/results"
+@using StudentManagementFrontend.Services
+@using StudentManagementFrontend.Models
+@inject ExamService ExamService
+@attribute [Authorize(Roles = "Teacher,Admin")]
+
+<div class="container mt-4 animate-fade-in">
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <a href="/exams" class="btn btn-light rounded-circle"><i class="bi bi-arrow-left"></i></a>
+        <div>
+            <h1 class="h3 fw-bold mb-0">Exam Results</h1>
+            <p class="text-muted mb-0">Review student performance.</p>
+        </div>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary"></div>
+        </div>
+    }
+    else if (results == null || !results.Any())
+    {
+         <div class="alert alert-info border-0 shadow-sm rounded-4 text-center py-5">
+            <i class="bi bi-clipboard-data display-4 mb-3 d-block text-primary"></i>
+            <h4 class="alert-heading">No Submissions Yet</h4>
+            <p class="mb-0">No students have submitted this exam yet.</p>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+             <table class="table table-hover mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="px-4 py-3">Student</th>
+                        <th class="px-4 py-3">Submitted At</th>
+                        <th class="px-4 py-3 text-center">Score</th>
+                        <th class="px-4 py-3 text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in results)
+                    {
+                        <tr>
+                            <td class="px-4 fw-medium">@r.StudentName</td>
+                            <td class="px-4">@r.SubmittedAt.ToLocalTime().ToString("MMM dd, HH:mm")</td>
+                            <td class="px-4 text-center">
+                                <span class="badge bg-success-subtle text-success fs-6 px-3">@r.Score</span>
+                            </td>
+                            <td class="px-4 text-end">
+                                <button class="btn btn-sm btn-outline-primary rounded-pill">
+                                    Details
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private List<ExamResultDto>? results;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            results = await ExamService.GetExamResultsAsync(Id);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

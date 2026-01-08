@@ -78,6 +78,24 @@ namespace StudentManagementApi.Data
 				await ctx.SaveChangesAsync();
 			}
 
+            // Ensure default enrollment exists regardless of course creation
+            if (!ctx.Enrollments.Any())
+            {
+                var course = await ctx.Courses.FirstOrDefaultAsync(c => c.Code == "CS101");
+                var student = await ctx.Students.FirstOrDefaultAsync(s => s.User.Email == "student@test.com");
+                
+                if (course != null && student != null)
+                {
+                    ctx.Enrollments.Add(new Enrollment 
+                    { 
+                        CourseId = course.Id, 
+                        StudentId = student.Id,
+                        Grade = 85 
+                    });
+                    await ctx.SaveChangesAsync();
+                }
+            }
+
             if (!ctx.Announcements.Any())
             {
                 var adminUser = await userMgr.FindByEmailAsync("admin@test.com");

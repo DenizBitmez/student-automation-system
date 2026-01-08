@@ -21,6 +21,11 @@ namespace StudentManagementApi.Data
 		public DbSet<ScheduleItem> ScheduleItems => Set<ScheduleItem>();
 		public DbSet<Message> Messages => Set<Message>();
 		public DbSet<Parent> Parents => Set<Parent>();
+		public DbSet<Exam> Exams => Set<Exam>();
+		public DbSet<Question> Questions => Set<Question>();
+		public DbSet<QuestionOption> QuestionOptions => Set<QuestionOption>();
+		public DbSet<ExamResult> ExamResults => Set<ExamResult>();
+		public DbSet<StudentAnswer> StudentAnswers => Set<StudentAnswer>();
 
 
 		protected override void OnModelCreating(ModelBuilder b)

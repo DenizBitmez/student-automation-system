@@ -66,11 +66,61 @@ OgrenciOtomasyonSistemi/
 - ✅ Devamsızlık kaydı tutulabilir
 - ✅ Öğretmen öğrencilerini yorumlayabilir
 
+#### Veli Portalı
+- ✅ Veli, çocuklarının notlarını, devamsızlık durumunu ve ders programını görüntüleyebilir
+- ✅ Veli, öğretmenlerle mesajlaşabilir
+- ✅ Veli, çocuklarının belgelerini (karne vb.) görüntüleyebilir
+
+#### Online Sınav Sistemi
+- ✅ Öğretmen, çoktan seçmeli, doğru/yanlış ve açık uçlu sorular içeren sınavlar oluşturabilir
+- ✅ Öğrenciler, süreli sınavlara katılabilirler
+- ✅ Çoktan seçmeli ve doğru/yanlış sorular otomatik olarak puanlanır
+- ✅ Öğretmenler ve adminler sınav sonuçlarını ve istatistiklerini görüntüleyebilir
+- ✅ Sınavlar belirli bir zaman aralığında aktif olur ve süre takibi (timer) bulunur
+
+#### Mesajlaşma Sistemi
+- ✅ Kullanıcılar (Öğrenci, Öğretmen, Veli, Admin) birbirleriyle mesajlaşabilir
+- ✅ Gelen kutusu ve gönderilen kutusu yönetimi
+- ✅ Gerçek zamanlı mesajlaşma deneyimi
+
+#### Duyuru ve Şikayet Yönetimi
+- ✅ Admin duyuru yayınlayabilir
+- ✅ Öğrenciler dilek/şikayet oluşturabilir
+- ✅ Öğrenciler sosyal aktivitelerini sisteme girebilir
+
 #### Frontend Sayfaları
 - ✅ Login/Register ekranları
-- ✅ Öğrenci listesi ve detay sayfaları
-- ✅ Öğretmen listesi ve detay sayfaları
-- ✅ Ders listesi ve detay sayfaları
+- ✅ Öğrenci, Öğretmen, Ders listesi ve detay sayfaları
+- ✅ Veli Dashboard (Çocuklarım görünümü)
+- ✅ Online Sınav modülü (Oluşturma, Çözme, Sonuçlar)
+- ✅ Mesajlaşma arayüzü
+- ✅ Ders Programı görünümü
+
+### 🚀 Gelişmiş Özellikler
+
+#### Yapay Zeka Destekli Performans Tahmini
+- ✅ Öğrencinin geçmiş notlarına ve devamsızlık verilerine dayanarak başarı tahmini yapar
+- ✅ Python tabanlı ML modeli (mock) ile entegre çalışır
+- ✅ Risk altındaki öğrencileri belirler
+
+#### Belge ve Sertifika Yönetimi
+- ✅ Öğrenciler transkript ve karnelerini PDF olarak indirebilir
+- ✅ Başarı sertifikaları görüntülenebilir
+- ✅ Dinamik PDF oluşturma
+
+#### Ödev Takip Sistemi
+- ✅ Öğretmenler dersler için ödev oluşturabilir
+- ✅ Öğrenciler ödevlerini sisteme yükleyebilir
+- ✅ Teslim tarihi takibi ve dosya yükleme
+
+#### İzin Yönetimi (Öğretmenler)
+- ✅ Öğretmenler izin talebi oluşturabilir
+- ✅ Admin izin taleplerini onaylayıp reddedebilir
+- ✅ İzin geçmişi görüntüleme
+
+#### Haftalık Ders Programı
+- ✅ Derslerin gün ve saat bazında görsel programı
+- ✅ Öğrenci, Öğretmen ve Veliler için özelleştirilmiş görünüm
 
 ### 🎯 Bonus Özellikler
 
@@ -196,7 +246,12 @@ Sistem ilk çalıştırıldığında otomatik olarak test kullanıcıları oluş
 ### Öğrenci
 - **Email:** student@test.com
 - **Şifre:** Passw0rd!
-- **Yetki:** Kendi bilgilerini görüntüleme, notlarını görme
+- **Yetki:** Kendi bilgilerini görüntüleme, notlarını görme, sınavlara girme
+
+### Veli
+- **Email:** parent@test.com
+- **Şifre:** Passw0rd!
+- **Yetki:** Çocuklarının durumunu görüntüleme
 
 ## 🔧 API Endpoints
 
@@ -229,6 +284,22 @@ Sistem ilk çalıştırıldığında otomatik olarak test kullanıcıları oluş
 ### Devamsızlık İşlemleri
 - `POST /api/attendance/tick/{enrollmentId}` - Devamsızlık kaydetme
 - `GET /api/attendance/by-student/{studentId}` - Öğrenci devamsızlık listesi
+
+### Sınav İşlemleri
+- `POST /api/exam` - Sınav oluşturma
+- `GET /api/exam/available` - Aktif sınavları listeleme
+- `POST /api/exam/submit` - Sınav gönderme
+
+### Mesajlaşma
+- `GET /api/message/inbox` - Gelen kutusu
+- `POST /api/message` - Mesaj gönderme
+
+### Diğer Servisler
+- `GET /api/analytics/predict/{studentId}` - AI Başarı tahmini
+- `GET /api/schedule` - Ders programı
+- `POST /api/teacherleave` - İzin talebi
+- `GET /api/document/student/{studentId}` - Öğrenci belgeleri
+- `GET /api/assignment/course/{courseId}` - Ders ödevleri
 
 ## 🔍 Swagger Dokümantasyonu
 
