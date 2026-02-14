@@ -188,86 +188,86 @@ jobs:
         cache-to: type=gha,mode=max
 
   # Deploy to Staging
-  deploy-staging:
-    name: Deploy to Staging
-    runs-on: ubuntu-latest
-    needs: [docker-build]
-    if: github.ref == 'refs/heads/develop'
-    environment: staging
+  # deploy-staging:
+  #   name: Deploy to Staging
+  #   runs-on: ubuntu-latest
+  #   needs: [docker-build]
+  #   if: github.ref == 'refs/heads/develop'
+  #   environment: staging
     
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
 
-    - name: Deploy to staging server
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.STAGING_HOST }}
-        username: ${{ secrets.STAGING_USERNAME }}
-        key: ${{ secrets.STAGING_SSH_KEY }}
-        script: |
-          cd /app/student-management
-          docker-compose pull
-          docker-compose up -d
-          docker system prune -f
+  #   - name: Deploy to staging server
+  #     uses: appleboy/ssh-action@v1.0.0
+  #     with:
+  #       host: ${{ secrets.STAGING_HOST }}
+  #       username: ${{ secrets.STAGING_USERNAME }}
+  #       key: ${{ secrets.STAGING_SSH_KEY }}
+  #       script: |
+  #         cd /app/student-management
+  #         docker-compose pull
+  #         docker-compose up -d
+  #         docker system prune -f
 
   # Deploy to Production
-  deploy-production:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
-    needs: [docker-build]
-    if: github.ref == 'refs/heads/main'
-    environment: production
+  # deploy-production:
+  #   name: Deploy to Production
+  #   runs-on: ubuntu-latest
+  #   needs: [docker-build]
+  #   if: github.ref == 'refs/heads/main'
+  #   environment: production
     
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
 
-    - name: Deploy to production server
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.PRODUCTION_HOST }}
-        username: ${{ secrets.PRODUCTION_USERNAME }}
-        key: ${{ secrets.PRODUCTION_SSH_KEY }}
-        script: |
-          cd /app/student-management
-          docker-compose pull
-          docker-compose up -d
-          docker system prune -f
+  #   - name: Deploy to production server
+  #     uses: appleboy/ssh-action@v1.0.0
+  #     with:
+  #       host: ${{ secrets.PRODUCTION_HOST }}
+  #       username: ${{ secrets.PRODUCTION_USERNAME }}
+  #       key: ${{ secrets.PRODUCTION_SSH_KEY }}
+  #       script: |
+  #         cd /app/student-management
+  #         docker-compose pull
+  #         docker-compose up -d
+  #         docker system prune -f
 
-    - name: Send deployment notification
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        fields: repo,message,commit,author,action,eventName,ref,workflow
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+  #   - name: Send deployment notification
+  #     uses: 8398a7/action-slack@v3
+  #     with:
+  #       status: ${{ job.status }}
+  #       fields: repo,message,commit,author,action,eventName,ref,workflow
+  #     env:
+  #       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   # Database Migration Job
-  migrate-database:
-    name: Database Migration
-    runs-on: ubuntu-latest
-    needs: [deploy-production, deploy-staging]
-    if: always() && (needs.deploy-production.result == 'success' || needs.deploy-staging.result == 'success')
+  # migrate-database:
+  #   name: Database Migration
+  #   runs-on: ubuntu-latest
+  #   needs: [deploy-production, deploy-staging]
+  #   if: always() && (needs.deploy-production.result == 'success' || needs.deploy-staging.result == 'success')
     
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+  #   - name: Setup .NET
+  #     uses: actions/setup-dotnet@v4
+  #     with:
+  #       dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Install EF Core tools
-      run: dotnet tool install --global dotnet-ef
+  #   - name: Install EF Core tools
+  #     run: dotnet tool install --global dotnet-ef
 
-    - name: Run database migrations (Staging)
-      if: needs.deploy-staging.result == 'success'
-      run: |
-        dotnet ef database update --project StudentManagementApi --connection "${{ secrets.STAGING_CONNECTION_STRING }}"
+  #   - name: Run database migrations (Staging)
+  #     if: needs.deploy-staging.result == 'success'
+  #     run: |
+  #       dotnet ef database update --project StudentManagementApi --connection "${{ secrets.STAGING_CONNECTION_STRING }}"
 
-    - name: Run database migrations (Production)
-      if: needs.deploy-production.result == 'success'
-      run: |
-        dotnet ef database update --project StudentManagementApi --connection "${{ secrets.PRODUCTION_CONNECTION_STRING }}"
+  #   - name: Run database migrations (Production)
+  #     if: needs.deploy-production.result == 'success'
+  #     run: |
+  #       dotnet ef database update --project StudentManagementApi --connection "${{ secrets.PRODUCTION_CONNECTION_STRING }}"
