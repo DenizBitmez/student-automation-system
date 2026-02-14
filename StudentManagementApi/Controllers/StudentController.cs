@@ -15,10 +15,12 @@ namespace StudentManagementApi.Controllers
 	{
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<StudentVm>>> Get()
-=> await db.Students.Include(s => s.User)
-.Select(s => new StudentVm(s.Id, s.User.Email!, s.User.FullName ?? "", s.EnrolledAt))
-.ToListAsync();
-
+        {
+            var students = await db.Students.Include(s => s.User)
+            .Select(s => new StudentVm(s.Id, s.User.Email!, s.User.FullName ?? "", s.EnrolledAt))
+            .ToListAsync();
+            return Ok(students);
+        }
 
 		[HttpPost]
 		public async Task<ActionResult<StudentVm>> Create(StudentCreateDto dto)
@@ -40,7 +42,7 @@ namespace StudentManagementApi.Controllers
 		{
 			var s = await db.Students.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
 			if (s is null) return NotFound();
-			return new StudentVm(s.Id, s.User.Email!, s.User.FullName ?? "", s.EnrolledAt);
+			return Ok(new StudentVm(s.Id, s.User.Email!, s.User.FullName ?? "", s.EnrolledAt));
 		}
 
 

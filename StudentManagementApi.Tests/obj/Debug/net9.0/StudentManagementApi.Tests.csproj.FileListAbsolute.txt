@@ -458,3 +458,4 @@ C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\obj\Debug\ne
 C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\obj\Debug\net9.0\StudentManagementApi.Tests.pdb
 C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\obj\Debug\net9.0\StudentManagementApi.Tests.genruntimeconfig.cache
 C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\obj\Debug\net9.0\ref\StudentManagementApi.Tests.dll
+C:\Users\deniz\student-automation-system\StudentManagementApi.Tests\bin\Debug\net9.0\QrCodeGenerator.dll

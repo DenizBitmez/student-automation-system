@@ -80,7 +80,8 @@ public class StudentIntegrationTests : IClassFixture<WebApplicationFactory<Progr
             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
         // Create a student
-        var createStudentDto = new StudentCreateDto("student@test.com", "Test Student", "Password123!");
+        var uniqueEmail = $"newstudent_{Guid.NewGuid()}@test.com";
+        var createStudentDto = new StudentCreateDto(uniqueEmail, "Test Student", "Password123!");
 
         var createResponse = await _client.PostAsJsonAsync("api/student", createStudentDto);
         createResponse.Should().BeSuccessful();
