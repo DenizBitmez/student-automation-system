@@ -21,6 +21,30 @@
                         <span>Panel</span>
                     </NavLink>
                 </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link modernized-nav-link" href="/announcements">
+                        <i class="bi bi-megaphone"></i>
+                        <span>Duyurular</span>
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link modernized-nav-link" href="/messages">
+                        <i class="bi bi-chat-text-fill"></i>
+                        <span>Mesajlar</span>
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link modernized-nav-link" href="/exams">
+                        <i class="bi bi-stopwatch-fill"></i>
+                        <span>Sınavlar</span>
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link modernized-nav-link" href="/program">
+                        <i class="bi bi-calendar3"></i>
+                        <span>Ders Programı</span>
+                    </NavLink>
+                </div>
 
                 <AuthorizeView Roles="Admin" Context="adminContext">
                     <div class="nav-section-label px-3 mt-4 mb-2">YÖNETİM</div>
@@ -54,22 +78,13 @@
                             <span>Öğretmen İzinleri</span>
                         </NavLink>
                     </div>
-
+                    <div class="nav-item">
+                        <NavLink class="nav-link modernized-nav-link" href="/admin/announcements">
+                            <i class="bi bi-megaphone-fill"></i>
+                            <span>Duyuru Yönetimi</span>
+                        </NavLink>
+                    </div>
                 </AuthorizeView>
-
-                <div class="nav-item">
-                    <NavLink class="nav-link modernized-nav-link" href="/messages">
-                        <i class="bi bi-chat-text-fill"></i>
-                        <span>Mesajlar</span>
-                    </NavLink>
-                </div>
-
-                <div class="nav-item">
-                    <NavLink class="nav-link modernized-nav-link" href="/exams">
-                        <i class="bi bi-stopwatch-fill"></i>
-                        <span>Sınavlar</span>
-                    </NavLink>
-                </div>
 
                 <AuthorizeView Roles="Teacher" Context="teacherContext">
                     <div class="nav-section-label px-3 mt-4 mb-2">EĞİTMEN</div>
@@ -126,42 +141,21 @@
                         </NavLink>
                     </div>
                     <div class="nav-item">
-                        <NavLink class="nav-link modernized-nav-link" href="student/certificates">
+                        <NavLink class="nav-link modernized-nav-link" href="/student/certificates">
                             <i class="bi bi-patch-check"></i>
                             <span>Belgelerim</span>
                         </NavLink>
                     </div>
                 </AuthorizeView>
-                <div class="nav-item">
-                    <NavLink class="nav-link modernized-nav-link" href="program">
-                        <i class="bi bi-calendar3"></i>
-                        <span>Ders Programı</span>
-                    </NavLink>
-                </div>
             </Authorized>
         </AuthorizeView>
+        
         <AuthorizeView Roles="Parent">
             <div class="nav-section-label px-3 mt-4 mb-2">VELİ</div>
             <div class="nav-item">
                 <NavLink class="nav-link modernized-nav-link" href="/parent/dashboard">
                     <i class="bi bi-people-fill"></i>
                     <span>Çocuklarım</span>
-                </NavLink>
-            </div>
-        </AuthorizeView>
-
-        <div class="nav-item">
-            <NavLink class="nav-link modernized-nav-link" href="announcements">
-                <i class="bi bi-megaphone"></i>
-                <span>Duyurular</span>
-            </NavLink>
-        </div>
-
-        <AuthorizeView Roles="Admin">
-            <div class="nav-item">
-                <NavLink class="nav-link modernized-nav-link" href="admin/announcements">
-                    <i class="bi bi-megaphone-fill"></i>
-                    <span>Duyuru Yönetimi</span>
                 </NavLink>
             </div>
         </AuthorizeView>

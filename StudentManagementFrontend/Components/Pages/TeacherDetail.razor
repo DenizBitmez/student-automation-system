@@ -75,7 +75,7 @@ else
                                 </div>
                                 <div class="mb-4">
                                     <label class="text-muted small fw-bold text-uppercase mb-1 d-block">Branş / Departman</label>
-                                    <div class="fs-6"><span class="badge bg-info-subtle text-info px-3">@Teacher.Branch</span></div>
+                                    <div class="fs-6"><span class="badge bg-info-subtle text-info px-3">@(Teacher.Branch ?? "Belirtilmedi")</span></div>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +114,7 @@ else
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var leave in Leaves.Take(5))
+                                    @foreach (var leave in (Leaves ?? new List<TeacherLeaveVm>()).Take(5))
                                     {
                                         <tr>
                                             <td class="ps-4">
@@ -170,19 +170,17 @@ else
             // Here we just try to fetch; the API will restrict if unauthorized.
             try 
             {
-                // We'll use a new specialized endpoint or filter existing one
-                // Since I added GetTeacherLeaves to the API, I should use it.
-                // But I didn't add it to the Interface/Service yet.
-                // Let's use the one that exists or just handle the error.
-                var allLeaves = await LeaveService.GetAllLeavesAsync();
-                Leaves = allLeaves.Where(l => l.TeacherId == TeacherId).ToList();
+                // Use the specialized endpoint to get leaves for this specific teacher
+                Leaves = await LeaveService.GetTeacherLeavesAsync(TeacherId);
                 ApprovedLeaveDays = Leaves
                     .Where(l => l.Status == "Approved")
                     .Sum(l => (l.EndDate - l.StartDate).Days + 1);
             }
-            catch 
+            catch (Exception ex)
             {
-                // Likely unauthorized, ignore
+                // If unauthorized or other error, just log and continue.
+                // The leaves section will simply not show up or be empty.
+                Logger.LogWarning(ex, "Could not fetch leaves for teacher {TeacherId}", TeacherId);
             }
         }
         catch (Exception ex)

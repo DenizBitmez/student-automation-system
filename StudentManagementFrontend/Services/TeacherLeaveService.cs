@@ -8,6 +8,7 @@ public interface ITeacherLeaveService
     Task<List<TeacherLeaveVm>> GetMyLeavesAsync();
     Task CreateLeaveRequestAsync(TeacherLeaveCreateVm model);
     Task<List<TeacherLeaveVm>> GetAllLeavesAsync();
+    Task<List<TeacherLeaveVm>> GetTeacherLeavesAsync(int teacherId);
     Task UpdateLeaveStatusAsync(int id, string status);
 }
 
@@ -27,6 +28,11 @@ public class TeacherLeaveService(HttpClient http) : ITeacherLeaveService
     public async Task<List<TeacherLeaveVm>> GetAllLeavesAsync()
     {
         return await http.GetFromJsonAsync<List<TeacherLeaveVm>>("api/TeacherLeave/all") ?? new();
+    }
+
+    public async Task<List<TeacherLeaveVm>> GetTeacherLeavesAsync(int teacherId)
+    {
+        return await http.GetFromJsonAsync<List<TeacherLeaveVm>>($"api/TeacherLeave/teacher/{teacherId}") ?? new();
     }
 
     public async Task UpdateLeaveStatusAsync(int id, string status)

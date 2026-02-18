@@ -29,11 +29,11 @@
                             <i class="bi bi-search"></i>
                         </span>
                         <input type="text" class="form-control" placeholder="İsim, soyisim veya branş ara..." 
-                               @bind="SearchTerm" @bind:event="oninput" />
+                               @bind="SearchTerm" @bind:event="oninput" @bind:after="FilterTeachers" />
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <select class="form-select" @bind="SelectedBranch">
+                    <select class="form-select" @bind="SelectedBranch" @bind:after="FilterTeachers">
                         <option value="">Tüm Branşlar</option>
                         @foreach (var branch in Branches)
                         {
@@ -42,7 +42,7 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <select class="form-select" @bind="StatusFilter">
+                    <select class="form-select" @bind="StatusFilter" @bind:after="FilterTeachers">
                         <option value="all">Tümü</option>
                         <option value="active">Aktif</option>
                         <option value="inactive">Pasif</option>
@@ -182,7 +182,7 @@
                         </nav>
                         <div class="d-flex align-items-center">
                             <span class="me-2 small text-muted">Sayfa başına:</span>
-                            <select class="form-select form-select-sm" style="width: auto;" @bind="PageSize">
+                            <select class="form-select form-select-sm" style="width: auto;" @bind="PageSize" @bind:after="OnPageSizeChanged">
                                 <option value="5">5</option>
                                 <option value="10">10</option>
                                 <option value="20">20</option>

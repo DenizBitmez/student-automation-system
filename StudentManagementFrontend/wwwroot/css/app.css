@@ -108,11 +108,23 @@ main {
 /* Sidebar Overrides */
 .sidebar {
     width: 300px;
-    background: #0f172a;
+    background: #0f172a !important;
+    background-color: #0f172a !important;
     color: white;
     box-shadow: var(--shadow-xl);
     z-index: 50;
     flex-shrink: 0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
 }
 
 /* Buttons Overrides */

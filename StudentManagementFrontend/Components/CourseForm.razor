@@ -56,12 +56,16 @@
             else
             {
                 <InputSelect id="teacher" @bind-Value="SelectedTeacherId" class="form-select">
-                    <option value="0">Öğretmen Seçiniz (Opsiyonel)</option>
+                    <option value="0">Öğretmen Seçiniz</option>
                     @foreach (var teacher in Teachers)
                     {
                         <option value="@teacher.Id">@teacher.FullName (@teacher.Email)</option>
                     }
                 </InputSelect>
+                @if (Course.TeacherId <= 0 && IsSubmitting) 
+                {
+                    <div class="text-danger small">Lütfen bir öğretmen seçiniz.</div>
+                }
             }
         </div>
 
@@ -177,6 +181,19 @@
 
     private async Task HandleValidSubmit()
     {
+        if (Course.TeacherId <= 0)
+        {
+             // Trigger UI to show error (handled by manual check in markup or ValidationMessage if we added annotation, 
+             // but here we just return to prevent submit and set IsSubmitting to true to show the manual error message we added)
+             IsSubmitting = true; 
+             StateHasChanged();
+             IsSubmitting = false; // Reset immediately after generic render, or handle better. 
+             // Actually, let's just return. IsSubmitting was primarily for spinner. 
+             // We can accept IsSubmitting = true to show error if we used that logic.
+             // Let's just return and let the user see the visual cue.
+             return;
+        }
+
         try
         {
             IsSubmitting = true;

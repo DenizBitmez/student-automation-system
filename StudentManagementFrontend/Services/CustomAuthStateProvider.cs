@@ -49,7 +49,25 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
                 return _anonymous;
             }
 
-            var identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
+            var claims = ParseClaimsFromJwt(token);
+            var identity = new ClaimsIdentity(claims, "jwt");
+
+            // Check for expiration
+            var expClaim = identity.FindFirst(c => c.Type == "exp");
+            if (expClaim != null)
+            {
+                if (long.TryParse(expClaim.Value, out var expSeconds))
+                {
+                    var expDate = DateTimeOffset.FromUnixTimeSeconds(expSeconds).UtcDateTime;
+                    if (expDate <= DateTime.UtcNow)
+                    {
+                         // Token is expired
+                         await _localStorage.RemoveItemAsync(AuthTokenKey);
+                         return _anonymous;
+                    }
+                }
+            }
+
             var user = new ClaimsPrincipal(identity);
             
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);

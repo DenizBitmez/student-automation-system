@@ -62,8 +62,20 @@
             </div>
         </header>
 
-        <article class="content container-fluid px-4 py-4 animate-fade-in">
-            @Body
+        <article class="content container-fluid px-4 py-4">
+            <ErrorBoundary>
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Bir hata oluştu!</h4>
+                        <p>Üzgünüz, işlem sırasında beklenmedik bir hata meydana geldi.</p>
+                        <hr>
+                        <p class="mb-0">Lütfen sayfayı yenileyin veya ana sayfaya dönün.</p>
+                    </div>
+                </ErrorContent>
+            </ErrorBoundary>
         </article>
     </main>
 </div>

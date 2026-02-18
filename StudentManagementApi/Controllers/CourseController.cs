@@ -48,6 +48,12 @@ namespace StudentManagementApi.Controllers
 		[Authorize(Roles = "Admin")]
 		public async Task<ActionResult<CourseVm>> Create(CourseCreateDto dto)
 		{
+            if (dto.TeacherId <= 0) return BadRequest("Geçerli bir öğretmen seçilmelidir.");
+
+            // Verify teacher exists
+            var teacherExists = await db.Teachers.AnyAsync(t => t.Id == dto.TeacherId);
+            if (!teacherExists) return BadRequest("Seçilen öğretmen bulunamadı.");
+
 			var c = new Course { Code = dto.Code, Name = dto.Name, TeacherId = dto.TeacherId };
 			db.Courses.Add(c);
 			await db.SaveChangesAsync();

@@ -108,7 +108,7 @@ public class TeacherService : ITeacherService
     private static Teacher MapToTeacher(TeacherVm vm)
     {
         // Try to split FullName
-        var parts = vm.FullName.Split(' ', 2);
+        var parts = (vm.FullName ?? "").Split(' ', 2);
         var first = parts.Length > 0 ? parts[0] : "";
         var last = parts.Length > 1 ? parts[1] : "";
 

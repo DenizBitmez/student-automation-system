@@ -17,6 +17,26 @@ main[b-clh6zu36bi] {
     color: white;
     z-index: 20;
     transition: var(--transition);
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.sidebar[b-clh6zu36bi]::-webkit-scrollbar {
+    width: 10px;
+}
+
+.sidebar[b-clh6zu36bi]::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar[b-clh6zu36bi]::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.sidebar[b-clh6zu36bi]::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .top-row[b-clh6zu36bi] {
@@ -34,8 +54,8 @@ main[b-clh6zu36bi] {
     box-shadow: var(--shadow-sm);
 }
 
-.top-row[b-clh6zu36bi]  a,
-.top-row[b-clh6zu36bi]  .btn-link {
+.top-row[b-clh6zu36bi] a,
+.top-row[b-clh6zu36bi] .btn-link {
     white-space: nowrap;
     margin-left: 1.5rem;
     text-decoration: none;
@@ -44,8 +64,8 @@ main[b-clh6zu36bi] {
     transition: var(--transition);
 }
 
-.top-row[b-clh6zu36bi]  a:hover,
-.top-row[b-clh6zu36bi]  .btn-link:hover {
+.top-row[b-clh6zu36bi] a:hover,
+.top-row[b-clh6zu36bi] .btn-link:hover {
     color: var(--primary);
     text-decoration: none;
     background-color: var(--primary-light);
@@ -58,8 +78,8 @@ main[b-clh6zu36bi] {
         justify-content: space-between;
     }
 
-    .top-row[b-clh6zu36bi]  a,
-    .top-row[b-clh6zu36bi]  .btn-link {
+    .top-row[b-clh6zu36bi] a,
+    .top-row[b-clh6zu36bi] .btn-link {
         margin-left: 0;
     }
 }

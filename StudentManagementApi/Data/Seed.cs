@@ -203,6 +203,62 @@ namespace StudentManagementApi.Data
 					IssueDate = DateTime.UtcNow.AddMonths(-2)
 				});
 			}
+
+            if (!ctx.Exams.Any())
+            {
+                var course = await ctx.Courses.FirstOrDefaultAsync();
+                if (course != null)
+                {
+                    var exam = new Exam
+                    {
+                        Title = "CS101 Midterm Exam",
+                        Description = "Midterm examination covering chapters 1-5.",
+                        CourseId = course.Id,
+                        DurationMinutes = 60,
+                        StartTime = DateTime.UtcNow.AddDays(2), // Starts in 2 days
+                        EndTime = DateTime.UtcNow.AddDays(2).AddHours(2)
+                    };
+                    ctx.Exams.Add(exam);
+                    await ctx.SaveChangesAsync();
+
+                    // Add Questions
+                    // 1. Multiple Choice
+                    var q1 = new Question
+                    {
+                        ExamId = exam.Id,
+                        Text = "What is the complexity of binary search?",
+                        Points = 10,
+                        Type = QuestionType.MultipleChoice
+                    };
+                    ctx.Questions.Add(q1);
+                    await ctx.SaveChangesAsync();
+
+                    ctx.QuestionOptions.AddRange(
+                        new QuestionOption { QuestionId = q1.Id, Text = "O(n)", IsCorrect = false },
+                        new QuestionOption { QuestionId = q1.Id, Text = "O(log n)", IsCorrect = true },
+                        new QuestionOption { QuestionId = q1.Id, Text = "O(n^2)", IsCorrect = false },
+                        new QuestionOption { QuestionId = q1.Id, Text = "O(1)", IsCorrect = false }
+                    );
+
+                    // 2. True/False
+                    var q2 = new Question
+                    {
+                        ExamId = exam.Id,
+                        Text = "C# is a statically typed language.",
+                        Points = 10,
+                        Type = QuestionType.TrueFalse
+                    };
+                    ctx.Questions.Add(q2);
+                     await ctx.SaveChangesAsync();
+
+                    ctx.QuestionOptions.AddRange(
+                        new QuestionOption { QuestionId = q2.Id, Text = "True", IsCorrect = true },
+                        new QuestionOption { QuestionId = q2.Id, Text = "False", IsCorrect = false }
+                    );
+
+                    await ctx.SaveChangesAsync();
+                }
+            }
 			await ctx.SaveChangesAsync();
 		}
 	}
